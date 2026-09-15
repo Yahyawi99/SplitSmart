@@ -22,9 +22,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${""} ${""} w-full h-full antialiased`}>
-      <body className="bg-red-600 w-full h-full flex">
+      <body className="w-full h-full flex">
         <Sidebar />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 bg-(--bg-base)">{children}</main>
       </body>
     </html>
   );
