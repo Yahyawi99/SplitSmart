@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Roboto_Condensed } from "next/font/google";
 import "./globals.css";
 // Components
-import Sidebar from "./components/Sidebar";
+import Sidebar from "./components/sidebar";
 
 const openSans = Roboto_Condensed({
   variable: "--font-open-sans",
