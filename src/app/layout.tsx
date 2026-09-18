@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
-import { Roboto_Condensed } from "next/font/google";
+import { Roboto_Condensed, Roboto, Oxanium } from "next/font/google";
 import "./globals.css";
 // Components
 import Sidebar from "./components/sidebar";
+import { cn } from "@/lib/utils";
+
+const oxaniumHeading = Oxanium({subsets:['latin'],variable:'--font-heading'});
+
+const roboto = Roboto({subsets:['latin'],variable:'--font-sans'});
 
 const openSans = Roboto_Condensed({
   variable: "--font-open-sans",
@@ -19,7 +24,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${openSans.className} w-full h-full antialiased`}
+      className={cn("w-full", "h-full", "antialiased", openSans.className, "font-sans", roboto.variable, oxaniumHeading.variable)}
     >
       <body className="w-full h-full flex">
         <Sidebar />
