@@ -10,25 +10,26 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export function AppSidebar() {
   return (
-    <Sidebar>
-      <SidebarHeader className=" bg-(--bg-base)" />
-      <SidebarContent className=" bg-(--bg-base)">
-        <SidebarGroup />
+    <Sidebar className="pl-2.5 pt-4">
+      <SidebarHeader className=" bg-(--bg-sidebar)">
+        <HeaderContent />
+      </SidebarHeader>
+      <SidebarContent className=" bg-(--bg-sidebar)">
         <SidebarGroup />
       </SidebarContent>
-      <SidebarFooter className=" bg-(--bg-base)" />
+      <SidebarFooter className=" bg-(--bg-sidebar)" />
     </Sidebar>
   );
 }
 
 const HeaderContent = () => {
   return (
-    <header>
-      <div>
-        <FontAwesomeIcon icon={faDivide} />
+    <header className="text-(--text-primary) flex justify-start items-center gap-4">
+      <div className="bg-(--accent-blue) w-12 h-10 rounded-sm flex justify-center items-center">
+        <FontAwesomeIcon icon={faDivide} width="50%" height="50%" fill="#fff" />
       </div>
 
-      <h1>SplitSmart</h1>
+      <h1 className="text-3xl">SplitSmart</h1>
     </header>
   );
 };

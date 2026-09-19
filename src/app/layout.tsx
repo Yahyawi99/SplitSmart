@@ -38,7 +38,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           oxaniumHeading.variable,
         )}
       >
-        <body className=" bg-(--bg-base)">
+        <body className=" bg-(--bg-base) text-(--text-primary)">
           <AppSidebar />
 
           <main>{children}</main>
