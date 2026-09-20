@@ -4,10 +4,9 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* :root {
-  --background: #ffffff;
-  --foreground: #171717;
-} */
+:root {
+  color: var(--text-primary)
+}
 
 @theme inline {
   --bg-base: #0a0d14;
