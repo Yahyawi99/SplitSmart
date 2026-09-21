@@ -14,11 +14,11 @@ import { Plus, Monitor, Moon, Sun } from "lucide-react";
 
 export function AppSidebar() {
   return (
-    <Sidebar>
-      <SidebarHeader className=" bg-(--bg-sidebar)">
+    <Sidebar className="border-r border-r-(--text-dim)">
+      <SidebarHeader className="bg-(--bg-sidebar)">
         <HeaderContent />
       </SidebarHeader>
-      <SidebarContent className=" bg-(--bg-sidebar)">
+      <SidebarContent className="bg-(--bg-sidebar)">
         <Group />
       </SidebarContent>
       <SidebarFooter className="bg-(--bg-sidebar)">
@@ -44,7 +44,7 @@ const Group = () => {
   return (
     <SidebarGroup className="pl-5">
       <SidebarGroupLabel>GROUPS</SidebarGroupLabel>
-      <SidebarGroupContent className="pl-3 pb-3">
+      <SidebarGroupContent className="pl-1 pb-3">
         <div className="flex items-center justify-between hover:bg-(--accent-blue)/25 p-3 py-1.5 rounded-md cursor-pointer mb-1">
           <div className="flex gap-2 items-center">
             <div className="h-7 w-1.25 bg-(--accent-blue) rounded-lg"></div>
@@ -75,18 +75,29 @@ const Group = () => {
 
 const FooterContent = () => {
   return (
-    <footer className="border-t-2 p-5">
-      <div className="flex items-center mb-2">
-        <Plus />
-        <Button variant="ghost">New Group</Button>
+    <footer className="border-t p-5 border-t-(--text-dim)">
+      <div className="flex items-center mb-2 gap-1 cursor-pointer *:cursor-pointer hover:opacity-50 duration-150">
+        <Plus className="w-4" />
+        <Button variant="ghost" className="p-0">
+          New Group
+        </Button>
       </div>
 
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center">
         <p>Themes</p>
-        <div className="flex gap-3">
-          <Monitor />
-          <Moon />
-          <Sun />
+        {/* styles for active theme : bg-(--accent-blue)/25 ; stroke-(--accent-blue) will be added later */}
+        <div className="flex gap-3 border border-(--text-dim) rounded-lg p-1">
+          <div className="w-9 h-9 p-0 cursor-pointer hover:bg-(--accent-blue)/25 hover:*:stroke-(--accent-blue) rounded-0 flex justify-center items-center rounded-lg">
+            <Monitor className="w-4" />
+          </div>
+
+          <div className="w-9 h-9 p-0 cursor-pointer hover:bg-(--accent-blue)/25 hover:*:stroke-(--accent-blue) rounded-0 flex justify-center items-center rounded-lg">
+            <Moon className="w-4" />
+          </div>
+
+          <div className="w-9 h-9 p-0 cursor-pointer hover:bg-(--accent-blue)/25 hover:*:stroke-(--accent-blue) rounded-0 flex justify-center items-center rounded-lg">
+            <Sun className="w-4" />
+          </div>
         </div>
       </div>
     </footer>

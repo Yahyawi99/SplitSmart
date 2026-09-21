@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  color: var(--text-primary)
+  color: var(--text-primary);
 }
 
 @theme inline {
@@ -37,9 +37,6 @@
   }
 } */
 
-body {
-  color: var(--foreground);
-}
 
 /* :root {
   --background: oklch(1 0 0);
