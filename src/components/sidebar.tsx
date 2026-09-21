@@ -8,9 +8,7 @@ import {
   SidebarHeader,
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
-import { faDivide } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Plus, Monitor, Moon, Sun } from "lucide-react";
+import { Plus, Monitor, Moon, Sun, Divide } from "lucide-react";
 
 export function AppSidebar() {
   return (
@@ -32,7 +30,7 @@ const HeaderContent = () => {
   return (
     <header className="text-(--text-primary) flex justify-start items-center gap-4 mb-2 pl-2.5 pt-4">
       <div className="bg-(--accent-blue) w-12 h-10 rounded-sm flex justify-center items-center">
-        <FontAwesomeIcon icon={faDivide} width="50%" height="50%" fill="#fff" />
+        <Divide />
       </div>
 
       <h1 className="text-3xl">SplitSmart</h1>
@@ -78,7 +76,7 @@ const FooterContent = () => {
     <footer className="border-t p-5 border-t-(--text-dim)">
       <Button className="group flex items-center mb-2 gap-1 cursor-pointer *:cursor-pointer duration-150 hover:text-(--accent-blue) rounded-lg p-0">
         <Plus className="w-4" />
-        <p >New Group</p>
+        <p>New Group</p>
       </Button>
 
       <div className="flex justify-between items-center">
