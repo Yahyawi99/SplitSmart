@@ -76,17 +76,15 @@ const Group = () => {
 const FooterContent = () => {
   return (
     <footer className="border-t p-5 border-t-(--text-dim)">
-      <div className="flex items-center mb-2 gap-1 cursor-pointer *:cursor-pointer hover:opacity-50 duration-150">
+      <Button className="group flex items-center mb-2 gap-1 cursor-pointer *:cursor-pointer duration-150 hover:text-(--accent-blue) rounded-lg p-0">
         <Plus className="w-4" />
-        <Button variant="ghost" className="p-0">
-          New Group
-        </Button>
-      </div>
+        <p >New Group</p>
+      </Button>
 
       <div className="flex justify-between items-center">
         <p>Themes</p>
         {/* styles for active theme : bg-(--accent-blue)/25 ; stroke-(--accent-blue) will be added later */}
-        <div className="flex gap-3 border border-(--text-dim) rounded-lg p-1">
+        <div className="flex gap-1 border border-(--text-dim) rounded-lg p-1">
           <div className="w-9 h-9 p-0 cursor-pointer hover:bg-(--accent-blue)/25 hover:*:stroke-(--accent-blue) rounded-0 flex justify-center items-center rounded-lg">
             <Monitor className="w-4" />
           </div>
