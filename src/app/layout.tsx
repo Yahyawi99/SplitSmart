@@ -41,7 +41,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <body className=" bg-(--bg-base) text-(--text-primary)">
           <AppSidebar />
 
-          <main>{children}</main>
+          <main className="w-full">{children}</main>
         </body>
       </html>
     </SidebarProvider>
