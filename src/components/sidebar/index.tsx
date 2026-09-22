@@ -11,7 +11,7 @@ import ActionBtn from "./ActionBtn";
 
 export function AppSidebar() {
   return (
-    <Sidebar className="border-r border-r-(--text-dim)">
+    <Sidebar collapsible="icon" className="border-r border-r-(--text-dim)">
       <SidebarHeader className="bg-(--bg-sidebar)">
         <Header />
       </SidebarHeader>

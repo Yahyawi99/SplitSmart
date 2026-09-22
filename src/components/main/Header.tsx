@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { HandCoins, Plus, Settings } from "lucide-react";
+import { SidebarTrigger } from "../ui/sidebar";
 
 interface Member {
   initials: string;
@@ -36,12 +37,9 @@ export function Header({
   onSettings,
 }: Partial<HeaderProps>) {
   return (
-    <div className="w-full bg-[#0a0d14] px-6 py-5 text-white">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
-          <p className="mt-1 text-sm text-slate-400">{description}</p>
-        </div>
+    <div className="w-full bg-[#0a0d14]  text-white">
+      <div className="flex justify-between py-5 px-2 border-b border-b-(--text-muted) mb-5">
+        <SidebarTrigger/>
 
         <div className="flex shrink-0 items-center gap-2">
           <Button
@@ -70,46 +68,56 @@ export function Header({
         </div>
       </div>
 
-      <div className="mt-4 flex items-center gap-6 text-sm">
-        <div className="flex items-center gap-1.5 text-slate-300">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="h-4 w-4"
-          >
-            <rect x="3" y="6" width="18" height="12" rx="2" />
-            <path d="M3 10h18" />
-            <path d="M7 15h.01" />
-          </svg>
-          <span className="font-semibold text-white">
-            ${totalSpent.toFixed(2)}
-          </span>
-          <span>total spent</span>
-        </div>
-
-        <div className="text-slate-300">
-          <span className="font-semibold text-white">{expenseCount}</span>{" "}
-          expenses
-        </div>
-
-        <div className="flex items-center">
-          <div className="flex -space-x-2">
-            {members.map((member, i) => (
-              <Avatar key={i} className="h-7 w-7 border-2 border-[#0a0d14]">
-                <AvatarFallback
-                  className={`${member.color} text-[10px] font-semibold text-white`}
-                >
-                  {member.initials}
-                </AvatarFallback>
-              </Avatar>
-            ))}
+      <div>
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
+            <p className="mt-1 text-sm text-slate-400">{description}</p>
           </div>
-          <span className="ml-3 text-slate-300">{members.length} members</span>
+        </div>
+        <div className="mt-4 flex items-center gap-6 text-sm">
+          <div className="flex items-center gap-1.5 text-slate-300">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-4 w-4"
+            >
+              <rect x="3" y="6" width="18" height="12" rx="2" />
+              <path d="M3 10h18" />
+              <path d="M7 15h.01" />
+            </svg>
+            <span className="font-semibold text-white">
+              ${totalSpent.toFixed(2)}
+            </span>
+            <span>total spent</span>
+          </div>
+
+          <div className="text-slate-300">
+            <span className="font-semibold text-white">{expenseCount}</span>{" "}
+            expenses
+          </div>
+
+          <div className="flex items-center">
+            <div className="flex -space-x-2">
+              {members.map((member, i) => (
+                <Avatar key={i} className="h-7 w-7 border-2 border-[#0a0d14]">
+                  <AvatarFallback
+                    className={`${member.color} text-[10px] font-semibold text-white`}
+                  >
+                    {member.initials}
+                  </AvatarFallback>
+                </Avatar>
+              ))}
+            </div>
+            <span className="ml-3 text-slate-300">
+              {members.length} members
+            </span>
+          </div>
         </div>
       </div>
     </div>
