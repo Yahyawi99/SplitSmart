@@ -4,10 +4,10 @@ import { HandCoins, Plus, Settings } from "lucide-react";
 
 interface Member {
   initials: string;
-  color: string; // tailwind bg class, e.g. "bg-violet-500"
+  color: string; // tailwind bg class
 }
 
-interface TripHeaderProps {
+interface HeaderProps {
   title: string;
   description: string;
   totalSpent: number;
@@ -25,7 +25,7 @@ const defaultMembers: Member[] = [
   { initials: "TK", color: "bg-teal-500" },
 ];
 
-export default function TripHeader({
+export function Header({
   title = "Trip to Japan",
   description = "Two weeks in Tokyo, Kyoto, and Osaka. Cherry blossom season 2024.",
   totalSpent = 2751.24,
@@ -34,7 +34,7 @@ export default function TripHeader({
   onSettleUp,
   onAddExpense,
   onSettings,
-}: Partial<TripHeaderProps>) {
+}: Partial<HeaderProps>) {
   return (
     <div className="w-full bg-[#0a0d14] px-6 py-5 text-white">
       <div className="flex items-start justify-between gap-4">
