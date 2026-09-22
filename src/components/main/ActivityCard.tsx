@@ -1,120 +1,188 @@
 import React from "react";
-import { ShoppingBag, Coffee, Car, CreditCard, ArrowRight } from "lucide-react";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import {
+  SlidersHorizontal,
+  Plus,
+  ChevronDown,
+  Utensils,
+  Landmark,
+  ShoppingCart,
+  Handshake,
+} from "lucide-react";
 
-// Define the shape of an expense or activity item
-interface ActivityItem {
-  id: string;
-  title: string;
-  category: "shopping" | "food" | "transport" | "general";
-  date: string;
-  amount: number;
-}
-
-// Sample data (would typically be fetched from your database)
-const RECENT_ACTIVITY: ActivityItem[] = [
+const activityItems = [
   {
-    id: "1",
-    title: "Grocery Store",
-    category: "shopping",
-    date: "Today, 2:45 PM",
-    amount: 84.5,
+    icon: ShoppingCart,
+    iconColor: "text-purple-400",
+    title: "Convenience store runs (accumulated)",
+    user: { initials: "SR", name: "Sam Rivera", color: "bg-pink-500" },
+    date: "Mar 27, 2024",
+    amount: "¥8,340",
+    type: "expense",
   },
   {
-    id: "2",
-    title: "Cafe Latte",
-    category: "food",
-    date: "Today, 9:15 AM",
-    amount: 4.2,
+    icon: Handshake,
+    iconColor: "text-emerald-400",
+    title: "Sam Rivera paid Taylor Kim",
+    user: { initials: "SR", name: "Sam Rivera", color: "bg-pink-500" },
+    date: "Mar 26, 2024",
+    amount: "¥8,500",
+    type: "settlement",
   },
   {
-    id: "3",
-    title: "Uber Ride",
-    category: "transport",
-    date: "Yesterday",
-    amount: 12.0,
+    icon: Landmark,
+    iconColor: "text-amber-400",
+    title: "Osaka Castle entry",
+    user: { initials: "JP", name: "Jordan Park", color: "bg-amber-500" },
+    date: "Mar 26, 2024",
+    amount: "¥2,400",
+    type: "expense",
   },
   {
-    id: "4",
-    title: "Software Subscription",
-    category: "general",
-    date: "Sep 20",
-    amount: 29.99,
+    icon: Utensils,
+    iconColor: "text-orange-400",
+    title: "Izakaya dinner in Dotonbori",
+    user: { initials: "AC", name: "Alex Chen", color: "bg-indigo-500" },
+    date: "Mar 25, 2024",
+    amount: "¥42,600",
+    type: "expense",
+    badge: "Shares",
+  },
+  {
+    icon: Utensils,
+    iconColor: "text-orange-400",
+    title: "Osaka street food tour",
+    user: { initials: "TK", name: "Taylor Kim", color: "bg-teal-500" },
+    date: "Mar 25, 2024",
+    amount: "¥28,000",
+    type: "expense",
+  },
+  {
+    icon: Handshake,
+    iconColor: "text-emerald-400",
+    title: "Jordan Park paid Alex Chen",
+    user: null, // Note: In the image, user details are not shown for the last settlement
+    date: "Mar 24, 2024",
+    amount: "$150.00",
+    type: "settlement",
   },
 ];
 
-// Helper to map categories to specific UI treatments
-const getCategoryDetails = (category: string) => {
-  switch (category) {
-    case "shopping":
-      return {
-        icon: <ShoppingBag className="w-5 h-5" />,
-        color:
-          "text-blue-600 bg-blue-100 dark:text-blue-400 dark:bg-blue-900/30",
-      };
-    case "food":
-      return {
-        icon: <Coffee className="w-5 h-5" />,
-        color:
-          "text-orange-600 bg-orange-100 dark:text-orange-400 dark:bg-orange-900/30",
-      };
-    case "transport":
-      return {
-        icon: <Car className="w-5 h-5" />,
-        color:
-          "text-green-600 bg-green-100 dark:text-green-400 dark:bg-green-900/30",
-      };
-    default:
-      return {
-        icon: <CreditCard className="w-5 h-5" />,
-        color: "text-gray-600 bg-gray-100 dark:text-gray-400 dark:bg-gray-800",
-      };
-  }
-};
-
 export  function ActivityCard() {
   return (
-    <div className="w-full max-w-md p-6 bg-white border border-gray-200 rounded-2xl shadow-sm dark:bg-gray-900 dark:border-gray-800">
-      {/* Header section */}
-      <div className="flex items-center justify-between mb-5">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-          Recent Expenses
-        </h2>
-        <button className="flex items-center gap-1 text-sm font-medium text-blue-600 transition-colors hover:text-blue-700 dark:text-blue-500 dark:hover:text-blue-400">
-          View all <ArrowRight className="w-4 h-4" />
-        </button>
-      </div>
-
-      {/* List section */}
-      <div className="flex flex-col space-y-1">
-        {RECENT_ACTIVITY.map((item) => {
-          const { icon, color } = getCategoryDetails(item.category);
-
-          return (
-            <div
-              key={item.id}
-              className="flex items-center justify-between p-3 transition-colors rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800/50 group"
+    <Card className="w-full max-w-5xl bg-[#111418] border-zinc-800 text-zinc-100 shadow-xl rounded-xl">
+      <CardHeader className="border-b border-zinc-800/50 pb-4">
+        <div className="flex items-center justify-between gap-6">
+          <div className="flex items-center gap-5">
+            <Button
+              variant="outline"
+              size="sm"
+              className="bg-[#1a1d21] border-zinc-700 hover:bg-zinc-800 text-zinc-300 gap-2 h-9 px-4"
             >
-              <div className="flex items-center gap-4">
-                <div className={`p-2.5 rounded-full ${color}`}>{icon}</div>
-                <div>
-                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                    {item.title}
-                  </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
-                    {item.date}
-                  </p>
+              <SlidersHorizontal className="h-4 w-4" />
+              Filters
+            </Button>
+            <div>
+              <CardTitle className="text-2xl font-bold text-white">
+                Activity
+              </CardTitle>
+              <p className="text-sm text-zinc-500 mt-0.5">
+                13 expenses <span className="mx-1.5">•</span> 2 settlements
+              </p>
+            </div>
+          </div>
+          <Button
+            size="sm"
+            className="bg-[#3b82f6] hover:bg-blue-600 text-white gap-2 h-10 px-5 rounded-lg text-sm font-semibold"
+          >
+            <Plus className="h-4 w-4" />
+            New expense
+          </Button>
+        </div>
+      </CardHeader>
+
+      <CardContent className="p-0">
+        <div className="divide-y divide-zinc-800/50">
+          {activityItems.map((item, index) => {
+            const Icon = item.icon;
+            const isSettlement = item.type === "settlement";
+
+            return (
+              <div
+                key={index}
+                className="flex items-center justify-between p-5 gap-4 hover:bg-[#16191d] transition-colors"
+              >
+                <div className="flex items-center gap-4 flex-1 min-w-0">
+                  <div
+                    className={`flex items-center justify-center w-12 h-12 rounded-xl bg-[#1a1d21] border border-zinc-800/80 ${item.iconColor}`}
+                  >
+                    <Icon className="h-6 w-6" strokeWidth={1.5} />
+                  </div>
+
+                  <div className="flex-1 min-w-0 space-y-1">
+                    <p className="text-base font-medium text-zinc-100 truncate">
+                      {item.title}
+                    </p>
+                    <div className="flex items-center gap-2.5 text-sm text-zinc-400">
+                      {item.user && (
+                        <>
+                          <Avatar className={`h-6 w-6 ${item.user.color}`}>
+                            <AvatarFallback className="text-[11px] font-bold text-white">
+                              {item.user.initials}
+                            </AvatarFallback>
+                          </Avatar>
+                          <span className="font-medium text-zinc-300">
+                            {item.user.name}
+                          </span>
+                          <span className="text-zinc-600">•</span>
+                        </>
+                      )}
+
+                      {isSettlement && (
+                        <Badge
+                          variant="secondary"
+                          className="bg-emerald-950 text-emerald-300 border border-emerald-800/50 px-2 py-0.5 text-xs rounded-md font-medium"
+                        >
+                          Settlement
+                        </Badge>
+                      )}
+
+                      {item.badge && (
+                        <Badge
+                          variant="secondary"
+                          className="bg-zinc-800 text-zinc-300 border border-zinc-700 px-2 py-0.5 text-xs rounded-md font-medium"
+                        >
+                          {item.badge}
+                        </Badge>
+                      )}
+
+                      <span className="text-zinc-500">{item.date}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3 shrink-0">
+                  <span
+                    className={`text-xl font-semibold tracking-tight ${isSettlement ? "text-emerald-400" : "text-zinc-100"}`}
+                  >
+                    {item.amount}
+                  </span>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 text-zinc-600 hover:text-white hover:bg-transparent"
+                  >
+                    <ChevronDown className="h-5 w-5" />
+                  </Button>
                 </div>
               </div>
-
-              <div className="text-right">
-                <span className="text-sm font-semibold text-gray-900 dark:text-white">
-                  -${item.amount.toFixed(2)}
-                </span>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
+            );
+          })}
+        </div>
+      </CardContent>
+    </Card>
   );
 }
