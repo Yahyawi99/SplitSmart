@@ -22,7 +22,7 @@ interface SidebarFooterProps {
   activeTheme?: "system" | "dark" | "light";
 }
 
-export const Footer = ({
+export default ({
   user = {
     name: "John Doe",
     email: "john@example.com",
