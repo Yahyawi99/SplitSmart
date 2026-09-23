@@ -17,37 +17,39 @@ export function GroupSettlementsCard({
   onSettle,
 }: Partial<GroupSettlementsCardProps>) {
   return (
-    <Card className="border-zinc-800 bg-zinc-900/60 text-zinc-100 backdrop-blur">
+    <Card className="w-full border border-(--text-dim)/50 bg-(--bg-sidebar) text-primary ring-0 rounded-xl">
       <CardHeader className="pb-3">
-        <CardTitle className="text-xs font-bold uppercase tracking-wider text-zinc-500">
+        <CardTitle className="text-xl font-bold tracking-wider text-(--text-secondary)">
           Others in this group
         </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 text-xs text-zinc-300">
+          <div className="flex items-center gap-2 text-xs text-(--text-secondary)">
             <Avatar className="h-6 w-6">
-              <AvatarFallback className="bg-pink-500/20 text-[10px] font-bold text-pink-400">
+              <AvatarFallback className="bg-(--accent-btn)/25 text-[10px] font-bold text-(--accent-btn)">
                 {fromUser.initials}
               </AvatarFallback>
             </Avatar>
-            <span className="font-medium text-zinc-200">{fromUser.name}</span>
-            <span className="text-zinc-500">➔</span>
+            <span className="font-medium text-primary">{fromUser.name}</span>
+            <span className="text-(--text-dim)">➔</span>
             <Avatar className="h-6 w-6">
-              <AvatarFallback className="bg-teal-500/20 text-[10px] font-bold text-teal-400">
+              <AvatarFallback className="bg-(--accent-green)/10 text-[10px] font-bold text-(--accent-green)">
                 {toUser.initials}
               </AvatarFallback>
             </Avatar>
-            <span className="font-medium text-zinc-200">{toUser.name}</span>
+            <span className="font-medium text-primary">{toUser.name}</span>
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="text-xs font-medium text-zinc-300">{amount}</span>
+            <span className="text-xs font-medium text-(--text-secondary)">
+              {amount}
+            </span>
             <Button
               onClick={onSettle}
               variant="link"
               size="sm"
-              className="h-auto p-0 text-xs font-medium text-zinc-400 hover:text-zinc-100"
+              className="h-auto cursor-pointer p-0 text-xs font-medium text-(--text-secondary) hover:text-primary"
             >
               Settle
             </Button>

@@ -1,4 +1,3 @@
-import React from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -6,11 +5,11 @@ import { Badge } from "@/components/ui/badge";
 import {
   SlidersHorizontal,
   Plus,
-  ChevronDown,
   Utensils,
   Landmark,
   ShoppingCart,
   Handshake,
+  ChevronRight,
 } from "lucide-react";
 
 const activityItems = [
@@ -71,32 +70,32 @@ const activityItems = [
   },
 ];
 
-export  function ActivityCard() {
+export function ActivityCard() {
   return (
-    <Card className="w-full max-w-5xl bg-[#111418] border-zinc-800 text-zinc-100 shadow-xl rounded-xl">
-      <CardHeader className="border-b border-zinc-800/50 pb-4">
+    <Card className="w-full bg-(--bg-sidebar) border border-(--text-dim)/50 text-primary ring-0 rounded-xl ">
+      <CardHeader className="border-b border-(--text-dim)/25 pb-4">
         <div className="flex items-center justify-between gap-6">
           <div className="flex items-center gap-5">
             <Button
               variant="outline"
               size="sm"
-              className="bg-[#1a1d21] border-zinc-700 hover:bg-zinc-800 text-zinc-300 gap-2 h-9 px-4"
+              className="bg-(--bg-active) border-(--text-dim)/50  text-(--text-secondary) gap-2 h-9 px-4 cursor-pointer"
             >
               <SlidersHorizontal className="h-4 w-4" />
               Filters
             </Button>
             <div>
-              <CardTitle className="text-2xl font-bold text-white">
+              <CardTitle className="text-2xl font-bold text-primary">
                 Activity
               </CardTitle>
-              <p className="text-sm text-zinc-500 mt-0.5">
+              <p className="text-sm text-(--text-dim) mt-0.5">
                 13 expenses <span className="mx-1.5">•</span> 2 settlements
               </p>
             </div>
           </div>
           <Button
             size="sm"
-            className="bg-[#3b82f6] hover:bg-blue-600 text-white gap-2 h-10 px-5 rounded-lg text-sm font-semibold"
+            className="bg-(--accent-btn) hover:bg-(--accent-btn-hover) text-primary gap-2 h-10 px-5 rounded-lg text-sm font-semibold cursor-pointer"
           >
             <Plus className="h-4 w-4" />
             New expense
@@ -105,7 +104,7 @@ export  function ActivityCard() {
       </CardHeader>
 
       <CardContent className="p-0">
-        <div className="divide-y divide-zinc-800/50">
+        <div className="divide-y divide-(--bg-active)">
           {activityItems.map((item, index) => {
             const Icon = item.icon;
             const isSettlement = item.type === "settlement";
@@ -113,7 +112,7 @@ export  function ActivityCard() {
             return (
               <div
                 key={index}
-                className="flex items-center justify-between p-5 gap-4 hover:bg-[#16191d] transition-colors"
+                className="flex items-center justify-between p-5 gap-4 hover:bg-(--accent-btn)/15 cursor-pointer transition-colors"
               >
                 <div className="flex items-center gap-4 flex-1 min-w-0">
                   <div
@@ -173,9 +172,9 @@ export  function ActivityCard() {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-8 w-8 text-zinc-600 hover:text-white hover:bg-transparent"
+                    className="h-8 w-8 cursor-pointer text-zinc-600 hover:text-white hover:bg-transparent"
                   >
-                    <ChevronDown className="h-5 w-5" />
+                    <ChevronRight className="h-5 w-5" />
                   </Button>
                 </div>
               </div>

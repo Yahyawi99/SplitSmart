@@ -7,20 +7,22 @@ import {
   MemberContributionChart,
   SpendingByCategoryCharts,
   SpendingOverTimeChart,
+  GeneralInfo,
 } from "@/components/main";
 
 export default function Home() {
   return (
-    <div className="w-full">
+    <div className="w-full relative">
       <Header />
+      <GeneralInfo />
 
-      <div className="flex flex-&">
-        <div>
+      <div className="flex w-full gap-3 p-3 flex-wrap">
+        <div className="min-w-210 flex flex-col gap-3 grow">
           <ActivityCard />
           <GroupSettlementsCard />
         </div>
 
-        <div>
+        <div className="min-w-92 flex flex-col gap-3 grow">
           <BalanceCard />
           <SuggestedSettlementsCard />
         </div>
