@@ -16,7 +16,7 @@ export default function Home() {
       <Header />
       <GeneralInfo />
 
-      <div className="flex w-full gap-3 p-3 flex-wrap">
+      <div className="flex w-full gap-3 p-3 flex-wrap-reverse">
         <div className="min-w-210 flex flex-col gap-3 grow">
           <ActivityCard />
           <GroupSettlementsCard />
