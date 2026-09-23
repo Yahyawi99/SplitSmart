@@ -8,7 +8,7 @@ export default () => {
   const { open } = useSidebar();
 
   return (
-    <header className="text-(--text-primary) flex justify-start items-center gap-4 mb-1.5 pt-4 transition-all duration-300 ease-in-out">
+    <header className="text-(--text-primary) flex justify-start items-center gap-4 mb-3 pt-4 transition-all duration-300 ease-in-out">
       {/* Icon Container: Resizes to 4rem (w-16 h-16) when closed */}
       <div
         className={`bg-(--accent-btn) flex justify-center items-center rounded-sm transition-all duration-300 ease-in-out shrink-0 ${

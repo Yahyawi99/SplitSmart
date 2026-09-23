@@ -38,7 +38,7 @@ export function Header({
 }: Partial<HeaderProps>) {
   return (
     <div className="w-full bg-[#0a0d14]  text-white">
-      <div className="flex justify-between py-5 px-2 border-b border-b-(--text-muted) mb-5">
+      <div className="flex justify-between pt-3 px-2 pb-2 border-b border-b-(--text-dim)/50 mb-5">
         <SidebarTrigger/>
 
         <div className="flex shrink-0 items-center gap-2">
