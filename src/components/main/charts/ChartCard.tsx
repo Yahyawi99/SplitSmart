@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, ChevronUp, Download } from "lucide-react";
+import { ChevronDown, ChevronRight, ChevronUp, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -36,27 +36,21 @@ export default function ChartCard({
   }
 
   return (
-    <Card className="w-full bg-(--bg-sidebar) text-(--text-primary)">
-      <CardHeader className="flex flex-row items-center justify-between gap-4 border-b border-(--text-dim)/30">
+    <Card className="w-full bg-(--bg-sidebar) text-(--text-primary) border border-(--text-dim)/50 ring-0 rounded-xl">
+      <CardHeader
+        className="flex flex-row items-center justify-between gap-4 "
+        onClick={() => setOpen((value) => !value)}
+      >
         <div className="min-w-0">
-          <CardTitle className="truncate">{title}</CardTitle>
+          <CardTitle className="truncate text-xl">{title}</CardTitle>
           {description && (
             <p className="mt-1 text-xs text-(--text-secondary)">
               {description}
             </p>
           )}
         </div>
+
         <div className="flex shrink-0 items-center gap-1">
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon-sm"
-            onClick={() => setOpen((value) => !value)}
-            aria-label={open ? `Close ${title}` : `Open ${title}`}
-            title={open ? "Close" : "Open"}
-          >
-            {open ? <ChevronUp /> : <ChevronDown />}
-          </Button>
           {open && (
             <Button
               type="button"
@@ -69,9 +63,23 @@ export default function ChartCard({
               <Download />
             </Button>
           )}
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon-sm"
+            aria-label={open ? `Close ${title}` : `Open ${title}`}
+            title={open ? "Close" : "Open"}
+          >
+            {open ? <ChevronDown /> : <ChevronRight />}
+          </Button>
         </div>
       </CardHeader>
-      {open && <CardContent>{children}</CardContent>}
+
+      {open && (
+        <CardContent className="border-t border-(--text-dim)/50">
+          {children}
+        </CardContent>
+      )}
     </Card>
   );
 }

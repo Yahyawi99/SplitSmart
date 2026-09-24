@@ -19,13 +19,13 @@ export function GroupSettlementsCard({
   return (
     <Card className="w-full border border-(--text-dim)/50 bg-(--bg-sidebar) text-primary ring-0 rounded-xl">
       <CardHeader className="pb-3">
-        <CardTitle className="text-xl font-bold tracking-wider text-(--text-secondary)">
+        <CardTitle className="text-xl font-bold tracking-wider text-(--text-primary)">
           Others in this group
         </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 text-xs text-(--text-secondary)">
+          <div className="flex items-center gap-2 text-xs text-(--text-primary)">
             <Avatar className="h-6 w-6">
               <AvatarFallback className="bg-(--accent-btn)/25 text-[10px] font-bold text-(--accent-btn)">
                 {fromUser.initials}

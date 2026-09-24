@@ -14,7 +14,7 @@ export default function MemberContributionChart({
       fileName="member-contribution"
       data={data}
     >
-      <div className="flex min-h-56 items-center justify-center rounded-lg border border-dashed border-(--text-dim)/50 text-sm text-(--text-secondary)">
+      <div className="flex min-h-56 items-center justify-center text-sm text-(--text-primary) w-full bg-(--bg-sidebar) ">
         Chart coming soon
       </div>
     </ChartCard>

@@ -26,7 +26,7 @@ export function SuggestedSettlementsCard({
   return (
     <Card className="w-full border border-(--text-dim)/50 bg-(--bg-sidebar) text-primary ring-0 rounded-xl">
       <CardHeader className="pb-3">
-        <CardTitle className="text-sm font-semibold text-primary">
+        <CardTitle className="text-xl font-semibold text-primary">
           Suggested settlements
         </CardTitle>
         <CardDescription className="text-xs text-(--text-secondary)">

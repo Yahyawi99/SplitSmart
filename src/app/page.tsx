@@ -16,7 +16,7 @@ export default function Home() {
       <Header />
       <GeneralInfo />
 
-      <div className="flex w-full gap-3 p-3 flex-wrap-reverse">
+      <div className="grid grid-cols-1 gap-3 p-3 xl:grid-cols-2 flex-wrap-reverse">
         <div className="min-w-210 flex flex-col gap-3 grow">
           <ActivityCard />
           <GroupSettlementsCard />
@@ -28,7 +28,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-2">
+      <div className=" grid grid-cols-1 gap-3 xl:grid-cols-2 p-3">
         <SpendingOverTimeChart />
         <SpendingByCategoryCharts />
         <MemberContributionChart />
