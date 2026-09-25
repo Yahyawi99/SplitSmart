@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ThemeMenu } from "./ThemeMenu";
+import { ThemeMenu } from "../shared";
 import { Logo } from "../shared";
 
 export function WelcomeHeader({ isSignedIn }: { isSignedIn: boolean }) {

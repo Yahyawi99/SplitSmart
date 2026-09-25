@@ -8,6 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { ThemeMenu } from "../shared";
 
 type Theme = "system" | "dark" | "light";
 
@@ -31,29 +32,7 @@ export default function ThemeDropdown({
   ];
 
   if (!open) {
-    return (
-      <DropdownMenu>
-        <DropdownMenuTrigger
-          className="relative flex h-8 w-full cursor-pointer items-center justify-center gap-2 rounded-sm border border-(--text-dim) text-(--accent-btn) hover:bg-(--accent-btn)/25"
-          aria-label="Change theme"
-        >
-          <ActiveThemeIcon className="h-3.5 w-3.5" />
-          <ChevronDown className="h-3 w-3" />
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="z-10 ml-5 rounded-sm bg-(--bg-base) p-0 ring-(--text-dim)/50">
-          {themeOptions.map(({ value, label, Icon }) => (
-            <DropdownMenuItem
-              key={value}
-              className="cursor-pointer rounded-none hover:bg-(--accent-btn)/25"
-              onClick={() => onThemeChange?.(value)}
-            >
-              <Icon className="h-4 w-4" />
-              {label}
-            </DropdownMenuItem>
-          ))}
-        </DropdownMenuContent>
-      </DropdownMenu>
-    );
+    return <ThemeMenu />;
   }
 
   return (
