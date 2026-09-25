@@ -17,7 +17,7 @@ export function BalanceCard({
 }: BalanceCardProps) {
   return (
     <Card className="w-full border border-(--text-dim)/50 bg-(--bg-sidebar) text-primary ring-0 rounded-xl">
-      <CardContent className="pt-6">
+      <CardContent >
         <div className="flex items-start gap-4">
           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-(--accent-green)/10 text-(--accent-green)">
             <ArrowDownLeft className="h-5 w-5" />

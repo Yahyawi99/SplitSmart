@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, ChevronRight, ChevronUp, Download } from "lucide-react";
+import { ChevronDown, ChevronRight, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -36,10 +36,12 @@ export default function ChartCard({
   }
 
   return (
-    <Card className="w-full bg-(--bg-sidebar) text-(--text-primary) border border-(--text-dim)/50 ring-0 rounded-xl">
+    <Card
+      className={`w-full bg-(--bg-sidebar) text-(--text-primary) border border-(--text-dim)/50 ring-0 rounded-xl p-0 ${open || "h-fit"}`}
+      onClick={() => setOpen((value) => !value)}
+    >
       <CardHeader
-        className="flex flex-row items-center justify-between gap-4 "
-        onClick={() => setOpen((value) => !value)}
+        className={`flex flex-row items-center justify-between gap-4  ${open ? "p-6 pb-1" : "p-6"} cursor-pointer rounded-0`}
       >
         <div className="min-w-0">
           <CardTitle className="truncate text-xl">{title}</CardTitle>
@@ -76,7 +78,7 @@ export default function ChartCard({
       </CardHeader>
 
       {open && (
-        <CardContent className="border-t border-(--text-dim)/50">
+        <CardContent className="border-t border-(--text-dim)/50 ">
           {children}
         </CardContent>
       )}
