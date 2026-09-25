@@ -20,10 +20,13 @@
   --text-muted: #666A75;
   --text-dim: #5B5E65;
 
-  --accent-green: #4BD2A3;
-  --accent-green-bg: #142E2D;
-  --accent-btn: #3D70D9;
-  --accent-btn-hover: #2563eb;
+  --accent-btn: #059669;
+  --accent-btn-hover: #00E599;
+  --accent-blue: #3D70D9;
+  --accent-blue-hover: #2563eb;
+  --accent-green: #059669;
+  --accent-red: #D61F49;
+  --accent-red-hover: #ED829B;
 
   --avatar-indigo: #6366F1;
   --avatar-amber: #FBA419;

@@ -95,7 +95,7 @@ export function ActivityCard() {
           </div>
           <Button
             size="sm"
-            className="bg-(--accent-btn) hover:bg-(--accent-btn-hover) text-primary gap-2 h-10 px-5 rounded-lg text-sm font-semibold cursor-pointer"
+            className="bg-(--accent-btn) hover:bg-(--accent-btn-hover)/75 text-primary gap-2 h-10 px-5 rounded-lg text-sm font-semibold cursor-pointer"
           >
             <Plus className="h-4 w-4" />
             New expense

@@ -25,25 +25,29 @@ export function WelcomeHeader({ isSignedIn }: { isSignedIn: boolean }) {
             Features
           </a>
         </nav>
-        
+
         <div className="flex items-center gap-3">
-          {isSignedIn ? (
-            <Button className="bg-(--accent-btn) text-white hover:bg-(--accent-btn-hover)">
-              <Link href="/groups">Go to your groups</Link>
-            </Button>
-          ) : (
-            <>
-              <Link
-                href="/sign-in"
-                className="text-sm text-(--text-secondary) hover:text-(--text-primary)"
-              >
-                Sign in
-              </Link>
-              <Button className="bg-(--accent-btn) text-white hover:bg-(--accent-btn-hover)">
-                <Link href="/sign-up">Sign up</Link>
+          <div className="hidden md:flex">
+            {isSignedIn ? (
+              <Button className="bg-(--accent-btn) text-white hover:bg-(--accent-btn-hover)/75">
+                <Link href="/groups">Go to your groups</Link>
               </Button>
-            </>
-          )}
+            ) : (
+              <div>
+                <Link
+                  href="/sign-in"
+                  className="text-sm text-(--accent-btn) hover:text-(--accent-btn)/75 font-bold"
+                >
+                  Sign in
+                </Link>
+
+                <Button className="bg-(--accent-btn) text-white hover:bg-(--accent-btn-hover)/75 ml-2">
+                  <Link href="/sign-up">Sign up</Link>
+                </Button>
+              </div>
+            )}
+          </div>
+
           <ThemeMenu />
         </div>
       </div>

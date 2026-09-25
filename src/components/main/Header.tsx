@@ -29,7 +29,7 @@ export function Header({
           </Button>
           <Button
             onClick={onAddExpense}
-            className="cursor-pointer bg-blue-600 hover:bg-blue-700"
+            className="cursor-pointer bg-(--accent-btn) hover:bg-(--accent-btn-hover)/75"
           >
             <Plus className="h-4 w-4" />
             Add expense

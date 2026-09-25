@@ -13,7 +13,7 @@ export default () => {
       <SidebarGroupContent className="-mt-4">
         <Button
           // onClick={onNewGroup}
-          className={`bg-(--accent-btn) hover:bg-(--accent-btn-hover) text-(--text-primary) gap-2 h-10 rounded-lg text-sm font-semibold cursor-pointer w-full flex items-center justify-center ${
+          className={`bg-(--accent-btn) hover:bg-(--accent-btn-hover)/75 text-(--text-primary) gap-2 h-10 rounded-lg text-sm font-semibold cursor-pointer w-full flex items-center justify-center ${
             open ? "px-5" : "px-0 py-0"
           }`}
         >
