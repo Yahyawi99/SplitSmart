@@ -28,7 +28,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className=" grid grid-cols-1 gap-3 xl:grid-cols-3 p-3">
+      <div className=" grid grid-cols-1 gap-3 xl:grid-cols-[repeat(auto-fit,minmax(400px,1fr))] p-3">
         <SpendingOverTimeChart />
         <SpendingByCategoryCharts />
         <MemberContributionChart />

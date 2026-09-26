@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Roboto_Condensed, Roboto,Oxanium } from "next/font/google";
+import { Roboto_Condensed, Roboto, Oxanium } from "next/font/google";
 
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -34,7 +34,6 @@ export default function RootLayout({
         "h-full",
         "antialiased",
         openSans.className,
-        // "font-sans",
         roboto.variable,
         oxaniumHeading.variable,
       )}

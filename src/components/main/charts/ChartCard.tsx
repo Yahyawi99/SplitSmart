@@ -41,10 +41,10 @@ export default function ChartCard({
       onClick={() => setOpen((value) => !value)}
     >
       <CardHeader
-        className={`flex flex-row items-center justify-between gap-4  ${open ? "p-6 pb-1" : "p-6"} cursor-pointer rounded-0`}
+        className={`flex flex-row items-center justify-between gap-4  ${open ? "p-5 pb-1" : "p-5"} cursor-pointer rounded-0`}
       >
         <div className="min-w-0">
-          <CardTitle className="truncate text-xl">{title}</CardTitle>
+          <CardTitle className="truncate lg:text-xl">{title}</CardTitle>
           {description && (
             <p className="mt-1 text-xs text-(--text-secondary)">
               {description}

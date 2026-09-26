@@ -13,7 +13,7 @@ export function AppSidebar() {
   return (
     <Sidebar
       collapsible="icon"
-      className="border-r border-r-(--text-dim)/50 "
+      className="border-r border-r-(--text-dim)/50"
     >
       <SidebarHeader className="bg-(--bg-sidebar)">
         <Header />
