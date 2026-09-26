@@ -9,19 +9,17 @@ export default function AuthOption({
   return (
     <Button
       key={option.type}
+      type="button"
       variant={selectedOption === option.type ? "default" : "outline"}
-      className={`flex items-center justify-center space-x-2 text-sm sm:text-base py-2 px-2 sm:px-4 cursor-pointer ${
+      className={`flex h-10 items-center justify-center gap-2 rounded-lg px-2 text-sm font-medium transition-colors sm:px-3 ${
         selectedOption === option.type
-          ? "bg-sidebar text-white hover:bg-sidebar hover:opacity-80"
-          : "border-border hover:bg-gray-100"
+          ? "border border-(--accent-btn) bg-(--accent-btn) text-(--text-primary) hover:bg-(--accent-btn-hover)"
+          : "border border-(--text-dim)/50 bg-(--bg-sidebar) text-(--text-secondary) hover:border-(--accent-btn) hover:text-(--text-primary)"
       }`}
       onClick={() => onSelectOption(option.type)}
     >
-      <span className="text-lg">{option.icon}</span>
-      <span className="hidden sm:inline">{option.label}</span>
-      {selectedOption === option.type && (
-        <span className="ml-1 text-green-400">●</span>
-      )}
+      <span className="text-base leading-none">{option.icon}</span>
+      <span>{option.label}</span>
     </Button>
   );
 }

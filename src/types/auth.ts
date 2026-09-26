@@ -1,6 +1,8 @@
+import type { ReactNode } from "react";
+
 export type authOptionsType = {
   type: "Email" | "Google" | "Github";
-  icon: string;
+  icon: ReactNode;
   label: string;
 };
 
@@ -12,9 +14,3 @@ export interface AuthOptionsSelectorProps {
 export interface AuthOptionProps extends AuthOptionsSelectorProps {
   option: authOptionsType;
 }
-
-// export interface User {
-//   id: string | undefined;
-//   name: string;
-//   email: string;
-// }
