@@ -1,3 +1,4 @@
+import { NextIntlClientProvider } from "next-intl";
 import type { Metadata } from "next";
 import { Roboto_Condensed, Roboto, Oxanium } from "next/font/google";
 
@@ -40,7 +41,9 @@ export default function RootLayout({
       lang="en"
       suppressHydrationWarning
     >
-      <body className="bg-(--bg-base) text-(--text-primary)">{children}</body>
+      <body className="bg-(--bg-base) text-(--text-primary)">
+        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+      </body>
     </html>
   );
 }
