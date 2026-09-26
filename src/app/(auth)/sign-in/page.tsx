@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import SignInForm from "@/components/forms/sign-in/Sign-in-form";
-import {Logo} from "@/components/shared";
+import { Logo } from "@/components/shared";
 // import { getBrowserTheme } from "@/utils/getBrowserTheme";
 
 export default function SignIn() {
@@ -25,7 +25,7 @@ export default function SignIn() {
 
   return (
     <div
-      className={`${theme} bg-background h-lvh flex flex-col items-center justify-center`}
+      className={`${theme} flex min-h-lvh flex-col items-center justify-center gap-6 bg-(--bg-base) px-4 py-8`}
     >
       <Logo open={true} />
 

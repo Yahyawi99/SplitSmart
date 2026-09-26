@@ -32,13 +32,11 @@ export default function SignInForm() {
     // setIsLoading(true);
     // setError(null);
     // setSuccessMessage(null);
-
     // if (!email || !password) {
     //   setError("Please fill in all required fields.");
     //   setIsLoading(false);
     //   return;
     // }
-
     // try {
     //   await authClient.signIn.email(
     //     {
@@ -56,7 +54,6 @@ export default function SignInForm() {
     //           setSuccessMessage(
     //             "Sign in successful! Redirecting to email verification...",
     //           );
-
     //           try {
     //             await authClient.emailOtp.sendVerificationOtp({
     //               email: email,
@@ -71,19 +68,15 @@ export default function SignInForm() {
     //             return;
     //           }
     //         }
-
     //         // If email is verified, set activeOrganizationId and redirect to main app
     //         setSuccessMessage("Working on it...");
-
     //         const { data: organizations, error: _ } =
     //           await authClient.organization.list();
-
     //         if (organizations && organizations?.length > 0) {
     //           await authClient.organization.setActive({
     //             organizationId: organizations[0].id,
     //           });
     //         }
-
     //         setSuccessMessage("Sign in successful! Redirecting...");
     //         router.push("/en");
     //       },
@@ -98,20 +91,23 @@ export default function SignInForm() {
   };
 
   return (
-    <Card className="w-[400px] mx-auto rounded-lg shadow-lg">
-      <CardHeader className="text-center pb-4">
-        <CardTitle className="text-2xl font-semibold text-foreground">
+    <Card className="w-full max-w-[420px] gap-0 rounded-xl border border-(--text-dim)/50 bg-(--bg-sidebar) p-0 text-(--text-primary) ring-0">
+      <CardHeader className="border-b border-(--text-dim)/25 p-5 pb-4 text-left">
+        <CardTitle className="font-(family-name:--font-heading) text-2xl font-bold tracking-tight text-(--text-primary)">
           {t("header")}
         </CardTitle>
-        <CardDescription className="text-muted-foreground">
+        <CardDescription className="mt-0.5 text-sm text-(--text-secondary)">
           {t("subHeader")}
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="grid gap-6 px-6">
+      <CardContent className="p-5">
         <form onSubmit={handleSubmit} className="grid gap-4">
           <div className="grid gap-2">
-            <Label htmlFor="email" className="text-muted-foreground">
+            <Label
+              htmlFor="email"
+              className="text-sm font-medium text-(--text-secondary)"
+            >
               {t("form.email.label")}
             </Label>
             <Input
@@ -121,12 +117,15 @@ export default function SignInForm() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="border-border h-10 focus:border-red-500 focus:ring-red-500 rounded-md placeholder:opacity-25"
+              className="h-10 rounded-lg border border-(--text-dim)/50 bg-(--bg-base) text-(--text-primary) placeholder:text-(--text-muted) focus:border-(--accent-btn) focus:ring-(--accent-btn)/30"
             />
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="password" className="text-muted-foreground">
+            <Label
+              htmlFor="password"
+              className="text-sm font-medium text-(--text-secondary)"
+            >
               {t("form.password.label")}
             </Label>
             <Input
@@ -136,20 +135,24 @@ export default function SignInForm() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="border-border h-10 focus:border-red-500 focus:ring-red-500 rounded-md placeholder:opacity-25"
+              className="h-10 rounded-lg border border-(--text-dim)/50 bg-(--bg-base) text-(--text-primary) placeholder:text-(--text-muted) focus:border-(--accent-btn) focus:ring-(--accent-btn)/30"
             />
           </div>
 
           {successMessage && (
-            <p className="text-green-500 text-sm text-center">
+            <p className="text-center text-sm text-(--accent-btn-hover)">
               {successMessage}
             </p>
           )}
 
-          {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+          {error && (
+            <p className="text-center text-sm text-(--accent-red-hover)">
+              {error}
+            </p>
+          )}
 
           <Button
-            className="w-full bg-sidebar hover:bg-(--bg-transparent) text-white hover:text-sidebar border-1 cursor-pointer border-transparent hover:border-sidebar outline-none font-bold py-2 px-4 rounded-md transition-colors duration-200"
+            className="h-10 w-full cursor-pointer rounded-lg border border-transparent bg-(--accent-btn) px-5 text-sm font-semibold text-(--text-primary) transition-colors hover:bg-(--accent-btn-hover)/75"
             type="submit"
             disabled={isLoading}
           >
@@ -158,31 +161,31 @@ export default function SignInForm() {
         </form>
       </CardContent>
 
-      <CardFooter className="flex flex-col gap-4 px-6 pt-4 pb-6">
-        <div className="text-center text-sm text-muted-foreground">
+      <CardFooter className="flex flex-col gap-3 border-t border-(--text-dim)/25 p-5 text-sm text-(--text-secondary)">
+        <div className="text-center">
           {t("actions.registerPrompt")}{" "}
           <a
             href="sign-up"
-            className="text-sidebar hover:underline font-semibold"
+            className="font-semibold text-(--accent-btn-hover) transition-colors hover:text-(--text-primary) hover:underline"
           >
             {t("actions.registerLink")}
           </a>
         </div>
 
-        <div className="text-center text-sm text-muted-foreground">
+        <div className="text-center">
           <a
             href="/en/forgot-password"
-            className="text-sidebar hover:underline font-medium"
+            className="font-medium text-(--accent-btn-hover) transition-colors hover:text-(--text-primary) hover:underline"
           >
             {t("actions.forgotPassword")}
           </a>
         </div>
 
         {/* Go back to landing page */}
-        <div className="text-center text-sm text-muted-foreground mt-2">
+        <div className="mt-1 text-center text-sm text-(--text-muted)">
           <a
             href="/"
-            className="hover:underline flex items-center justify-center space-x-1"
+            className="flex items-center justify-center space-x-1 transition-colors hover:text-(--text-primary) hover:underline"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

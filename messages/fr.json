@@ -1,9 +1,9 @@
 {
   "auth": {
-    "appName": "WareFlow",
+    "appName": "SplitSmart",
     "signInPage": {
-      "header": "Ravi de vous revoir",
-      "subHeader": "Connectez-vous à votre compte WareFlow",
+      "header": "Bon retour",
+      "subHeader": "Connectez-vous pour gérer vos dépenses partagées",
       "form": {
         "email": {
           "label": "E-mail",
@@ -16,9 +16,9 @@
       },
       "actions": {
         "submit": "Connexion",
-        "submitting": "en cours...",
-        "registerPrompt": "Pas encore de compte ?",
-        "registerLink": "Inscrire l'organisation",
+        "submitting": "Connexion...",
+        "registerPrompt": "Nouveau sur SplitSmart ?",
+        "registerLink": "Créer un compte",
         "forgotPassword": "Mot de passe oublié ?",
         "backToHome": "Retour à l'accueil"
       }

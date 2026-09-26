@@ -1,9 +1,9 @@
 {
   "auth": {
-    "appName": "WareFlow",
+    "appName": "SplitSmart",
     "signInPage": {
-      "header": "Welcome Back",
-      "subHeader": "Sign in to your WareFlow account",
+      "header": "Welcome back",
+      "subHeader": "Sign in to manage your shared expenses",
       "form": {
         "email": {
           "label": "Email",
@@ -17,8 +17,8 @@
       "actions": {
         "submit": "Sign In",
         "submitting": "Signing In...",
-        "registerPrompt": "Don't have an account?",
-        "registerLink": "Register your organization",
+        "registerPrompt": "New to SplitSmart?",
+        "registerLink": "Create an account",
         "forgotPassword": "Forgot your password?",
         "backToHome": "Back to home"
       }
