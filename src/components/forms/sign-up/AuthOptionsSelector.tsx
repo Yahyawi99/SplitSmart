@@ -2,10 +2,9 @@ import { authOptionsType, AuthOptionsSelectorProps } from "@/types/auth";
 import AuthOption from "./AuthOption";
 
 const authOptions: authOptionsType[] = [
-  { type: "Email", icon: "✉️", label: "Email" },
-  { type: "Google", icon: "G", label: "Google" },
-  { type: "Phone", icon: "📞", label: "Phone" },
-  { type: "Code", icon: "#️⃣", label: "Code" },
+  { type: "Email", icon: "", label: "Email" },
+  { type: "Google", icon: "", label: "Google" },
+  { type: "Github", icon: "", label: "Phone" },
 ];
 
 export default function AuthOptionsSelector({

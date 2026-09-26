@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { authClient } from "@/lib/auth-client";
-import { Button } from "app-core/src/components";
+// import { authClient } from "@/lib/auth-client";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -11,9 +11,10 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "app-core/src/components";
-import { Input } from "app-core/src/components";
-import { Label } from "app-core/src/components";
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
 import { Textarea } from "app-core/src/components";
 import AuthOptionsSelector from "./AuthOptionsSelector";
 
