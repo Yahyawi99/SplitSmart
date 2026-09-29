@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import { Transporter } from "nodemailer";
 
 export const emailConfigs = {
   gmail: {
@@ -8,16 +9,6 @@ export const emailConfigs = {
       pass: process.env.EMAIL_APP_PASSWORD,
     },
   },
-
-  smtp: {
-    host: process.env.SMTP_HOST,
-    port: parseInt(process.env.SMTP_PORT || "587"),
-    secure: process.env.SMTP_SECURE === "true",
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
-  },
 };
 
 // Email generators
@@ -25,7 +16,7 @@ export const generateOTPEmail = (userName: string, otp: string) => ({
   html: `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
       <div style="text-align: center; margin-bottom: 30px;">
-        <h1 style="color: #333; margin-bottom: 10px;">WareFlow - Email Verification</h1>
+        <h1 style="color: #333; margin-bottom: 10px;">SplitSmart - Email Verification</h1>
         <p style="color: #666; font-size: 16px;">Please verify your email to continue</p>
       </div>
       
@@ -53,25 +44,25 @@ export const generateOTPEmail = (userName: string, otp: string) => ({
           For security reasons, do not share this code with anyone.
         </p>
         <p style="color: #999; font-size: 12px; text-align: center; margin-top: 10px;">
-          <strong>WareFlow Team</strong>
+          <strong>SplitSmart Team</strong>
         </p>
       </div>
     </div>
   `,
   text: `
-    WareFlow - Email Verification
+    SplitSmart - Email Verification
     
     Hi ${userName || "there"},
     
     Your email verification code is: ${otp}
     
-    This code will expire in 5 minutes.
+    This code will expire in 10 minutes.
     
     If you didn't request this, please ignore this email.
     For security reasons, do not share this code with anyone.
     
     Best regards,
-    WareFlow Team
+    SplitSmart Team
   `,
 });
 
@@ -82,10 +73,10 @@ export const generateInviteEmail = (
   html: `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
       <div style="text-align: center; margin-bottom: 30px;">
-        <h1 style="color: #333; margin-bottom: 10px;">WareFlow - You're Invited!</h1>
+        <h1 style="color: #333; margin-bottom: 10px;">SplitSmart - You're Invited!</h1>
         <p style="color: #666; font-size: 16px;">${
           inviterName ? inviterName : "Someone"
-        } has invited you to join WareFlow</p>
+        } has invited you to join SplitSmart</p>
       </div>
       
       <div style="background: #f8f9fa; border-radius: 10px; padding: 30px; text-align: center; margin: 30px 0;">
@@ -108,17 +99,17 @@ export const generateInviteEmail = (
           If you didn't expect this invitation, you can safely ignore this email.
         </p>
         <p style="color: #999; font-size: 12px; text-align: center; margin-top: 10px;">
-          <strong>WareFlow Team</strong>
+          <strong>SplitSmart Team</strong>
         </p>
       </div>
     </div>
   `,
   text: `
-    WareFlow - You're Invited!
+    SplitSmart - You're Invited!
     
     Hi there,
     
-    ${inviterName ? inviterName : "Someone"} has invited you to join WareFlow.
+    ${inviterName ? inviterName : "Someone"} has invited you to join SplitSmart.
     
     Accept the invitation by clicking the link below:
     ${inviteLink}
@@ -128,7 +119,7 @@ export const generateInviteEmail = (
     If you didn't expect this invitation, you can safely ignore this email.
     
     Best regards,
-    WareFlow Team
+    SplitSmart Team
   `,
 });
 
@@ -136,7 +127,7 @@ export const generateResetPasswordEmail = (resetLink: string) => ({
   html: `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
       <div style="text-align: center; margin-bottom: 30px;">
-        <h1 style="color: #333; margin-bottom: 10px;">WareFlow - Password Reset</h1>
+        <h1 style="color: #333; margin-bottom: 10px;">SplitSmart - Password Reset</h1>
         <p style="color: #666; font-size: 16px;">
           You are receiving this email because we received a password reset request for your account.
         </p>
@@ -162,13 +153,13 @@ export const generateResetPasswordEmail = (resetLink: string) => ({
           If you did not request a password reset, you can safely ignore this email.
         </p>
         <p style="color: #999; font-size: 12px; text-align: center; margin-top: 10px;">
-          <strong>WareFlow Team</strong>
+          <strong>SplitSmart Team</strong>
         </p>
       </div>
     </div>
   `,
   text: `
-    WareFlow - Password Reset
+    SplitSmart - Password Reset
     
     You are receiving this email because we received a password reset request for your account.
     
@@ -180,7 +171,7 @@ export const generateResetPasswordEmail = (resetLink: string) => ({
     If you did not request a password reset, you can safely ignore this email.
     
     Best regards,
-    WareFlow Team
+    SplitSmart Team
   `,
 });
 
@@ -188,7 +179,7 @@ export const generateEmailVerification = (verificationLink: string) => ({
   html: `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
       <div style="text-align: center; margin-bottom: 30px;">
-        <h1 style="color: #333; margin-bottom: 10px;">WareFlow - Verify Your Email</h1>
+        <h1 style="color: #333; margin-bottom: 10px;">SplitSmart - Verify Your Email</h1>
         <p style="color: #666; font-size: 16px;">
           Thanks for signing up! Please verify your email address to complete your registration.
         </p>
@@ -196,7 +187,7 @@ export const generateEmailVerification = (verificationLink: string) => ({
       
       <div style="background: #f8f9fa; border-radius: 10px; padding: 30px; text-align: center; margin: 30px 0;">
         <p style="color: #333; font-size: 18px; margin-bottom: 20px;">
-          Welcome to WareFlow!
+          Welcome to SplitSmart!
         </p>
         <p style="color: #666; margin-bottom: 30px;">
           To get started, click the button below to verify your email:
@@ -211,16 +202,16 @@ export const generateEmailVerification = (verificationLink: string) => ({
       
       <div style="border-top: 1px solid #eee; padding-top: 20px; margin-top: 30px;">
         <p style="color: #999; font-size: 12px; text-align: center;">
-          If you did not sign up for a WareFlow account, you can safely ignore this email.
+          If you did not sign up for a SplitSmart account, you can safely ignore this email.
         </p>
         <p style="color: #999; font-size: 12px; text-align: center; margin-top: 10px;">
-          <strong>The WareFlow Team</strong>
+          <strong>The SplitSmart Team</strong>
         </p>
       </div>
     </div>
   `,
   text: `
-    WareFlow - Verify Your Email
+    SplitSmart - Verify Your Email
     
     Thanks for signing up! Please verify your email address to complete your registration.
     
@@ -229,10 +220,10 @@ export const generateEmailVerification = (verificationLink: string) => ({
     
     This verification link will expire in 24 hours.
     
-    If you did not sign up for a WareFlow account, you can safely ignore this email.
+    If you did not sign up for a SplitSmart account, you can safely ignore this email.
     
     Best regards,
-    The WareFlow Team
+    The SplitSmart Team
   `,
 });
 
@@ -258,9 +249,9 @@ const handleError = (error: unknown) => {
 // ==================
 // Email service class
 export class EmailService {
-  private transporter: nodemailer.Transporter;
+  private transporter: Transporter;
 
-  constructor(config = emailConfigs.smtp) {
+  constructor(config = emailConfigs.gmail) {
     this.transporter = nodemailer.createTransport(config);
   }
 
@@ -272,11 +263,14 @@ export class EmailService {
 
       const info = await this.transporter.sendMail({
         from: {
-          name: "WareFlow",
-          address: process.env.EMAIL_FROM || "noreply@wareflow.com",
+          name: "SplitSmart",
+          address:
+            process.env.EMAIL_FROM ||
+            process.env.EMAIL_USER ||
+            "noreply@splitsmart.app",
         },
         to: userEmail,
-        subject: "WareFlow - Email Verification Code",
+        subject: "SplitSmart - Email Verification Code",
         ...emailContent,
       });
 
@@ -319,11 +313,14 @@ export class EmailService {
 
       const info = await this.transporter.sendMail({
         from: {
-          name: "WareFlow",
-          address: process.env.EMAIL_FROM || "noreply@wareflow.com",
+          name: "SplitSmart",
+          address:
+            process.env.EMAIL_FROM ||
+            process.env.EMAIL_USER ||
+            "noreply@splitsmart.app",
         },
         to: userEmail,
-        subject: "WareFlow -  Invitation Link",
+        subject: "SplitSmart - Invitation Link",
         ...emailContent,
       });
 
@@ -348,11 +345,14 @@ export class EmailService {
 
       const info = await this.transporter.sendMail({
         from: {
-          name: "WareFlow",
-          address: process.env.EMAIL_FROM || "noreply@wareflow.com",
+          name: "SplitSmart",
+          address:
+            process.env.EMAIL_FROM ||
+            process.env.EMAIL_USER ||
+            "noreply@splitsmart.app",
         },
         to: userEmail,
-        subject: "WareFlow -  Reset Password Link",
+        subject: "SplitSmart - Reset Password Link",
         ...emailContent,
       });
 
@@ -377,11 +377,14 @@ export class EmailService {
 
       const info = await this.transporter.sendMail({
         from: {
-          name: "WareFlow",
-          address: process.env.EMAIL_FROM || "noreply@wareflow.com",
+          name: "SplitSmart",
+          address:
+            process.env.EMAIL_FROM ||
+            process.env.EMAIL_USER ||
+            "noreply@splitsmart.app",
         },
         to: userEmail,
-        subject: "WareFlow -  Email Verification Link",
+        subject: "SplitSmart - Email Verification Link",
         ...emailContent,
       });
 

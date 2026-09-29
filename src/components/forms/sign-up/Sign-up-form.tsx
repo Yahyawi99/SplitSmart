@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { signUp } from "@/lib/auth-client";
+import { emailOtp, signUp } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import {
   Card,
