@@ -3,11 +3,9 @@ import {
   emailOTP,
 } from "better-auth/plugins";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-// import { PrismaClient } from "@database/generated/prisma/client";
+import prisma from "@/lib/prisma";
 
 
-
-// const prisma = new PrismaClient();
 
 export const auth = betterAuth({
   baseURL: "http://localhost:3000/",

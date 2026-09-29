@@ -14,6 +14,7 @@
   "dependencies": {
     "@base-ui/react": "^1.8.0",
     "@better-auth/infra": "^0.4.11",
+    "@prisma/adapter-pg": "^7.10.0",
     "@prisma/orm-postgres": "8.0.0-rc.12",
     "better-auth": "^1.7.6",
     "class-variance-authority": "^0.7.1",
@@ -22,6 +23,7 @@
     "lucide-react": "^1.47.0",
     "next": "16.3.4",
     "next-intl": "^4.14.7",
+    "pg": "^8.23.0",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "shadcn": "^4.21.0",
@@ -29,15 +31,18 @@
   },
   "devDependencies": {
     "@prisma/cli-engine": "0.6.1",
+    "@prisma/client": "^7.10.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "@types/pg": "^8.23.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.3.4",
-    "prisma": "8.0.0-rc.17",
+    "prisma": "7.10.0",
     "tailwindcss": "^4",
+    "tsx": "^4.23.15",
     "typescript": "^5"
   },
   "packageManager": "pnpm@12.4.2"
