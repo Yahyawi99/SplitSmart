@@ -91,7 +91,7 @@ export default function SignInForm() {
   };
 
   return (
-    <Card className="w-full max-w-[420px] gap-0 rounded-xl border border-(--text-dim)/50 bg-(--bg-sidebar) p-0 text-(--text-primary) ring-0">
+    <Card className="w-full max-w-105 gap-0 rounded-xl border border-(--text-dim)/50 bg-(--bg-sidebar) p-0 text-(--text-primary) ring-0">
       <CardHeader className="border-b border-(--text-dim)/25 p-5 pb-4 text-left">
         <CardTitle className="font-(family-name:--font-heading) text-2xl font-bold tracking-tight text-(--text-primary)">
           {t("header")}
@@ -117,7 +117,7 @@ export default function SignInForm() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="h-10 rounded-lg border border-(--text-dim)/50 bg-(--bg-base) text-(--text-primary) placeholder:text-(--text-muted) focus:border-(--accent-btn) focus:ring-(--accent-btn)/30"
+              className="h-10 rounded-lg border border-(--text-dim)/50 bg-(--bg-base) text-(--text-primary) placeholder:text-(--text-muted) focus:border-(--text-dim) focus:ring-0 focus-visible:ring-0"
             />
           </div>
 
@@ -135,18 +135,24 @@ export default function SignInForm() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="h-10 rounded-lg border border-(--text-dim)/50 bg-(--bg-base) text-(--text-primary) placeholder:text-(--text-muted) focus:border-(--accent-btn) focus:ring-(--accent-btn)/30"
+              className="h-10 rounded-lg border border-(--text-dim)/50 bg-(--bg-base) text-(--text-primary) placeholder:text-(--text-muted) focus:border-(--text-dim) focus:ring-0 focus-visible:ring-0"
             />
           </div>
 
           {successMessage && (
-            <p className="text-center text-sm text-(--accent-btn-hover)">
+            <p
+              role="status"
+              className="rounded-lg border border-(--accent-green)/30 bg-(--accent-green)/10 p-3 text-center text-sm font-medium text-(--accent-green)"
+            >
               {successMessage}
             </p>
           )}
 
           {error && (
-            <p className="text-center text-sm text-(--accent-red-hover)">
+            <p
+              role="alert"
+              className="rounded-lg border border-(--accent-red)/30 bg-(--accent-red)/10 p-3 text-center text-sm font-medium text-(--accent-red-hover)"
+            >
               {error}
             </p>
           )}

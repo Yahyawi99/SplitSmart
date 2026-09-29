@@ -29,6 +29,7 @@ export default function SignUpForm() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const router = useRouter();
 
   const validateForm = () => {
@@ -36,11 +37,7 @@ export default function SignUpForm() {
       if (password !== confirmPassword) {
         return "Passwords do not match.";
       }
-      if (
-        !yourName ||
-        !yourEmail ||
-        !password
-      ) {
+      if (!yourName || !yourEmail || !password) {
         return "Please fill in all required fields.";
       }
     }
@@ -52,6 +49,7 @@ export default function SignUpForm() {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
+    setSuccessMessage(null);
 
     const validationError = validateForm();
     if (validationError) {
@@ -61,41 +59,38 @@ export default function SignUpForm() {
     }
 
     try {
-      await signUp.email(
-        {
-          name: yourName,
-          email: yourEmail,
-          password,
-        },
-        {
-          onError(ctx) {
-            setError(ctx.error.message);
-          },
-        }
-      );
+      const { error: signUpError } = await signUp.email({
+        name: yourName,
+        email: yourEmail,
+        password,
+      });
 
-      try {
-        const { error: otpError } =
-          await emailOtp.sendVerificationOtp({
-            email: yourEmail,
-            type: "email-verification",
-          });
-
-        if (otpError) {
-          setError(
-            `Account created but failed to send verification email: ${otpError.message}`
-          );
-        }
-      } catch (otpErr: any) {
-        console.warn("Failed to send OTP:", otpErr);
+      if (signUpError) {
+        setError(
+          signUpError.message ||
+            "An unexpected error occurred during registration.",
+        );
+        return;
       }
 
-      router.push(
-        `/auth/verify-email?email=${encodeURIComponent(yourEmail)}`
-      );
-    } catch (err: any) {
+      const { error: otpError } = await emailOtp.sendVerificationOtp({
+        email: yourEmail,
+        type: "email-verification",
+      });
+
+      if (otpError) {
+        setError(`Failed to send verification email: ${otpError.message}`);
+        return;
+      }
+
+      setSuccessMessage("Verification email sent. Redirecting in 5 seconds...");
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+      router.push(`/auth/verify-email?email=${encodeURIComponent(yourEmail)}`);
+    } catch (err: unknown) {
       setError(
-        err.message || "An unexpected error occurred during registration."
+        err instanceof Error
+          ? err.message
+          : "An unexpected error occurred during registration.",
       );
     } finally {
       setIsLoading(false);
@@ -103,7 +98,7 @@ export default function SignUpForm() {
   };
 
   return (
-    <Card className="w-full max-w-[420px] gap-0 rounded-xl border border-(--text-dim)/50 bg-(--bg-sidebar) p-0 text-(--text-primary) ring-0">
+    <Card className="w-full max-w-105 gap-0 rounded-xl border border-(--text-dim)/50 bg-(--bg-sidebar) p-0 text-(--text-primary) ring-0">
       <CardHeader className="border-b border-(--text-dim)/25 p-5 pb-4 text-left">
         <CardTitle className="font-(family-name:--font-heading) text-2xl font-bold tracking-tight text-(--text-primary)">
           Create your account
@@ -127,7 +122,10 @@ export default function SignUpForm() {
               </h3>
 
               <div className="grid gap-2">
-                <Label htmlFor="your-name" className="text-sm font-medium text-(--text-secondary)">
+                <Label
+                  htmlFor="your-name"
+                  className="text-sm font-medium text-(--text-secondary)"
+                >
                   Full name
                 </Label>
                 <Input
@@ -136,12 +134,15 @@ export default function SignUpForm() {
                   required
                   value={yourName}
                   onChange={(e) => setYourName(e.target.value)}
-                  className="h-10 rounded-lg border border-(--text-dim)/50 bg-(--bg-base) text-(--text-primary) placeholder:text-(--text-muted) focus:border-(--accent-btn) focus:ring-(--accent-btn)/30"
+                  className="h-10 rounded-lg border border-(--text-dim)/50 bg-(--bg-base) text-(--text-primary) placeholder:text-(--text-muted) focus:border-(--accent-btn) focus:ring-0 focus-visible:ring-0"
                 />
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="your-email" className="text-sm font-medium text-(--text-secondary)">
+                <Label
+                  htmlFor="your-email"
+                  className="text-sm font-medium text-(--text-secondary)"
+                >
                   Email address
                 </Label>
                 <Input
@@ -151,12 +152,15 @@ export default function SignUpForm() {
                   required
                   value={yourEmail}
                   onChange={(e) => setYourEmail(e.target.value)}
-                  className="h-10 rounded-lg border border-(--text-dim)/50 bg-(--bg-base) text-(--text-primary) placeholder:text-(--text-muted) focus:border-(--accent-btn) focus:ring-(--accent-btn)/30"
+                  className="h-10 rounded-lg border border-(--text-dim)/50 bg-(--bg-base) text-(--text-primary) placeholder:text-(--text-muted) focus:border-(--accent-btn) focus:ring-0 focus-visible:ring-0"
                 />
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="password" className="text-sm font-medium text-(--text-secondary)">
+                <Label
+                  htmlFor="password"
+                  className="text-sm font-medium text-(--text-secondary)"
+                >
                   Password
                 </Label>
                 <Input
@@ -167,12 +171,15 @@ export default function SignUpForm() {
                   minLength={6}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="h-10 rounded-lg border border-(--text-dim)/50 bg-(--bg-base) text-(--text-primary) placeholder:text-(--text-muted) focus:border-(--accent-btn) focus:ring-(--accent-btn)/30"
+                  className="h-10 rounded-lg border border-(--text-dim)/50 bg-(--bg-base) text-(--text-primary) placeholder:text-(--text-muted) focus:border-(--accent-btn) focus:ring-0 focus-visible:ring-0"
                 />
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="confirm-password" className="text-sm font-medium text-(--text-secondary)">
+                <Label
+                  htmlFor="confirm-password"
+                  className="text-sm font-medium text-(--text-secondary)"
+                >
                   Confirm password
                 </Label>
                 <Input
@@ -182,14 +189,27 @@ export default function SignUpForm() {
                   required
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="h-10 rounded-lg border border-(--text-dim)/50 bg-(--bg-base) text-(--text-primary) placeholder:text-(--text-muted) focus:border-(--accent-btn) focus:ring-(--accent-btn)/30"
+                  className="h-10 rounded-lg border border-(--text-dim)/50 bg-(--bg-base) text-(--text-primary) placeholder:text-(--text-muted) focus:border-(--accent-btn) focus:ring-0 focus-visible:ring-0"
                 />
               </div>
             </div>
           )}
 
           {error && (
-            <p className="text-center text-sm text-(--accent-red-hover)">{error}</p>
+            <p
+              role="alert"
+              className="rounded-lg border border-(--accent-red)/30 bg-(--accent-red)/10 p-3 text-center text-sm font-medium text-(--accent-red-hover)"
+            >
+              {error}
+            </p>
+          )}
+          {successMessage && (
+            <p
+              role="status"
+              className="rounded-lg border border-(--accent-green)/30 bg-(--accent-green)/10 p-3 text-center text-sm font-medium text-(--accent-green)"
+            >
+              {successMessage}
+            </p>
           )}
         </CardContent>
 
