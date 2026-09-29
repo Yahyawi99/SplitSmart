@@ -45,7 +45,7 @@ export default function SignUpForm() {
     return null;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
@@ -83,8 +83,9 @@ export default function SignUpForm() {
         return;
       }
 
-      setSuccessMessage("Verification email sent. Redirecting in 5 seconds...");
+      setSuccessMessage("Verification email sent. Redirecting in 3 seconds...");
       await new Promise((resolve) => setTimeout(resolve, 5000));
+
       router.push(`/auth/verify-email?email=${encodeURIComponent(yourEmail)}`);
     } catch (err: unknown) {
       setError(
