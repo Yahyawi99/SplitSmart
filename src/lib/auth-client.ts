@@ -1,9 +1,3 @@
-// import { sentinelClient } from "@better-auth/infra/client";
+import { createAuthClient } from "better-auth/react";
 
-// export const authClient = createAuthClient({
-//   // ... your existing config
-//   plugins: [
-//     // ... other plugins
-//     sentinelClient(),
-//   ],
-// });
+export const { signIn, signUp, signOut, useSession } = createAuthClient();

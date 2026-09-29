@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-// import { authClient } from "@/lib/auth-client";
+import { signUp } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -61,7 +61,7 @@ export default function SignUpForm() {
     }
 
     try {
-      await authClient.signUp.email(
+      await signUp.email(
         {
           name: yourName,
           email: yourEmail,
@@ -76,7 +76,7 @@ export default function SignUpForm() {
 
       try {
         const { error: otpError } =
-          await authClient.emailOtp.sendVerificationOtp({
+          await emailOtp.sendVerificationOtp({
             email: yourEmail,
             type: "email-verification",
           });
