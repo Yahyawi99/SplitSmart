@@ -25,7 +25,7 @@ export function FinalCta({ isSignedIn }: { isSignedIn: boolean }) {
             size="lg"
             className="bg-(--accent-btn) text-white hover:bg-(--accent-btn-hover)"
           >
-            <Link href="/sign-up">Create an account</Link>
+            <Link href="/auth/sign-up">Create an account</Link>
           </Button>
         </div>
       </div>

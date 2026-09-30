@@ -171,7 +171,7 @@ export default function SignInForm() {
         <div className="text-center">
           {t("actions.registerPrompt")}{" "}
           <a
-            href="sign-up"
+            href="/auth/sign-up"
             className="font-semibold text-(--accent-btn-hover) transition-colors hover:text-(--text-primary) hover:underline"
           >
             {t("actions.registerLink")}
@@ -180,7 +180,7 @@ export default function SignInForm() {
 
         <div className="text-center">
           <a
-            href="/en/forgot-password"
+            href="/auth/forgot-password"
             className="font-medium text-(--accent-btn-hover) transition-colors hover:text-(--text-primary) hover:underline"
           >
             {t("actions.forgotPassword")}

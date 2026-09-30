@@ -84,7 +84,7 @@ export default function SignUpForm() {
       }
 
       setSuccessMessage("Verification email sent. Redirecting in 3 seconds...");
-      await new Promise((resolve) => setTimeout(resolve, 5000));
+      await new Promise((resolve) => setTimeout(resolve, 3000));
 
       router.push(`/auth/verify-email?email=${encodeURIComponent(yourEmail)}`);
     } catch (err: unknown) {
@@ -232,7 +232,7 @@ export default function SignUpForm() {
           <div className="text-center text-sm text-(--text-secondary)">
             Already have an account?{" "}
             <a
-              href="sign-in"
+              href="/auth/sign-in"
               className="font-semibold text-(--accent-btn-hover) transition-colors hover:text-(--text-primary) hover:underline"
             >
               Sign in

@@ -6,7 +6,6 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 export function Hero({ isSignedIn }: { isSignedIn: boolean }) {
   return (
     <section className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] md:items-center md:py-20">
-      
       <div className="max-w-xl">
         <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-(--accent-blue)">
           Shared expenses, settled simply
@@ -44,7 +43,7 @@ export function Hero({ isSignedIn }: { isSignedIn: boolean }) {
                 size="lg"
                 className="bg-(--accent-btn) text-white hover:bg-(--accent-btn-hover) cursor-pointer"
               >
-                <Link href="/sign-up">Create an account</Link>
+                <Link href="/auth/sign-up">Create an account</Link>
               </Button>
             </>
           )}
@@ -54,7 +53,7 @@ export function Hero({ isSignedIn }: { isSignedIn: boolean }) {
           <p className="mt-4 text-sm text-(--text-dim)">
             Already have an account?{" "}
             <Link
-              href="/sign-in"
+              href="/auth/sign-in"
               className="text-(--accent-btn) underline underline-offset-4 hover:text-(--accent-btn)/75"
             >
               Sign in

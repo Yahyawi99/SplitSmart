@@ -14,12 +14,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Logo } from "@/components/shared";
+import { emailOtp } from "@/lib/auth-client";
 
 // import { authClient } from "@/lib/auth-client";
+
+const RESEND_COOLDOWN_SECONDS = 180;
 
 export default function VerifyEmailOTPPage() {
   const [otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [resendCooldown, setResendCooldown] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
@@ -27,9 +31,19 @@ export default function VerifyEmailOTPPage() {
   const searchParams = useSearchParams();
   const email = searchParams.get("email") || "";
 
+  useEffect(() => {
+    if (resendCooldown === 0) return;
+
+    const timeoutId = window.setTimeout(() => {
+      setResendCooldown((remaining) => Math.max(remaining - 1, 0));
+    }, 1000);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [resendCooldown]);
+
   // useEffect(() => {
   //   if (!session?.data?.user) {
-  //     router.push("/sign-in");
+  //     router.push("/auth/sign-in");
   //     return;
   //   }
 
@@ -40,69 +54,80 @@ export default function VerifyEmailOTPPage() {
   // }, []);
 
   const handleVerification = async (e: React.FormEvent) => {
-    // e.preventDefault();
-    // setIsLoading(true);
-    // setError(null);
-    // setSuccessMessage(null);
-    // if (otp.length !== 6) {
-    //   setError("Please enter a valid 6-digit code.");
-    //   setIsLoading(false);
-    //   return;
-    // }
-    // try {
-    //   const { data, error } = await authClient.emailOtp.verifyEmail(
-    //     {
-    //       email: email,
-    //       otp: otp,
-    //     },
-    //     {
-    //       onError: async (ctx) => {
-    //         setError(ctx?.error.message as string);
-    //         return;
-    //       },
-    //     }
-    //   );
-    //   setSuccessMessage("Email verification successful! Redirecting...");
-    //   router.push("/en");
-    // } catch (err: any) {
-    //   setError(
-    //     err.message || "An unexpected error occurred during verification."
-    //   );
-    // } finally {
-    //   setIsLoading(false);
-    // }
+    e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+    setSuccessMessage(null);
+
+    if (otp.length !== 6) {
+      setError("Please enter a valid 6-digit code.");
+      setIsLoading(false);
+      return;
+    }
+    try {
+      const { error: otpError } = await emailOtp.verifyEmail({
+        email: email,
+        otp: otp,
+      });
+
+      if (otpError) {
+        setSuccessMessage(null);
+        setError(
+          otpError.message ||
+            "An unexpected error occurred during verification.",
+        );
+        return;
+      }
+
+      setSuccessMessage("Email verification successful! Redirecting...");
+
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      router.push("/groups");
+    } catch (err: any) {
+      setError(
+        err.message || "An unexpected error occurred during verification.",
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // Resend OTP
   const handleResendCode = async () => {
-    // if (!email) {
-    //   setError("Email address is required to resend code.");
-    //   return;
-    // }
-    // try {
-    //   setIsLoading(true);
-    //   setError(null);
-    //   setSuccessMessage("Resending code...");
-    //   const { data, error } = await authClient.emailOtp.sendVerificationOtp(
-    //     {
-    //       email,
-    //       type: "email-verification",
-    //     },
-    //     {
-    //       onError: async (ctx) => {
-    //         setError(ctx?.error.message as string);
-    //         setSuccessMessage(null);
-    //         return;
-    //       },
-    //     }
-    //   );
-    //   setSuccessMessage("New verification code sent! Please check your email.");
-    // } catch (err: any) {
-    //   setError(err.message || "Failed to resend code. Please try again.");
-    //   setSuccessMessage(null);
-    // } finally {
-    //   setIsLoading(false);
-    // }
+    if (!email) {
+      setError("Email address is required to resend code.");
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      setError(null);
+      setSuccessMessage("Resending code...");
+
+      const { error: otpError } = await emailOtp.sendVerificationOtp({
+        email,
+        type: "email-verification",
+      });
+
+      if (otpError) {
+        setSuccessMessage(null);
+        setError(
+          otpError.message ||
+            "An unexpected error occurred during verification.",
+        );
+        return;
+      }
+
+      setResendCooldown(RESEND_COOLDOWN_SECONDS);
+      setSuccessMessage("New verification code sent! Please check your email.");
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+      setSuccessMessage("");
+    } catch (err: any) {
+      setError(err.message || "Failed to resend code. Please try again.");
+      setSuccessMessage(null);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -173,16 +198,18 @@ export default function VerifyEmailOTPPage() {
               variant="link"
               className="h-auto p-0 font-semibold text-(--accent-btn-hover) hover:text-(--text-primary) hover:underline"
               onClick={handleResendCode}
-              disabled={isLoading || !email}
+              disabled={isLoading || !email || resendCooldown > 0}
             >
-              Resend Code
+              {resendCooldown > 0
+                ? `Resend Code (${resendCooldown}s)`
+                : "Resend Code"}
             </Button>
           </div>
           <div className="mt-1 text-center text-sm text-(--text-muted)">
             <Button
               variant="link"
               className="flex h-auto items-center justify-center space-x-1 p-0 hover:text-(--text-primary) hover:underline"
-              onClick={() => router.push("/en/auth/sign-in")}
+              onClick={() => router.push("/auth/sign-in")}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

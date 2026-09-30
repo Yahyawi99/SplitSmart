@@ -116,7 +116,7 @@ const ForgotPassword = () => {
         </CardContent>
         <CardFooter className="border-t border-(--text-dim)/25 p-5">
           <a
-            href="/en/auth/sign-in"
+            href="/auth/sign-in"
             className="w-full text-center text-sm text-(--text-muted) transition-colors hover:text-(--text-primary) hover:underline"
           >
             Back to sign in

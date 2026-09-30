@@ -35,14 +35,14 @@ export function WelcomeHeader({ isSignedIn }: { isSignedIn: boolean }) {
             ) : (
               <div>
                 <Link
-                  href="/sign-in"
+                  href="/auth/sign-in"
                   className="text-sm text-(--accent-btn) hover:text-(--accent-btn)/75 font-bold"
                 >
                   Sign in
                 </Link>
 
                 <Button className="bg-(--accent-btn) text-white hover:bg-(--accent-btn-hover)/75 ml-2">
-                  <Link href="/sign-up">Sign up</Link>
+                  <Link href="/auth/sign-up">Sign up</Link>
                 </Button>
               </div>
             )}
