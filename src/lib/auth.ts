@@ -7,7 +7,13 @@ import prisma from "@/lib/prisma";
 export const auth = betterAuth({
   baseURL: "http://localhost:3000/",
 
-  emailAndPassword: { enabled: true },
+  emailAndPassword: {
+    enabled: true,
+    autoSignIn:true,
+    sendResetPassword: async ({ user, url }) => {
+      await emailService.resetPassword(user.email, url);
+    },
+  },
 
   socialProviders: {
     github: {
@@ -23,12 +29,12 @@ export const auth = betterAuth({
   plugins: [
     emailOTP({
       async sendVerificationOTP({ email, otp, type }) {
-          // const user = await prisma..findUnique({ where: { email } });
-          // const userName = user?.name || "";
+        // const user = await prisma..findUnique({ where: { email } });
+        // const userName = user?.name || "";
 
-          if ((type = "email-verification")) {
-            await emailService.sendOTP(email, "", otp);
-          }
+        if ((type = "email-verification")) {
+          await emailService.sendOTP(email, "", otp);
+        }
       },
       otpLength: 6,
       expiresIn: 60 * 10,

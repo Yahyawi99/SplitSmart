@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import SignInForm from "@/components/forms/sign-in/Sign-in-form";
 import { Logo } from "@/components/shared";
 import { useSession } from "@/lib/auth-client";
-import { useAuthRedirect } from "@/hooks/useAuthRedirect";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 // import { getBrowserTheme } from "@/utils/getBrowserTheme";
 
 export default function SignIn() {

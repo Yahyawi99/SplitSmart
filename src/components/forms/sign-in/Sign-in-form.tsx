@@ -3,7 +3,6 @@
 import * as React from "react";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-// import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { emailOtp, signIn } from "@/lib/auth-client";
 import { wait } from "@/utils/wait";
+import { Link } from "lucide-react";
 
 export default function SignInForm() {
   const [email, setEmail] = useState("");
@@ -29,7 +29,7 @@ export default function SignInForm() {
 
   const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
@@ -70,7 +70,6 @@ export default function SignInForm() {
                 return;
               }
             }
-
 
             setSuccessMessage("Sign in successful! Redirecting...");
             await wait(2500);
@@ -168,19 +167,19 @@ export default function SignInForm() {
           {t("actions.registerPrompt")}{" "}
           <a
             href="/auth/sign-up"
-            className="font-semibold text-(--accent-btn-hover) transition-colors hover:text-(--text-primary) hover:underline"
+            className="font-semibold text-(--accent-btn-hover) transition-opacity hover:opacity-75 hover:underline"
           >
             {t("actions.registerLink")}
           </a>
         </div>
 
         <div className="text-center">
-          <a
+          <Link
             href="/auth/forgot-password"
-            className="font-medium text-(--accent-btn-hover) transition-colors hover:text-(--text-primary) hover:underline"
+            className="font-medium text-(--accent-btn-hover) transition-opacity hover:opacity-75 hover:underline"
           >
             {t("actions.forgotPassword")}
-          </a>
+          </Link>
         </div>
 
         {/* Go back to landing page */}

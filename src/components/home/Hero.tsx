@@ -54,7 +54,7 @@ export function Hero({ isSignedIn }: { isSignedIn: boolean }) {
             Already have an account?{" "}
             <Link
               href="/auth/sign-in"
-              className="text-(--accent-btn) underline underline-offset-4 hover:text-(--accent-btn)/75"
+              className="text-(--accent-btn) underline underline-offset-4 transition-opacity hover:opacity-75"
             >
               Sign in
             </Link>

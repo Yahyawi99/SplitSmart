@@ -36,7 +36,7 @@ export function WelcomeHeader({ isSignedIn }: { isSignedIn: boolean }) {
               <div>
                 <Link
                   href="/auth/sign-in"
-                  className="text-sm text-(--accent-btn) hover:text-(--accent-btn)/75 font-bold"
+                  className="text-sm text-(--accent-btn) font-bold transition-opacity hover:opacity-75"
                 >
                   Sign in
                 </Link>

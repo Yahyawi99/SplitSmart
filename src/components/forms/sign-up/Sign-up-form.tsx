@@ -233,7 +233,7 @@ export default function SignUpForm() {
             Already have an account?{" "}
             <a
               href="/auth/sign-in"
-              className="font-semibold text-(--accent-btn-hover) transition-colors hover:text-(--text-primary) hover:underline"
+              className="font-semibold text-(--accent-btn-hover) transition-opacity hover:opacity-75 hover:underline"
             >
               Sign in
             </a>
