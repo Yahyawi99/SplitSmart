@@ -1,7 +1,9 @@
 "use client";
 
 import { LogOut, MoreVertical, Settings } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useSidebar } from "@/components/ui/sidebar";
+import { signOut } from "@/lib/auth-client";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,6 +29,19 @@ export default function ProfileDropdown({
   onLogout,
 }: ProfileDropdownProps) {
   const { open } = useSidebar();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    const { error } = await signOut();
+
+    if (error) {
+      console.error("Failed to log out:", error);
+      return;
+    }
+
+    onLogout?.();
+    router.push("/auth/sign-in");
+  };
 
   return (
     <div className="flex items-center justify-between p-1 group">
@@ -72,7 +87,7 @@ export default function ProfileDropdown({
           </DropdownMenuItem>
           <DropdownMenuItem
             className="cursor-pointer rounded-none text-red-500 hover:bg-red-500/10"
-            onClick={onLogout}
+            onClick={handleLogout}
           >
             <LogOut className="h-4 w-4" />
             Log out

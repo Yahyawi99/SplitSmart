@@ -2,11 +2,22 @@
 
 import { useEffect, useState } from "react";
 import SignUpForm from "@/components/forms/sign-up/Sign-up-form";
-import {Logo} from "@/components/shared";
+import { Logo } from "@/components/shared";
+import { useSession } from "@/lib/auth-client";
+import { useRouter } from "next/router";
 // import { getBrowserTheme } from "@/utils/getBrowserTheme";
 
 export default function SignUp() {
   const [theme, setTheme] = useState("light");
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (session?.user) {
+      router.push("/groups");
+      return;
+    }
+  }, [session, router]);
 
   // useEffect(() => {
   //   if (typeof window !== "undefined") {
@@ -22,6 +33,8 @@ export default function SignUp() {
   //     }
   //   }
   // }, []);
+
+  // useAuthRedirect(session);
 
   return (
     <div

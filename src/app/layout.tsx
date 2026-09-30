@@ -23,11 +23,13 @@ export const metadata: Metadata = {
     "Record shared expenses easily, always show accurate real-time balances Minimize the pain of settling up",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+ 
+
   return (
     <html
       className={cn(

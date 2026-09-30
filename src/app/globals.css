@@ -8,6 +8,12 @@
   color: var(--text-primary);
 }
 
+a[href]:not([aria-disabled="true"]),
+button:not(:disabled):not([aria-disabled="true"]),
+[role="button"]:not(:disabled):not([aria-disabled="true"]) {
+  cursor: pointer;
+}
+
 @theme inline {
   --bg-base: #140C1D;
   --bg-sidebar: #1E122B;

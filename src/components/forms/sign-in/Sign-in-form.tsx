@@ -16,6 +16,8 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { emailOtp, signIn } from "@/lib/auth-client";
+import { wait } from "@/utils/wait";
 
 export default function SignInForm() {
   const [email, setEmail] = useState("");
@@ -28,66 +30,60 @@ export default function SignInForm() {
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    // e.preventDefault();
-    // setIsLoading(true);
-    // setError(null);
-    // setSuccessMessage(null);
-    // if (!email || !password) {
-    //   setError("Please fill in all required fields.");
-    //   setIsLoading(false);
-    //   return;
-    // }
-    // try {
-    //   await authClient.signIn.email(
-    //     {
-    //       email,
-    //       password,
-    //     },
-    //     {
-    //       onError: (ctx) => {
-    //         setError(ctx.error.message as string);
-    //         return;
-    //       },
-    //       onSuccess: async (ctx) => {
-    //         // Send verification OTP if the email is not verified
-    //         if (ctx.data?.user && !ctx.data.user.emailVerified) {
-    //           setSuccessMessage(
-    //             "Sign in successful! Redirecting to email verification...",
-    //           );
-    //           try {
-    //             await authClient.emailOtp.sendVerificationOtp({
-    //               email: email,
-    //               type: "email-verification",
-    //             });
-    //           } catch (otpError) {
-    //             console.warn("Failed to send OTP:", otpError);
-    //           } finally {
-    //             router.push(
-    //               `/auth/verify-email?email=${encodeURIComponent(email)}`,
-    //             );
-    //             return;
-    //           }
-    //         }
-    //         // If email is verified, set activeOrganizationId and redirect to main app
-    //         setSuccessMessage("Working on it...");
-    //         const { data: organizations, error: _ } =
-    //           await authClient.organization.list();
-    //         if (organizations && organizations?.length > 0) {
-    //           await authClient.organization.setActive({
-    //             organizationId: organizations[0].id,
-    //           });
-    //         }
-    //         setSuccessMessage("Sign in successful! Redirecting...");
-    //         router.push("/en");
-    //       },
-    //     },
-    //   );
-    // } catch (err: any) {
-    //   console.error("Sign in error:", err);
-    //   setError(err.message || "An unexpected error occurred during sign in.");
-    // } finally {
-    //   setIsLoading(false);
-    // }
+    e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+    setSuccessMessage(null);
+    if (!email || !password) {
+      setError("Please fill in all required fields.");
+      setIsLoading(false);
+      return;
+    }
+    try {
+      await signIn.email(
+        {
+          email,
+          password,
+        },
+        {
+          onError: (ctx) => {
+            setError(ctx.error.message as string);
+            return;
+          },
+          onSuccess: async (ctx) => {
+            // Send verification OTP if the email is not verified
+            if (ctx.data?.user && !ctx.data.user.emailVerified) {
+              setSuccessMessage(
+                "Sign in successful! Redirecting to email verification...",
+              );
+              try {
+                await emailOtp.sendVerificationOtp({
+                  email: email,
+                  type: "email-verification",
+                });
+              } catch (otpError) {
+                console.warn("Failed to send OTP:", otpError);
+              } finally {
+                router.push(
+                  `/auth/verify-email?email=${encodeURIComponent(email)}`,
+                );
+                return;
+              }
+            }
+
+
+            setSuccessMessage("Sign in successful! Redirecting...");
+            await wait(2500);
+            router.push("/groups");
+          },
+        },
+      );
+    } catch (err: any) {
+      console.error("Sign in error:", err);
+      setError(err.message || "An unexpected error occurred during sign in.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

@@ -14,22 +14,36 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Logo } from "@/components/shared";
-import { emailOtp } from "@/lib/auth-client";
-
-// import { authClient } from "@/lib/auth-client";
+import { emailOtp, useSession } from "@/lib/auth-client";
+import { wait } from "@/utils/wait";
+import { useAuthRedirect } from "@/hooks/useAuthRedirect";
 
 const RESEND_COOLDOWN_SECONDS = 180;
 
 export default function VerifyEmailOTPPage() {
   const [otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [resendCooldown, setResendCooldown] = useState(0);
+  const [resendCooldown, setResendCooldown] = useState(RESEND_COOLDOWN_SECONDS);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const router = useRouter();
   const searchParams = useSearchParams();
   const email = searchParams.get("email") || "";
+  const cooldownTime = `${Math.floor(resendCooldown / 60)}:${String(
+    resendCooldown % 60,
+  ).padStart(2, "0")}`;
+
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    if (!session?.user) {
+      router.push("/auth/sign-in");
+      return;
+    }
+
+    router.push("/groups");
+  }, [session, router]);
 
   useEffect(() => {
     if (resendCooldown === 0) return;
@@ -41,19 +55,7 @@ export default function VerifyEmailOTPPage() {
     return () => window.clearTimeout(timeoutId);
   }, [resendCooldown]);
 
-  // useEffect(() => {
-  //   if (!session?.data?.user) {
-  //     router.push("/auth/sign-in");
-  //     return;
-  //   }
-
-  //   if (session?.data.user.emailVerified) {
-  //     router.push("/en");
-  //     return;
-  //   }
-  // }, []);
-
-  const handleVerification = async (e: React.FormEvent) => {
+  const handleVerification = async (e: React.SubmitEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
@@ -80,8 +82,7 @@ export default function VerifyEmailOTPPage() {
       }
 
       setSuccessMessage("Email verification successful! Redirecting...");
-
-      await new Promise((resolve) => setTimeout(resolve, 3000));
+      await wait(2500);
       router.push("/groups");
     } catch (err: any) {
       setError(
@@ -200,10 +201,13 @@ export default function VerifyEmailOTPPage() {
               onClick={handleResendCode}
               disabled={isLoading || !email || resendCooldown > 0}
             >
-              {resendCooldown > 0
-                ? `Resend Code (${resendCooldown}s)`
-                : "Resend Code"}
+              Resend Code
             </Button>
+            {resendCooldown > 0 && (
+              <p className="mt-1 text-xs text-(--text-muted)">
+                You can request another code in {cooldownTime}.
+              </p>
+            )}
           </div>
           <div className="mt-1 text-center text-sm text-(--text-muted)">
             <Button

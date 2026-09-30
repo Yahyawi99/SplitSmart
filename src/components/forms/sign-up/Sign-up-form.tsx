@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 import AuthOptionsSelector from "./AuthOptionsSelector";
+import { wait } from "@/utils/wait";
 
 export default function SignUpForm() {
   const [selectedAuthOption, setSelectedAuthOption] = useState<
@@ -83,9 +84,8 @@ export default function SignUpForm() {
         return;
       }
 
-      setSuccessMessage("Verification email sent. Redirecting in 3 seconds...");
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-
+      setSuccessMessage("Verification email sent. Redirecting...");
+      await wait(2500);
       router.push(`/auth/verify-email?email=${encodeURIComponent(yourEmail)}`);
     } catch (err: unknown) {
       setError(
