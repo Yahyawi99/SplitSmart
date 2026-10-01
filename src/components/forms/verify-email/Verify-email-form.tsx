@@ -32,16 +32,7 @@ export default function VerifyEmailForm() {
     resendCooldown % 60,
   ).padStart(2, "0")}`;
 
-  const { data: session } = useSession();
-
-  useEffect(() => {
-    if (!session?.user) {
-      router.push("/auth/sign-in");
-      return;
-    }
-
-    router.push("/groups");
-  }, [session, router]);
+  
 
   useEffect(() => {
     if (resendCooldown === 0) return;

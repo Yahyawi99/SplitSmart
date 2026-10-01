@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import SignUpForm from "@/components/forms/sign-up/Sign-up-form";
 import { Logo } from "@/components/shared";
 import { useSession } from "@/lib/auth-client";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 // import { getBrowserTheme } from "@/utils/getBrowserTheme";
 
 export default function SignUp() {
