@@ -9,7 +9,7 @@ export const auth = betterAuth({
 
   emailAndPassword: {
     enabled: true,
-    autoSignIn:true,
+    autoSignIn: true,
     sendResetPassword: async ({ user, url }) => {
       await emailService.resetPassword(user.email, url);
     },
@@ -17,8 +17,8 @@ export const auth = betterAuth({
 
   socialProviders: {
     github: {
-      clientId: process.env.GITHUB_CLIENT_ID!,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+      clientId: process.env.GITHUB_CLIENT_ID! as string,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET! as string,
     },
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -29,7 +29,7 @@ export const auth = betterAuth({
   plugins: [
     emailOTP({
       async sendVerificationOTP({ email, otp, type }) {
-        // const user = await prisma..findUnique({ where: { email } });
+        // const user = await prisma.findUnique({ where: { email } });
         // const userName = user?.name || "";
 
         if ((type = "email-verification")) {

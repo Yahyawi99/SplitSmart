@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { emailOtp, signUp } from "@/lib/auth-client";
+import { emailOtp, signIn, signUp } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -44,6 +44,26 @@ export default function SignUpForm() {
     }
 
     return null;
+  };
+
+  const handleSocialSignIn = async () => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const { error: socialSignInError } = await signIn.social({
+        provider: selectedAuthOption === "Google" ? "google" : "github",
+        callbackURL: "/groups",
+      });
+
+      if (socialSignInError) {
+        setError(socialSignInError.message || "Social sign-up failed.");
+        setIsLoading(false);
+      }
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Social sign-up failed.");
+      setIsLoading(false);
+    }
   };
 
   const handleSubmit = async (e: React.SubmitEvent) => {
@@ -224,9 +244,16 @@ export default function SignUpForm() {
               {isLoading ? "Creating account..." : "Create account"}
             </Button>
           ) : (
-            <p className="text-center text-sm text-(--text-secondary)">
-              Continue sign-up with {selectedAuthOption}.
-            </p>
+            <Button
+              className="h-10 w-full cursor-pointer rounded-lg border border-transparent bg-(--accent-btn) px-5 text-sm font-semibold text-(--text-primary) transition-colors hover:bg-(--accent-btn-hover)"
+              type="button"
+              disabled={isLoading}
+              onClick={handleSocialSignIn}
+            >
+              {isLoading
+                ? "Redirecting..."
+                : `Continue sign-up with ${selectedAuthOption}`}
+            </Button>
           )}
 
           <div className="text-center text-sm text-(--text-secondary)">

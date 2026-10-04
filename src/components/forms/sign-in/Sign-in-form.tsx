@@ -18,6 +18,7 @@ import { Label } from "@/components/ui/label";
 import { emailOtp, signIn } from "@/lib/auth-client";
 import { wait } from "@/utils/wait";
 import Link from "next/link";
+import AuthOptionsSelector from "../sign-up/AuthOptionsSelector";
 
 export default function SignInForm() {
   const [email, setEmail] = useState("");
@@ -25,9 +26,33 @@ export default function SignInForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [selectedAuthOption, setSelectedAuthOption] = useState<
+    "Email" | "Google" | "Github"
+  >("Email");
   const t = useTranslations("auth.signInPage");
 
   const router = useRouter();
+
+  const handleSocialSignIn = async () => {
+    setIsLoading(true);
+    setError(null);
+    setSuccessMessage(null);
+
+    try {
+      const { error: socialSignInError } = await signIn.social({
+        provider: selectedAuthOption === "Google" ? "google" : "github",
+        callbackURL: "/groups",
+      });
+
+      if (socialSignInError) {
+        setError(socialSignInError.message || "Social sign-in failed.");
+        setIsLoading(false);
+      }
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Social sign-in failed.");
+      setIsLoading(false);
+    }
+  };
 
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
@@ -97,69 +122,105 @@ export default function SignInForm() {
       </CardHeader>
 
       <CardContent className="p-5">
-        <form onSubmit={handleSubmit} className="grid gap-4">
-          <div className="grid gap-2">
-            <Label
-              htmlFor="email"
-              className="text-sm font-medium text-(--text-secondary)"
+        <AuthOptionsSelector
+          selectedOption={selectedAuthOption}
+          onSelectOption={setSelectedAuthOption}
+        />
+
+        {selectedAuthOption === "Email" ? (
+          <form onSubmit={handleSubmit} className="grid gap-4">
+            <div className="grid gap-2">
+              <Label
+                htmlFor="email"
+                className="text-sm font-medium text-(--text-secondary)"
+              >
+                {t("form.email.label")}
+              </Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder={t("form.email.placeholder")}
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="h-10 rounded-lg border border-(--text-dim)/50 bg-(--bg-base) text-(--text-primary) placeholder:text-(--text-muted) focus:border-(--text-dim) focus:ring-0 focus-visible:ring-0"
+              />
+            </div>
+
+            <div className="grid gap-2">
+              <Label
+                htmlFor="password"
+                className="text-sm font-medium text-(--text-secondary)"
+              >
+                {t("form.password.label")}
+              </Label>
+              <Input
+                id="password"
+                type="password"
+                placeholder={t("form.password.placeholder")}
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="h-10 rounded-lg border border-(--text-dim)/50 bg-(--bg-base) text-(--text-primary) placeholder:text-(--text-muted) focus:border-(--text-dim) focus:ring-0 focus-visible:ring-0"
+              />
+            </div>
+
+            {successMessage && (
+              <p
+                role="status"
+                className="rounded-lg border border-(--accent-green)/30 bg-(--accent-green)/10 p-3 text-center text-sm font-medium text-(--accent-green)"
+              >
+                {successMessage}
+              </p>
+            )}
+
+            {error && (
+              <p
+                role="alert"
+                className="rounded-lg border border-(--accent-red)/30 bg-(--accent-red)/10 p-3 text-center text-sm font-medium text-(--accent-red-hover)"
+              >
+                {error}
+              </p>
+            )}
+
+            <Button
+              className="h-10 w-full cursor-pointer rounded-lg border border-transparent bg-(--accent-btn) px-5 text-sm font-semibold text-(--text-primary) transition-colors hover:bg-(--accent-btn-hover)/75"
+              type="submit"
+              disabled={isLoading}
             >
-              {t("form.email.label")}
-            </Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder={t("form.email.placeholder")}
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="h-10 rounded-lg border border-(--text-dim)/50 bg-(--bg-base) text-(--text-primary) placeholder:text-(--text-muted) focus:border-(--text-dim) focus:ring-0 focus-visible:ring-0"
-            />
+              {isLoading ? t("actions.submitting") : t("actions.submit")}
+            </Button>
+          </form>
+        ) : (
+          <div className="grid gap-4">
+            {successMessage && (
+              <p
+                role="status"
+                className="text-center text-sm text-(--text-secondary)"
+              >
+                {successMessage}
+              </p>
+            )}
+            {error && (
+              <p
+                role="alert"
+                className="rounded-lg border border-(--accent-red)/30 bg-(--accent-red)/10 p-3 text-center text-sm font-medium text-(--accent-red-hover)"
+              >
+                {error}
+              </p>
+            )}
+            <Button
+              className="h-10 w-full cursor-pointer rounded-lg border border-transparent bg-(--accent-btn) px-5 text-sm font-semibold text-(--text-primary) transition-colors hover:bg-(--accent-btn-hover)/75"
+              type="button"
+              disabled={isLoading}
+              onClick={handleSocialSignIn}
+            >
+              {isLoading
+                ? "Redirecting..."
+                : `Continue with ${selectedAuthOption}`}
+            </Button>
           </div>
-
-          <div className="grid gap-2">
-            <Label
-              htmlFor="password"
-              className="text-sm font-medium text-(--text-secondary)"
-            >
-              {t("form.password.label")}
-            </Label>
-            <Input
-              id="password"
-              type="password"
-              placeholder={t("form.password.placeholder")}
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="h-10 rounded-lg border border-(--text-dim)/50 bg-(--bg-base) text-(--text-primary) placeholder:text-(--text-muted) focus:border-(--text-dim) focus:ring-0 focus-visible:ring-0"
-            />
-          </div>
-
-          {successMessage && (
-            <p
-              role="status"
-              className="rounded-lg border border-(--accent-green)/30 bg-(--accent-green)/10 p-3 text-center text-sm font-medium text-(--accent-green)"
-            >
-              {successMessage}
-            </p>
-          )}
-
-          {error && (
-            <p
-              role="alert"
-              className="rounded-lg border border-(--accent-red)/30 bg-(--accent-red)/10 p-3 text-center text-sm font-medium text-(--accent-red-hover)"
-            >
-              {error}
-            </p>
-          )}
-
-          <Button
-            className="h-10 w-full cursor-pointer rounded-lg border border-transparent bg-(--accent-btn) px-5 text-sm font-semibold text-(--text-primary) transition-colors hover:bg-(--accent-btn-hover)/75"
-            type="submit"
-            disabled={isLoading}
-          >
-            {isLoading ? t("actions.submitting") : t("actions.submit")}
-          </Button>
-        </form>
+        )}
       </CardContent>
 
       <CardFooter className="flex flex-col gap-3 border-t border-(--text-dim)/25 p-5 text-sm text-(--text-secondary)">
