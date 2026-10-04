@@ -21,19 +21,22 @@ export const auth = betterAuth({
       clientSecret: process.env.GITHUB_CLIENT_SECRET! as string,
     },
     google: {
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      clientId: process.env.GOOGLE_CLIENT_ID! as string ,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET! as string ,
     },
   },
 
   plugins: [
     emailOTP({
       async sendVerificationOTP({ email, otp, type }) {
-        // const user = await prisma.findUnique({ where: { email } });
-        // const userName = user?.name || "";
+        const user = await prisma.user.findUnique({
+          where: { email },
+          select: { name: true },
+        });
+        const userName = user?.name ?? "";
 
-        if ((type = "email-verification")) {
-          await emailService.sendOTP(email, "", otp);
+        if (type === "email-verification") {
+          await emailService.sendOTP(email, userName, otp);
         }
       },
       otpLength: 6,

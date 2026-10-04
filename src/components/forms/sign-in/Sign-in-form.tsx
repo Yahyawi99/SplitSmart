@@ -19,6 +19,7 @@ import { emailOtp, signIn } from "@/lib/auth-client";
 import { wait } from "@/utils/wait";
 import Link from "next/link";
 import AuthOptionsSelector from "../sign-up/AuthOptionsSelector";
+import { useSocialSignIn } from "@/hooks/use-social-sign-in";
 
 export default function SignInForm() {
   const [email, setEmail] = useState("");
@@ -32,27 +33,11 @@ export default function SignInForm() {
   const t = useTranslations("auth.signInPage");
 
   const router = useRouter();
-
-  const handleSocialSignIn = async () => {
-    setIsLoading(true);
-    setError(null);
-    setSuccessMessage(null);
-
-    try {
-      const { error: socialSignInError } = await signIn.social({
-        provider: selectedAuthOption === "Google" ? "google" : "github",
-        callbackURL: "/groups",
-      });
-
-      if (socialSignInError) {
-        setError(socialSignInError.message || "Social sign-in failed.");
-        setIsLoading(false);
-      }
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Social sign-in failed.");
-      setIsLoading(false);
-    }
-  };
+  const {
+    handleSocialSignIn,
+    isLoading: isSocialLoading,
+    error: socialError,
+  } = useSocialSignIn(() => setSuccessMessage(null));
 
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
@@ -174,12 +159,12 @@ export default function SignInForm() {
               </p>
             )}
 
-            {error && (
+            {(error || socialError) && (
               <p
                 role="alert"
                 className="rounded-lg border border-(--accent-red)/30 bg-(--accent-red)/10 p-3 text-center text-sm font-medium text-(--accent-red-hover)"
               >
-                {error}
+                {error || socialError}
               </p>
             )}
 
@@ -212,10 +197,10 @@ export default function SignInForm() {
             <Button
               className="h-10 w-full cursor-pointer rounded-lg border border-transparent bg-(--accent-btn) px-5 text-sm font-semibold text-(--text-primary) transition-colors hover:bg-(--accent-btn-hover)/75"
               type="button"
-              disabled={isLoading}
-              onClick={handleSocialSignIn}
+              disabled={isLoading || isSocialLoading}
+              onClick={() => handleSocialSignIn(selectedAuthOption)}
             >
-              {isLoading
+              {isLoading || isSocialLoading
                 ? "Redirecting..."
                 : `Continue with ${selectedAuthOption}`}
             </Button>

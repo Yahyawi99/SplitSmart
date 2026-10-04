@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { emailOtp, signIn, signUp } from "@/lib/auth-client";
+import { emailOtp, signUp } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,6 +17,7 @@ import { Label } from "@/components/ui/label";
 
 import AuthOptionsSelector from "./AuthOptionsSelector";
 import { wait } from "@/utils/wait";
+import { useSocialSignIn } from "@/hooks/use-social-sign-in";
 
 export default function SignUpForm() {
   const [selectedAuthOption, setSelectedAuthOption] = useState<
@@ -32,6 +33,11 @@ export default function SignUpForm() {
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const router = useRouter();
+  const {
+    handleSocialSignIn,
+    isLoading: isSocialLoading,
+    error: socialError,
+  } = useSocialSignIn();
 
   const validateForm = () => {
     if (selectedAuthOption === "Email") {
@@ -44,26 +50,6 @@ export default function SignUpForm() {
     }
 
     return null;
-  };
-
-  const handleSocialSignIn = async () => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const { error: socialSignInError } = await signIn.social({
-        provider: selectedAuthOption === "Google" ? "google" : "github",
-        callbackURL: "/groups",
-      });
-
-      if (socialSignInError) {
-        setError(socialSignInError.message || "Social sign-up failed.");
-        setIsLoading(false);
-      }
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Social sign-up failed.");
-      setIsLoading(false);
-    }
   };
 
   const handleSubmit = async (e: React.SubmitEvent) => {
@@ -216,12 +202,12 @@ export default function SignUpForm() {
             </div>
           )}
 
-          {error && (
+          {(error || socialError) && (
             <p
               role="alert"
               className="rounded-lg border border-(--accent-red)/30 bg-(--accent-red)/10 p-3 text-center text-sm font-medium text-(--accent-red-hover)"
             >
-              {error}
+              {error || socialError}
             </p>
           )}
           {successMessage && (
@@ -247,10 +233,10 @@ export default function SignUpForm() {
             <Button
               className="h-10 w-full cursor-pointer rounded-lg border border-transparent bg-(--accent-btn) px-5 text-sm font-semibold text-(--text-primary) transition-colors hover:bg-(--accent-btn-hover)"
               type="button"
-              disabled={isLoading}
-              onClick={handleSocialSignIn}
+              disabled={isLoading || isSocialLoading}
+              onClick={() => handleSocialSignIn(selectedAuthOption)}
             >
-              {isLoading
+              {isLoading || isSocialLoading
                 ? "Redirecting..."
                 : `Continue sign-up with ${selectedAuthOption}`}
             </Button>
