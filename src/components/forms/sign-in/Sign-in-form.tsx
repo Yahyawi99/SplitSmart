@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { useState } from "react";
-import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -30,8 +29,6 @@ export default function SignInForm() {
   const [selectedAuthOption, setSelectedAuthOption] = useState<
     "Email" | "Google" | "Github"
   >("Email");
-  const t = useTranslations("auth.signInPage");
-
   const router = useRouter();
   const {
     handleSocialSignIn,
@@ -99,10 +96,10 @@ export default function SignInForm() {
     <Card className="w-full max-w-105 gap-0 rounded-xl border border-(--text-dim)/50 bg-(--bg-sidebar) p-0 text-(--text-primary) ring-0">
       <CardHeader className="border-b border-(--text-dim)/25 p-5 pb-4 text-left">
         <CardTitle className="font-(family-name:--font-heading) text-2xl font-bold tracking-tight text-(--text-primary)">
-          {t("header")}
+          Welcome back
         </CardTitle>
         <CardDescription className="mt-0.5 text-sm text-(--text-secondary)">
-          {t("subHeader")}
+          Sign in to manage your shared expenses
         </CardDescription>
       </CardHeader>
 
@@ -119,12 +116,12 @@ export default function SignInForm() {
                 htmlFor="email"
                 className="text-sm font-medium text-(--text-secondary)"
               >
-                {t("form.email.label")}
+                Email
               </Label>
               <Input
                 id="email"
                 type="email"
-                placeholder={t("form.email.placeholder")}
+                placeholder="Enter your email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -137,12 +134,12 @@ export default function SignInForm() {
                 htmlFor="password"
                 className="text-sm font-medium text-(--text-secondary)"
               >
-                {t("form.password.label")}
+                Password
               </Label>
               <Input
                 id="password"
                 type="password"
-                placeholder={t("form.password.placeholder")}
+                placeholder="Enter your password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -173,7 +170,7 @@ export default function SignInForm() {
               type="submit"
               disabled={isLoading}
             >
-              {isLoading ? t("actions.submitting") : t("actions.submit")}
+              {isLoading ? "Signing In..." : "Sign In"}
             </Button>
           </form>
         ) : (
@@ -210,12 +207,12 @@ export default function SignInForm() {
 
       <CardFooter className="flex flex-col gap-3 border-t border-(--text-dim)/25 p-5 text-sm text-(--text-secondary)">
         <div className="text-center">
-          {t("actions.registerPrompt")}{" "}
+          New to SplitSmart?{" "}
           <a
             href="/auth/sign-up"
             className="font-semibold text-(--accent-btn-hover) transition-opacity hover:opacity-75 hover:underline"
           >
-            {t("actions.registerLink")}
+            Create an account
           </a>
         </div>
 
@@ -224,7 +221,7 @@ export default function SignInForm() {
             href="/auth/forgot-password"
             className="font-medium text-(--accent-btn-hover) transition-opacity hover:opacity-75 hover:underline"
           >
-            {t("actions.forgotPassword")}
+            Forgot your password?
           </Link>
         </div>
 
@@ -249,7 +246,7 @@ export default function SignInForm() {
               <path d="m12 19-7-7 7-7" />
               <path d="M19 12H5" />
             </svg>
-            <span> {t("actions.backToHome")}</span>
+            <span> Back to home</span>
           </a>
         </div>
       </CardFooter>

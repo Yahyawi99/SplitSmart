@@ -1,4 +1,3 @@
-import { NextIntlClientProvider } from "next-intl";
 import type { Metadata } from "next";
 import { Roboto_Condensed, Roboto, Oxanium } from "next/font/google";
 
@@ -28,8 +27,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
- 
-
   return (
     <html
       className={cn(
@@ -43,9 +40,7 @@ export default async function RootLayout({
       lang="en"
       suppressHydrationWarning
     >
-      <body className="bg-(--bg-base) text-(--text-primary)">
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
-      </body>
+      <body className="bg-(--bg-base) text-(--text-primary)">{children}</body>
     </html>
   );
 }
