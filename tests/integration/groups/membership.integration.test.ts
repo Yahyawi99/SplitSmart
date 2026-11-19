@@ -3,8 +3,8 @@ import { randomUUID } from "node:crypto";
 import { test } from "node:test";
 import { PrismaClient } from "@/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { createGroup } from "./create-group";
-import { addGroupMember, setGroupMemberActive } from "./membership";
+import { createGroup } from "@/lib/groups/create-group";
+import { addGroupMember, setGroupMemberActive } from "@/lib/groups/membership";
 
 const testDatabaseUrl = process.env.TEST_DATABASE_URL;
 

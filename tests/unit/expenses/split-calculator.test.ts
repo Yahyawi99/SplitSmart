@@ -1,7 +1,10 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { SplitType } from "@/generated/prisma/enums";
-import { calculateSplits, convertToHomeCurrencyCents } from "./split-calculator";
+import {
+  calculateSplits,
+  convertToHomeCurrencyCents,
+} from "@/lib/expenses/split-calculator";
 
 describe("calculateSplits", () => {
   it("allocates equal-share remainder cents by user ID", () => {

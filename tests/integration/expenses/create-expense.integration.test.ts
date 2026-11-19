@@ -6,7 +6,10 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import { SplitType } from "@/generated/prisma/enums";
 import { createGroup } from "@/lib/groups/create-group";
 import { addGroupMember, setGroupMemberActive } from "@/lib/groups/membership";
-import { createExpense, type CreateExpenseInput } from "./create-expense";
+import {
+  createExpense,
+  type CreateExpenseInput,
+} from "@/lib/expenses/create-expense";
 
 const testDatabaseUrl = process.env.TEST_DATABASE_URL;
 

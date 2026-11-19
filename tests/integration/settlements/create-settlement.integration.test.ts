@@ -5,8 +5,8 @@ import { PrismaClient } from "@/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { createGroup } from "@/lib/groups/create-group";
 import { addGroupMember } from "@/lib/groups/membership";
-import * as settlementService from "./create-settlement";
-import { createSettlement } from "./create-settlement";
+import * as settlementService from "@/lib/settlements/create-settlement";
+import { createSettlement } from "@/lib/settlements/create-settlement";
 
 const testDatabaseUrl = process.env.TEST_DATABASE_URL;
 
