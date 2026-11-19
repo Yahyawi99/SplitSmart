@@ -1,6 +1,7 @@
 import "server-only";
 import type { PrismaClient } from "@/generated/prisma/client";
-import { withSerializableTransaction } from "@/lib/business-transaction";
+import { withSerializableTransaction } from "@/database/transaction";
+import { createRepositories } from "@/repositories";
 import type { CreateSettlementInput } from "@/types/settlement";
 
 const MAX_CENTS = 2_147_483_647;
@@ -30,29 +31,20 @@ export async function createSettlement(
   }
 
   return withSerializableTransaction(async (transaction) => {
-    const group = await transaction.group.findUnique({
-      where: { id: input.groupId },
-      select: { id: true },
-    });
+    const repositories = createRepositories(transaction);
+    const group = await repositories.groups.findById(input.groupId);
     if (!group) {
       throw new Error("Settlement group was not found");
     }
 
-    const requiredUserIds = new Set([
+    const requiredUserIds = [
       input.actorUserId,
       input.fromUserId,
       input.toUserId,
-    ]);
-    const activeMemberships = await transaction.groupMember.findMany({
-      where: {
-        groupId: input.groupId,
-        userId: { in: [...requiredUserIds] },
-        active: true,
-      },
-      select: { userId: true },
-    });
-    const activeUserIds = new Set(
-      activeMemberships.map(({ userId }) => userId),
+    ];
+    const activeUserIds = await repositories.groupMembers.findActiveUserIds(
+      input.groupId,
+      [...new Set(requiredUserIds)],
     );
 
     if (!activeUserIds.has(input.actorUserId)) {
@@ -67,15 +59,13 @@ export async function createSettlement(
       );
     }
 
-    return transaction.settlement.create({
-      data: {
-        groupId: input.groupId,
-        fromUserId: input.fromUserId,
-        toUserId: input.toUserId,
-        amountCents: input.amountCents,
-        date: input.date,
-        note: input.note?.trim() || null,
-      },
+    return repositories.settlements.create({
+      groupId: input.groupId,
+      fromUserId: input.fromUserId,
+      toUserId: input.toUserId,
+      amountCents: input.amountCents,
+      date: input.date,
+      note: input.note?.trim() || null,
     });
   }, client);
 }

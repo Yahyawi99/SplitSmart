@@ -1,7 +1,7 @@
 import "server-only";
-import { GroupRole } from "@/generated/prisma/enums";
 import type { PrismaClient } from "@/generated/prisma/client";
-import { withSerializableTransaction } from "@/lib/business-transaction";
+import { withSerializableTransaction } from "@/database/transaction";
+import { createRepositories } from "@/repositories";
 import type { CreateGroupInput } from "@/types/group";
 
 export async function createGroup(
@@ -22,30 +22,17 @@ export async function createGroup(
   }
 
   return withSerializableTransaction(async (transaction) => {
-    const creator = await transaction.user.findUnique({
-      where: { id: input.creatorId },
-      select: { id: true },
-    });
-
+    const repositories = createRepositories(transaction);
+    const creator = await repositories.users.findById(input.creatorId);
     if (!creator) {
       throw new Error("Group creator was not found");
     }
 
-    return transaction.group.create({
-      data: {
-        name,
-        description: input.description?.trim() || null,
-        currency,
-        createdById: input.creatorId,
-        members: {
-          create: {
-            userId: input.creatorId,
-            role: GroupRole.OWNER,
-            active: true,
-          },
-        },
-      },
-      include: { members: true },
+    return repositories.groups.createWithOwner({
+      creatorId: input.creatorId,
+      name,
+      description: input.description?.trim() || null,
+      currency,
     });
   }, client);
 }

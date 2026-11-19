@@ -1,6 +1,7 @@
 import "server-only";
 import type { PrismaClient } from "@/generated/prisma/client";
-import { withSerializableTransaction } from "@/lib/business-transaction";
+import { withSerializableTransaction } from "@/database/transaction";
+import { createRepositories } from "@/repositories";
 import { calculateSplits } from "./split-calculator";
 import { convertToHomeCurrencyCents, isUnitExchangeRate } from "./currency";
 import type { CreateExpenseInput } from "@/types/expense";
@@ -37,10 +38,8 @@ export async function createExpense(
   const splits = calculateSplits({ ...input, totalCents: homeTotalCents });
 
   return withSerializableTransaction(async (transaction) => {
-    const group = await transaction.group.findUnique({
-      where: { id: input.groupId },
-      select: { currency: true },
-    });
+    const repositories = createRepositories(transaction);
+    const group = await repositories.groups.findCurrency(input.groupId);
     if (!group) {
       throw new Error("Expense group was not found");
     }
@@ -53,21 +52,14 @@ export async function createExpense(
       );
     }
 
-    const requiredUserIds = new Set([
+    const requiredUserIds = [
       input.actorUserId,
       input.payerId,
       ...splits.map(({ userId }) => userId),
-    ]);
-    const activeMemberships = await transaction.groupMember.findMany({
-      where: {
-        groupId: input.groupId,
-        userId: { in: [...requiredUserIds] },
-        active: true,
-      },
-      select: { userId: true },
-    });
-    const activeUserIds = new Set(
-      activeMemberships.map(({ userId }) => userId),
+    ];
+    const activeUserIds = await repositories.groupMembers.findActiveUserIds(
+      input.groupId,
+      [...new Set(requiredUserIds)],
     );
 
     if (!activeUserIds.has(input.actorUserId)) {
@@ -80,27 +72,22 @@ export async function createExpense(
       throw new Error("Every split participant must be an active group member");
     }
 
-    const expense = await transaction.expense.create({
-      data: {
-        groupId: input.groupId,
-        payerId: input.payerId,
-        description,
-        amountCents: input.amountCents,
-        currency,
-        exchangeRate: input.exchangeRate,
-        category,
-        splitType: input.splitType,
-        date: input.date,
-      },
+    const expense = await repositories.expenses.create({
+      groupId: input.groupId,
+      payerId: input.payerId,
+      description,
+      amountCents: input.amountCents,
+      currency,
+      exchangeRate: input.exchangeRate,
+      category,
+      splitType: input.splitType,
+      date: input.date,
     });
 
-    await transaction.expenseSplit.createMany({
-      data: splits.map((split) => ({ ...split, expenseId: expense.id })),
-    });
+    await repositories.expenseSplits.createMany(
+      splits.map((split) => ({ ...split, expenseId: expense.id })),
+    );
 
-    return transaction.expense.findUniqueOrThrow({
-      where: { id: expense.id },
-      include: { splits: true },
-    });
+    return repositories.expenses.findWithSplits(expense.id);
   }, client);
 }

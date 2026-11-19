@@ -15,7 +15,7 @@ export async function withSerializableTransaction<T>(
   work: TransactionWork<T>,
   client?: PrismaClient,
 ): Promise<T> {
-  const database = client ?? (await import("@/lib/prisma")).default;
+  const database = client ?? (await import("@/database/prisma")).default;
 
   for (let attempt = 0; ; attempt += 1) {
     try {

@@ -1,21 +1,19 @@
 import "server-only";
 import { GroupRole } from "@/generated/prisma/enums";
 import type { Prisma, PrismaClient } from "@/generated/prisma/client";
-import { withSerializableTransaction } from "@/lib/business-transaction";
+import { withSerializableTransaction } from "@/database/transaction";
+import { createRepositories } from "@/repositories";
 import type {
   AddGroupMemberInput,
   SetGroupMemberActiveInput,
 } from "@/types/group";
 
 async function requireActiveOwner(
-  transaction: Prisma.TransactionClient,
+  memberships: ReturnType<typeof createRepositories>["groupMembers"],
   groupId: string,
   actorUserId: string,
 ): Promise<void> {
-  const owner = await transaction.groupMember.findUnique({
-    where: { groupId_userId: { groupId, userId: actorUserId } },
-    select: { active: true, role: true },
-  });
+  const owner = await memberships.findActiveOwner(groupId, actorUserId);
   if (!owner?.active || owner.role !== GroupRole.OWNER) {
     throw new Error("An active group owner is required");
   }
@@ -26,19 +24,19 @@ export async function addGroupMember(
   client?: PrismaClient,
 ) {
   return withSerializableTransaction(async (transaction) => {
-    await requireActiveOwner(transaction, input.groupId, input.actorUserId);
+    const repositories = createRepositories(transaction);
+    await requireActiveOwner(
+      repositories.groupMembers,
+      input.groupId,
+      input.actorUserId,
+    );
 
-    const user = await transaction.user.findUnique({
-      where: { id: input.userId },
-      select: { id: true },
-    });
+    const user = await repositories.users.findById(input.userId);
     if (!user) {
       throw new Error("Group member user was not found");
     }
 
-    return transaction.groupMember.create({
-      data: { groupId: input.groupId, userId: input.userId },
-    });
+    return repositories.groupMembers.create(input.groupId, input.userId);
   }, client);
 }
 
@@ -47,13 +45,17 @@ export async function setGroupMemberActive(
   client?: PrismaClient,
 ) {
   return withSerializableTransaction(async (transaction) => {
-    await requireActiveOwner(transaction, input.groupId, input.actorUserId);
+    const repositories = createRepositories(transaction);
+    await requireActiveOwner(
+      repositories.groupMembers,
+      input.groupId,
+      input.actorUserId,
+    );
 
-    const membership = await transaction.groupMember.findUnique({
-      where: {
-        groupId_userId: { groupId: input.groupId, userId: input.userId },
-      },
-    });
+    const membership = await repositories.groupMembers.findByGroupAndUser(
+      input.groupId,
+      input.userId,
+    );
     if (!membership) {
       throw new Error("Group membership was not found");
     }
@@ -62,19 +64,18 @@ export async function setGroupMemberActive(
     }
 
     if (!input.active) {
-      const activeMembers = await transaction.groupMember.count({
-        where: { groupId: input.groupId, active: true },
-      });
+      const activeMembers = await repositories.groupMembers.countActive(
+        input.groupId,
+      );
       if (activeMembers <= 1) {
         throw new Error("A group must have at least one active member");
       }
     }
 
-    return transaction.groupMember.update({
-      where: {
-        groupId_userId: { groupId: input.groupId, userId: input.userId },
-      },
-      data: { active: input.active },
-    });
+    return repositories.groupMembers.setActive(
+      input.groupId,
+      input.userId,
+      input.active,
+    );
   }, client);
 }

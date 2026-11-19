@@ -1,8 +1,8 @@
 import { betterAuth } from "better-auth";
 import { emailOTP } from "better-auth/plugins";
-import { prismaAdapter } from "better-auth/adapters/prisma";
+import { authDatabaseAdapter } from "@/database/auth-adapter";
 import { emailService } from "@/lib/email";
-import prisma from "@/lib/prisma";
+import { userRepository } from "@/repositories/user-repository";
 
 export const auth = betterAuth({
   baseURL: "http://localhost:3000/",
@@ -29,10 +29,7 @@ export const auth = betterAuth({
   plugins: [
     emailOTP({
       async sendVerificationOTP({ email, otp, type }) {
-        const user = await prisma.user.findUnique({
-          where: { email },
-          select: { name: true },
-        });
+        const user = await userRepository.findNameByEmail(email);
         const userName = user?.name ?? "";
 
         if (type === "email-verification") {
@@ -44,7 +41,5 @@ export const auth = betterAuth({
     }),
   ],
 
-  database: prismaAdapter(prisma, {
-    provider: "postgresql",
-  }),
+  database: authDatabaseAdapter,
 });
