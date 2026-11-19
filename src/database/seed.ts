@@ -15,6 +15,17 @@ const TABLES = [
 ] as const;
 type Table = (typeof TABLES)[number];
 
+const CLEAR_TABLES = [
+  // Business tables only. Never truncate Better Auth tables such as
+  // session, account, or verification.
+  "receipt",
+  "expense_split",
+  "settlement",
+  "expense",
+  "group_member",
+  "group",
+] as const;
+
 type SeedData = Record<Table, Row[]>;
 
 const data: SeedData = seedData;
@@ -35,19 +46,24 @@ export async function seedDatabase(): Promise<void> {
   try {
     await client.query("BEGIN");
 
-    for (const table of [...TABLES].reverse()) {
-      const ids = (data[table] ?? []).map(({ id }) => id);
-      if (ids.length === 0) continue;
-
-      await client.query(
-        `DELETE FROM public.${quoteIdentifier(table)} WHERE id = ANY($1::text[])`,
-        [ids],
-      );
-    }
+    const clearList = CLEAR_TABLES.map(
+      (table) => `public.${quoteIdentifier(table)}`,
+    ).join(", ");
+    await client.query(`TRUNCATE TABLE ${clearList} RESTART IDENTITY CASCADE`);
 
     for (const table of TABLES) {
       const rows = data[table] ?? [];
       for (const row of rows) {
+        if (table === "user") {
+          const existingUser = await client.query(
+            `SELECT 1 FROM public.${quoteIdentifier("user")} WHERE id = $1 OR email = $2 LIMIT 1`,
+            [row.id, row.email],
+          );
+          if (existingUser.rowCount !== null && existingUser.rowCount > 0) {
+            continue;
+          }
+        }
+
         const valuesByColumn: Record<string, unknown> = { ...row };
         if (table === "user") {
           valuesByColumn.updatedAt ??= new Date();

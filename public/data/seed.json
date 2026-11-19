@@ -1,6 +1,13 @@
 {
   "user": [
     {
+      "id": "Ew9Obn6JvGXN1pENNy6zLXbVOyQcazS6",
+      "name": "Yassin Yahyawi",
+      "email": "deidarayassin45@gmail.com",
+      "emailVerified": true,
+      "image": "https://lh3.googleusercontent.com/a/ACg8ocLGOa1LuZzvPO2SVzJHpIgXEUuLToFfLmne2DZkbpFJMSl3vHJW=s96-c"
+    },
+    {
       "id": "u_alice",
       "name": "Alice Benali",
       "email": "alice@test.dev",

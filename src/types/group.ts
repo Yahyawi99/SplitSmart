@@ -1,3 +1,14 @@
+export type GroupListItem = {
+  id: string;
+  name: string;
+  currency: string;
+};
+
+export type GroupsResponse = {
+  groups: GroupListItem[];
+  hasMore: boolean;
+};
+
 export type CreateGroupInput = {
   creatorId: string;
   name: string;

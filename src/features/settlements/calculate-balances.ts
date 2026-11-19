@@ -1,4 +1,4 @@
-import { convertToHomeCurrencyCents } from "@/lib/expenses/currency";
+import { convertToHomeCurrencyCents } from "@/features/expenses/currency";
 import type { BalanceExpense } from "@/types/balance";
 import type { BalanceSettlement } from "@/types/settlement";
 
