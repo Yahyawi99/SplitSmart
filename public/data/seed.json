@@ -51,6 +51,13 @@
       "description": "Shared flat bills",
       "currency": "USD",
       "createdById": "u_alice"
+    },
+    {
+      "id": "g_yassin_trip",
+      "name": "Yassin's Morocco Trip",
+      "description": "Shared trip expenses",
+      "currency": "MAD",
+      "createdById": "Ew9Obn6JvGXN1pENNy6zLXbVOyQcazS6"
     }
   ],
 
@@ -101,6 +108,27 @@
       "id": "gm_7",
       "groupId": "g_home",
       "userId": "u_dave",
+      "role": "MEMBER",
+      "active": true
+    },
+    {
+      "id": "gm_yassin_owner",
+      "groupId": "g_yassin_trip",
+      "userId": "Ew9Obn6JvGXN1pENNy6zLXbVOyQcazS6",
+      "role": "OWNER",
+      "active": true
+    },
+    {
+      "id": "gm_yassin_bob",
+      "groupId": "g_yassin_trip",
+      "userId": "u_bob",
+      "role": "MEMBER",
+      "active": true
+    },
+    {
+      "id": "gm_yassin_carol",
+      "groupId": "g_yassin_trip",
+      "userId": "u_carol",
       "role": "MEMBER",
       "active": true
     }
@@ -178,6 +206,42 @@
       "category": "Utilities",
       "splitType": "EQUAL",
       "date": "2026-11-12T12:00:00Z"
+    },
+    {
+      "id": "e_yassin_hotel",
+      "groupId": "g_yassin_trip",
+      "payerId": "Ew9Obn6JvGXN1pENNy6zLXbVOyQcazS6",
+      "description": "Hotel booking",
+      "amountCents": 120000,
+      "currency": "MAD",
+      "exchangeRate": 1,
+      "category": "Accommodation",
+      "splitType": "EQUAL",
+      "date": "2026-11-15T10:00:00Z"
+    },
+    {
+      "id": "e_yassin_dinner",
+      "groupId": "g_yassin_trip",
+      "payerId": "u_bob",
+      "description": "Dinner in Rabat",
+      "amountCents": 36000,
+      "currency": "MAD",
+      "exchangeRate": 1,
+      "category": "Food",
+      "splitType": "EXACT",
+      "date": "2026-11-16T19:30:00Z"
+    },
+    {
+      "id": "e_yassin_taxi",
+      "groupId": "g_yassin_trip",
+      "payerId": "u_carol",
+      "description": "Airport taxi",
+      "amountCents": 18000,
+      "currency": "MAD",
+      "exchangeRate": 1,
+      "category": "Transport",
+      "splitType": "EQUAL",
+      "date": "2026-11-17T08:15:00Z"
     }
   ],
 
@@ -294,6 +358,60 @@
       "expenseId": "e_wifi",
       "userId": "u_dave",
       "owedCents": 2000
+    },
+    {
+      "id": "es_yassin_hotel_owner",
+      "expenseId": "e_yassin_hotel",
+      "userId": "Ew9Obn6JvGXN1pENNy6zLXbVOyQcazS6",
+      "owedCents": 40000
+    },
+    {
+      "id": "es_yassin_hotel_bob",
+      "expenseId": "e_yassin_hotel",
+      "userId": "u_bob",
+      "owedCents": 40000
+    },
+    {
+      "id": "es_yassin_hotel_carol",
+      "expenseId": "e_yassin_hotel",
+      "userId": "u_carol",
+      "owedCents": 40000
+    },
+    {
+      "id": "es_yassin_dinner_owner",
+      "expenseId": "e_yassin_dinner",
+      "userId": "Ew9Obn6JvGXN1pENNy6zLXbVOyQcazS6",
+      "owedCents": 12000
+    },
+    {
+      "id": "es_yassin_dinner_bob",
+      "expenseId": "e_yassin_dinner",
+      "userId": "u_bob",
+      "owedCents": 12000
+    },
+    {
+      "id": "es_yassin_dinner_carol",
+      "expenseId": "e_yassin_dinner",
+      "userId": "u_carol",
+      "owedCents": 12000
+    },
+    {
+      "id": "es_yassin_taxi_owner",
+      "expenseId": "e_yassin_taxi",
+      "userId": "Ew9Obn6JvGXN1pENNy6zLXbVOyQcazS6",
+      "owedCents": 6000
+    },
+    {
+      "id": "es_yassin_taxi_bob",
+      "expenseId": "e_yassin_taxi",
+      "userId": "u_bob",
+      "owedCents": 6000
+    },
+    {
+      "id": "es_yassin_taxi_carol",
+      "expenseId": "e_yassin_taxi",
+      "userId": "u_carol",
+      "owedCents": 6000
     }
   ],
 
@@ -315,6 +433,15 @@
       "amountCents": 20000,
       "date": "2026-11-14T09:00:00Z",
       "note": null
+    },
+    {
+      "id": "s_yassin_trip",
+      "groupId": "g_yassin_trip",
+      "fromUserId": "u_bob",
+      "toUserId": "Ew9Obn6JvGXN1pENNy6zLXbVOyQcazS6",
+      "amountCents": 12000,
+      "date": "2026-11-18T09:00:00Z",
+      "note": "Dinner share"
     }
   ],
 
@@ -334,6 +461,21 @@
         ]
       },
       "confidence": 0.92
+    },
+    {
+      "id": "r_yassin_dinner",
+      "expenseId": "e_yassin_dinner",
+      "imagePath": "receipts/rabat-dinner.jpg",
+      "parsedData": {
+        "merchant": "Cafe Medina",
+        "total": 360.0,
+        "currency": "MAD",
+        "items": [
+          { "name": "Dinner", "price": 300.0 },
+          { "name": "Drinks", "price": 60.0 }
+        ]
+      },
+      "confidence": 0.94
     }
   ]
 }
