@@ -1,5 +1,5 @@
-import { readFileSync } from "node:fs";
-import path from "node:path";
+import seedData from "../../public/data/seed.json";
+
 import { Client } from "pg";
 
 type Row = Record<string, unknown> & { id: string };
@@ -17,9 +17,7 @@ type Table = (typeof TABLES)[number];
 
 type SeedData = Record<Table, Row[]>;
 
-const data: SeedData = JSON.parse(
-  readFileSync(path.join(process.cwd(), "scripts", "seed-data.json"), "utf8"),
-);
+const data: SeedData = seedData;
 
 const quoteIdentifier = (name: string) => `"${name.replace(/"/g, '""')}"`;
 
