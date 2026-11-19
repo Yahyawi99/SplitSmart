@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "db:migrate": "pnpm approve-builds && pnpm prisma migrate dev",
     "test": "jest --runInBand tests/unit",
     "test:integration": "jest --runInBand tests/integration",
     "postinstall": "prisma skills sync || exit 0",
