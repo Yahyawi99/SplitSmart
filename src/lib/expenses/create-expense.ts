@@ -1,71 +1,9 @@
 import "server-only";
-import { SplitType } from "@/generated/prisma/enums";
 import type { PrismaClient } from "@/generated/prisma/client";
 import { withSerializableTransaction } from "@/lib/business-transaction";
-import {
-  calculateSplits,
-  convertToHomeCurrencyCents,
-  isUnitExchangeRate,
-} from "./split-calculator";
-
-type SplitParticipants =
-  | {
-      splitType: typeof SplitType.EQUAL;
-      participants: readonly { userId: string }[];
-    }
-  | {
-      splitType: typeof SplitType.EXACT;
-      participants: readonly { userId: string; owedCents: number }[];
-    }
-  | {
-      splitType: typeof SplitType.PERCENTAGE;
-      participants: readonly { userId: string; percentage: string }[];
-    }
-  | {
-      splitType: typeof SplitType.SHARES;
-      participants: readonly { userId: string; shares: number }[];
-    };
-
-export type CreateExpenseInput = SplitParticipants & {
-  groupId: string;
-  actorUserId: string;
-  payerId: string;
-  description: string;
-  amountCents: number;
-  currency: string;
-  exchangeRate: string;
-  category: string;
-  date: Date;
-};
-
-function calculateExpenseSplits(input: CreateExpenseInput, totalCents: number) {
-  switch (input.splitType) {
-    case SplitType.EQUAL:
-      return calculateSplits({
-        splitType: input.splitType,
-        totalCents,
-        participants: input.participants,
-      });
-    case SplitType.EXACT:
-      return calculateSplits({
-        splitType: input.splitType,
-        totalCents,
-        participants: input.participants,
-      });
-    case SplitType.PERCENTAGE:
-      return calculateSplits({
-        splitType: input.splitType,
-        totalCents,
-        participants: input.participants,
-      });
-    case SplitType.SHARES:
-      return calculateSplits({
-        splitType: input.splitType,
-        totalCents,
-        participants: input.participants,
-      });
-  }
-}
+import { calculateSplits } from "./split-calculator";
+import { convertToHomeCurrencyCents, isUnitExchangeRate } from "./currency";
+import type { CreateExpenseInput } from "@/types/expense";
 
 export async function createExpense(
   input: CreateExpenseInput,
@@ -92,7 +30,7 @@ export async function createExpense(
     input.amountCents,
     input.exchangeRate,
   );
-  const splits = calculateExpenseSplits(input, homeTotalCents);
+  const splits = calculateSplits({ ...input, totalCents: homeTotalCents });
 
   return withSerializableTransaction(async (transaction) => {
     const group = await transaction.group.findUnique({

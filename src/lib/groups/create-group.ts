@@ -2,13 +2,7 @@ import "server-only";
 import { GroupRole } from "@/generated/prisma/enums";
 import type { PrismaClient } from "@/generated/prisma/client";
 import { withSerializableTransaction } from "@/lib/business-transaction";
-
-export type CreateGroupInput = {
-  creatorId: string;
-  name: string;
-  description?: string | null;
-  currency: string;
-};
+import type { CreateGroupInput } from "@/types/group";
 
 export async function createGroup(
   input: CreateGroupInput,

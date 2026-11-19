@@ -1,19 +1,8 @@
-import { convertToHomeCurrencyCents } from "@/lib/expenses/split-calculator";
+import { convertToHomeCurrencyCents } from "@/lib/expenses/currency";
+import type { BalanceExpense } from "@/types/balance";
+import type { BalanceSettlement } from "@/types/settlement";
 
 const MAX_CENTS = 2_147_483_647;
-
-export type BalanceExpense = {
-  payerId: string;
-  amountCents: number;
-  exchangeRate: string;
-  splits: readonly { userId: string; owedCents: number }[];
-};
-
-export type BalanceSettlement = {
-  fromUserId: string;
-  toUserId: string;
-  amountCents: number;
-};
 
 function addToBalance(balances: Map<string, number>, userId: string, delta: number): void {
   const current = balances.get(userId);

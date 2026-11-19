@@ -4,12 +4,10 @@ import { test } from "node:test";
 import { PrismaClient } from "@/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { SplitType } from "@/generated/prisma/enums";
+import type { CreateExpenseInput } from "@/types/expense";
 import { createGroup } from "@/lib/groups/create-group";
 import { addGroupMember, setGroupMemberActive } from "@/lib/groups/membership";
-import {
-  createExpense,
-  type CreateExpenseInput,
-} from "@/lib/expenses/create-expense";
+import { createExpense } from "@/lib/expenses/create-expense";
 
 const testDatabaseUrl = process.env.TEST_DATABASE_URL;
 

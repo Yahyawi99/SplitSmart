@@ -1,18 +1,9 @@
 import "server-only";
 import type { PrismaClient } from "@/generated/prisma/client";
 import { withSerializableTransaction } from "@/lib/business-transaction";
+import type { CreateSettlementInput } from "@/types/settlement";
 
 const MAX_CENTS = 2_147_483_647;
-
-export type CreateSettlementInput = {
-  groupId: string;
-  actorUserId: string;
-  fromUserId: string;
-  toUserId: string;
-  amountCents: number;
-  date: Date;
-  note?: string | null;
-};
 
 export async function createSettlement(
   input: CreateSettlementInput,

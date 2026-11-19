@@ -1,10 +1,11 @@
 import "server-only";
 import { GroupRole } from "@/generated/prisma/enums";
-import type { PrismaClient } from "@/generated/prisma/client";
+import type { Prisma, PrismaClient } from "@/generated/prisma/client";
 import { withSerializableTransaction } from "@/lib/business-transaction";
+import type { AddGroupMemberInput, SetGroupMemberActiveInput } from "@/types/group";
 
 async function requireActiveOwner(
-  transaction: Parameters<Parameters<PrismaClient["$transaction"]>[0]>[0],
+  transaction: Prisma.TransactionClient,
   groupId: string,
   actorUserId: string,
 ): Promise<void> {
@@ -18,7 +19,7 @@ async function requireActiveOwner(
 }
 
 export async function addGroupMember(
-  input: { groupId: string; actorUserId: string; userId: string },
+  input: AddGroupMemberInput,
   client?: PrismaClient,
 ) {
   return withSerializableTransaction(async (transaction) => {
@@ -39,12 +40,7 @@ export async function addGroupMember(
 }
 
 export async function setGroupMemberActive(
-  input: {
-    groupId: string;
-    actorUserId: string;
-    userId: string;
-    active: boolean;
-  },
+  input: SetGroupMemberActiveInput,
   client?: PrismaClient,
 ) {
   return withSerializableTransaction(async (transaction) => {
