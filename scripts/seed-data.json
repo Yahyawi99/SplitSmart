@@ -1,0 +1,332 @@
+{
+  "user": [
+    {
+      "id": "u_alice",
+      "name": "Alice Benali",
+      "email": "alice@test.dev",
+      "emailVerified": true,
+      "image": null
+    },
+    {
+      "id": "u_bob",
+      "name": "Bob Karim",
+      "email": "bob@test.dev",
+      "emailVerified": true,
+      "image": null
+    },
+    {
+      "id": "u_carol",
+      "name": "Carol Smith",
+      "email": "carol@test.dev",
+      "emailVerified": true,
+      "image": null
+    },
+    {
+      "id": "u_dave",
+      "name": "Dave Jones",
+      "email": "dave@test.dev",
+      "emailVerified": false,
+      "image": null
+    }
+  ],
+
+  "group": [
+    {
+      "id": "g_trip",
+      "name": "Morocco Trip",
+      "description": "Spring road trip",
+      "currency": "MAD",
+      "createdById": "u_alice"
+    },
+    {
+      "id": "g_home",
+      "name": "Apartment",
+      "description": "Shared flat bills",
+      "currency": "USD",
+      "createdById": "u_alice"
+    }
+  ],
+
+  "group_member": [
+    {
+      "id": "gm_1",
+      "groupId": "g_trip",
+      "userId": "u_alice",
+      "role": "OWNER",
+      "active": true
+    },
+    {
+      "id": "gm_2",
+      "groupId": "g_trip",
+      "userId": "u_bob",
+      "role": "MEMBER",
+      "active": true
+    },
+    {
+      "id": "gm_3",
+      "groupId": "g_trip",
+      "userId": "u_carol",
+      "role": "MEMBER",
+      "active": true
+    },
+    {
+      "id": "gm_4",
+      "groupId": "g_trip",
+      "userId": "u_dave",
+      "role": "MEMBER",
+      "active": false
+    },
+    {
+      "id": "gm_5",
+      "groupId": "g_home",
+      "userId": "u_alice",
+      "role": "OWNER",
+      "active": true
+    },
+    {
+      "id": "gm_6",
+      "groupId": "g_home",
+      "userId": "u_carol",
+      "role": "MEMBER",
+      "active": true
+    },
+    {
+      "id": "gm_7",
+      "groupId": "g_home",
+      "userId": "u_dave",
+      "role": "MEMBER",
+      "active": true
+    }
+  ],
+
+  "expense": [
+    {
+      "id": "e_riad",
+      "groupId": "g_trip",
+      "payerId": "u_alice",
+      "description": "Riad booking",
+      "amountCents": 90000,
+      "currency": "MAD",
+      "exchangeRate": 1,
+      "category": "Accommodation",
+      "splitType": "EQUAL",
+      "date": "2026-11-02T10:00:00Z"
+    },
+    {
+      "id": "e_dinner",
+      "groupId": "g_trip",
+      "payerId": "u_bob",
+      "description": "Dinner in Marrakech",
+      "amountCents": 45000,
+      "currency": "MAD",
+      "exchangeRate": 1,
+      "category": "Food",
+      "splitType": "EQUAL",
+      "date": "2026-11-03T20:30:00Z"
+    },
+    {
+      "id": "e_taxi",
+      "groupId": "g_trip",
+      "payerId": "u_carol",
+      "description": "Airport taxi",
+      "amountCents": 12000,
+      "currency": "MAD",
+      "exchangeRate": 1,
+      "category": "Transport",
+      "splitType": "EXACT",
+      "date": "2026-11-04T08:15:00Z"
+    },
+    {
+      "id": "e_rent",
+      "groupId": "g_home",
+      "payerId": "u_alice",
+      "description": "November rent",
+      "amountCents": 150000,
+      "currency": "USD",
+      "exchangeRate": 1,
+      "category": "Rent",
+      "splitType": "EQUAL",
+      "date": "2026-11-01T09:00:00Z"
+    },
+    {
+      "id": "e_groc",
+      "groupId": "g_home",
+      "payerId": "u_dave",
+      "description": "Groceries",
+      "amountCents": 8400,
+      "currency": "USD",
+      "exchangeRate": 1,
+      "category": "Food",
+      "splitType": "EQUAL",
+      "date": "2026-11-10T18:00:00Z"
+    },
+    {
+      "id": "e_wifi",
+      "groupId": "g_home",
+      "payerId": "u_carol",
+      "description": "Internet (paid in EUR)",
+      "amountCents": 6000,
+      "currency": "EUR",
+      "exchangeRate": 1.08,
+      "category": "Utilities",
+      "splitType": "EQUAL",
+      "date": "2026-11-12T12:00:00Z"
+    }
+  ],
+
+  "expense_split": [
+    {
+      "id": "es_1",
+      "expenseId": "e_riad",
+      "userId": "u_alice",
+      "owedCents": 30000
+    },
+    {
+      "id": "es_2",
+      "expenseId": "e_riad",
+      "userId": "u_bob",
+      "owedCents": 30000
+    },
+    {
+      "id": "es_3",
+      "expenseId": "e_riad",
+      "userId": "u_carol",
+      "owedCents": 30000
+    },
+
+    {
+      "id": "es_4",
+      "expenseId": "e_dinner",
+      "userId": "u_alice",
+      "owedCents": 15000
+    },
+    {
+      "id": "es_5",
+      "expenseId": "e_dinner",
+      "userId": "u_bob",
+      "owedCents": 15000
+    },
+    {
+      "id": "es_6",
+      "expenseId": "e_dinner",
+      "userId": "u_carol",
+      "owedCents": 15000
+    },
+
+    {
+      "id": "es_7",
+      "expenseId": "e_taxi",
+      "userId": "u_alice",
+      "owedCents": 6000
+    },
+    {
+      "id": "es_8",
+      "expenseId": "e_taxi",
+      "userId": "u_bob",
+      "owedCents": 3000
+    },
+    {
+      "id": "es_9",
+      "expenseId": "e_taxi",
+      "userId": "u_carol",
+      "owedCents": 3000
+    },
+
+    {
+      "id": "es_10",
+      "expenseId": "e_rent",
+      "userId": "u_alice",
+      "owedCents": 50000
+    },
+    {
+      "id": "es_11",
+      "expenseId": "e_rent",
+      "userId": "u_carol",
+      "owedCents": 50000
+    },
+    {
+      "id": "es_12",
+      "expenseId": "e_rent",
+      "userId": "u_dave",
+      "owedCents": 50000
+    },
+
+    {
+      "id": "es_13",
+      "expenseId": "e_groc",
+      "userId": "u_alice",
+      "owedCents": 2800
+    },
+    {
+      "id": "es_14",
+      "expenseId": "e_groc",
+      "userId": "u_carol",
+      "owedCents": 2800
+    },
+    {
+      "id": "es_15",
+      "expenseId": "e_groc",
+      "userId": "u_dave",
+      "owedCents": 2800
+    },
+
+    {
+      "id": "es_16",
+      "expenseId": "e_wifi",
+      "userId": "u_alice",
+      "owedCents": 2000
+    },
+    {
+      "id": "es_17",
+      "expenseId": "e_wifi",
+      "userId": "u_carol",
+      "owedCents": 2000
+    },
+    {
+      "id": "es_18",
+      "expenseId": "e_wifi",
+      "userId": "u_dave",
+      "owedCents": 2000
+    }
+  ],
+
+  "settlement": [
+    {
+      "id": "s_1",
+      "groupId": "g_trip",
+      "fromUserId": "u_bob",
+      "toUserId": "u_alice",
+      "amountCents": 30000,
+      "date": "2026-11-05T09:00:00Z",
+      "note": "Riad share"
+    },
+    {
+      "id": "s_2",
+      "groupId": "g_home",
+      "fromUserId": "u_dave",
+      "toUserId": "u_alice",
+      "amountCents": 20000,
+      "date": "2026-11-14T09:00:00Z",
+      "note": null
+    }
+  ],
+
+  "receipt": [
+    {
+      "id": "r_1",
+      "expenseId": "e_dinner",
+      "imagePath": "receipts/dinner-marrakech.jpg",
+      "parsedData": {
+        "merchant": "Café Atlas",
+        "total": 450.0,
+        "currency": "MAD",
+        "items": [
+          { "name": "Tagine", "price": 180.0 },
+          { "name": "Couscous", "price": 150.0 },
+          { "name": "Mint tea x3", "price": 120.0 }
+        ]
+      },
+      "confidence": 0.92
+    }
+  ]
+}

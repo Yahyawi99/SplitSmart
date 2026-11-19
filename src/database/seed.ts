@@ -58,12 +58,16 @@ export async function seedDatabase(): Promise<void> {
         const columns = Object.keys(valuesByColumn);
         const values = columns.map((column) => {
           const value = valuesByColumn[column];
-          return value !== null && typeof value === "object" && !(value instanceof Date)
+          return value !== null &&
+            typeof value === "object" &&
+            !(value instanceof Date)
             ? JSON.stringify(value)
             : value;
         });
         const columnList = columns.map(quoteIdentifier).join(", ");
-        const parameterList = columns.map((_, index) => `$${index + 1}`).join(", ");
+        const parameterList = columns
+          .map((_, index) => `$${index + 1}`)
+          .join(", ");
 
         await client.query(
           `INSERT INTO public.${quoteIdentifier(table)} (${columnList}) VALUES (${parameterList})`,
