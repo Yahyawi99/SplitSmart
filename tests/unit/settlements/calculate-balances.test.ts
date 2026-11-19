@@ -20,11 +20,17 @@ describe("calculateGroupBalances", () => {
       [{ fromUserId: "member", toUserId: "payer", amountCents: 300 }],
     );
 
-    assert.deepEqual([...balances.entries()], [
-      ["payer", 1300],
-      ["member", -1300],
-    ]);
-    assert.equal([...balances.values()].reduce((sum, balance) => sum + balance, 0), 0);
+    assert.deepEqual(
+      [...balances.entries()],
+      [
+        ["payer", 1300],
+        ["member", -1300],
+      ],
+    );
+    assert.equal(
+      [...balances.values()].reduce((sum, balance) => sum + balance, 0),
+      0,
+    );
   });
 
   it("rejects corrupt split totals and references outside the group", () => {

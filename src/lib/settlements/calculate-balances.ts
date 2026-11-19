@@ -4,7 +4,11 @@ import type { BalanceSettlement } from "@/types/settlement";
 
 const MAX_CENTS = 2_147_483_647;
 
-function addToBalance(balances: Map<string, number>, userId: string, delta: number): void {
+function addToBalance(
+  balances: Map<string, number>,
+  userId: string,
+  delta: number,
+): void {
   const current = balances.get(userId);
   if (current === undefined) {
     throw new Error(`Financial record references non-member ${userId}`);
@@ -50,7 +54,9 @@ export function calculateGroupBalances(
         split.owedCents < 0 ||
         split.owedCents > MAX_CENTS
       ) {
-        throw new Error("Expense splits must have unique users and non-negative integer cents");
+        throw new Error(
+          "Expense splits must have unique users and non-negative integer cents",
+        );
       }
       splitUsers.add(split.userId);
       splitTotal += split.owedCents;
@@ -69,13 +75,18 @@ export function calculateGroupBalances(
       settlement.amountCents <= 0 ||
       settlement.amountCents > MAX_CENTS
     ) {
-      throw new Error("Settlement must have distinct participants and a positive integer amount");
+      throw new Error(
+        "Settlement must have distinct participants and a positive integer amount",
+      );
     }
     addToBalance(balances, settlement.fromUserId, -settlement.amountCents);
     addToBalance(balances, settlement.toUserId, settlement.amountCents);
   }
 
-  const groupTotal = [...balances.values()].reduce((sum, balance) => sum + balance, 0);
+  const groupTotal = [...balances.values()].reduce(
+    (sum, balance) => sum + balance,
+    0,
+  );
   if (groupTotal !== 0) {
     throw new Error("Group member balances must sum to zero");
   }

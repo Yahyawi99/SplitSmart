@@ -51,13 +51,20 @@ export async function createSettlement(
       },
       select: { userId: true },
     });
-    const activeUserIds = new Set(activeMemberships.map(({ userId }) => userId));
+    const activeUserIds = new Set(
+      activeMemberships.map(({ userId }) => userId),
+    );
 
     if (!activeUserIds.has(input.actorUserId)) {
       throw new Error("Settlement actor must be an active group member");
     }
-    if (!activeUserIds.has(input.fromUserId) || !activeUserIds.has(input.toUserId)) {
-      throw new Error("Settlement sender and receiver must be active group members");
+    if (
+      !activeUserIds.has(input.fromUserId) ||
+      !activeUserIds.has(input.toUserId)
+    ) {
+      throw new Error(
+        "Settlement sender and receiver must be active group members",
+      );
     }
 
     return transaction.settlement.create({

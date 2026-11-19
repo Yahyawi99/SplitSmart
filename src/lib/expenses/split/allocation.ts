@@ -6,7 +6,11 @@ export function validateSplitRequest(
   totalCents: number,
   participants: readonly SplitParticipant[],
 ): void {
-  if (!Number.isSafeInteger(totalCents) || totalCents <= 0 || totalCents > MAX_CENTS) {
+  if (
+    !Number.isSafeInteger(totalCents) ||
+    totalCents <= 0 ||
+    totalCents > MAX_CENTS
+  ) {
     throw new Error("totalCents must be a positive 32-bit integer");
   }
   if (participants.length === 0) {
@@ -45,13 +49,18 @@ export function allocateWeighted(
     };
   });
   const unallocatedCents =
-    totalCents - allocations.reduce((sum, allocation) => sum + allocation.owedCents, 0);
+    totalCents -
+    allocations.reduce((sum, allocation) => sum + allocation.owedCents, 0);
   const recipients = [...allocations]
     .sort((left, right) => {
       if (left.remainder !== right.remainder) {
         return left.remainder > right.remainder ? -1 : 1;
       }
-      return left.userId < right.userId ? -1 : left.userId > right.userId ? 1 : 0;
+      return left.userId < right.userId
+        ? -1
+        : left.userId > right.userId
+          ? 1
+          : 0;
     })
     .slice(0, unallocatedCents);
   const extraCentRecipients = new Set(recipients.map(({ userId }) => userId));
@@ -61,5 +70,7 @@ export function allocateWeighted(
       userId,
       owedCents: owedCents + Number(extraCentRecipients.has(userId)),
     }))
-    .sort((left, right) => (left.userId < right.userId ? -1 : left.userId > right.userId ? 1 : 0));
+    .sort((left, right) =>
+      left.userId < right.userId ? -1 : left.userId > right.userId ? 1 : 0,
+    );
 }

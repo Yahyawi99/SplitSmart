@@ -26,6 +26,7 @@ export async function createGroup(
       where: { id: input.creatorId },
       select: { id: true },
     });
+
     if (!creator) {
       throw new Error("Group creator was not found");
     }

@@ -115,8 +115,17 @@ describe("convertToHomeCurrencyCents", () => {
   });
 
   it("rejects invalid or out-of-range values", () => {
-    assert.throws(() => convertToHomeCurrencyCents(0, "1"), /positive 32-bit integer/);
-    assert.throws(() => convertToHomeCurrencyCents(100, "0"), /greater than zero/);
-    assert.throws(() => convertToHomeCurrencyCents(100, "1e2"), /decimal string/);
+    assert.throws(
+      () => convertToHomeCurrencyCents(0, "1"),
+      /positive 32-bit integer/,
+    );
+    assert.throws(
+      () => convertToHomeCurrencyCents(100, "0"),
+      /greater than zero/,
+    );
+    assert.throws(
+      () => convertToHomeCurrencyCents(100, "1e2"),
+      /decimal string/,
+    );
   });
 });

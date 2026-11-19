@@ -1,5 +1,9 @@
 import { SplitType } from "@/generated/prisma/enums";
-import type { CalculatedSplit, SplitCalculationInput, SplitStrategyMap } from "@/types/split";
+import type {
+  CalculatedSplit,
+  SplitCalculationInput,
+  SplitStrategyMap,
+} from "@/types/split";
 import { validateSplitRequest } from "./split/allocation";
 import { EqualSplitStrategy } from "./split/equal-strategy";
 import { ExactSplitStrategy } from "./split/exact-strategy";
@@ -13,7 +17,9 @@ const strategies: SplitStrategyMap = {
   [SplitType.SHARES]: new SharesSplitStrategy(),
 };
 
-export function calculateSplits(input: SplitCalculationInput): CalculatedSplit[] {
+export function calculateSplits(
+  input: SplitCalculationInput,
+): CalculatedSplit[] {
   validateSplitRequest(input.totalCents, input.participants);
 
   switch (input.splitType) {

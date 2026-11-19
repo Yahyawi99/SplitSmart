@@ -25,21 +25,21 @@ enum SplitType {
 }
 
 model User {
-  id            String    @id
-  name          String
-  email         String
-  emailVerified Boolean   @default(false)
-  image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  sessions      Session[]
-  accounts      Account[]
-  createdGroups Group[]   @relation("GroupCreator")
-  memberships   GroupMember[]
-  paidExpenses  Expense[] @relation("ExpensePayer")
-  expenseSplits ExpenseSplit[]
-  sentSettlements Settlement[] @relation("SettlementSender")
-  receivedSettlements Settlement[] @relation("SettlementReceiver")
+  id                  String         @id
+  name                String
+  email               String
+  emailVerified       Boolean        @default(false)
+  image               String?
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+  sessions            Session[]
+  accounts            Account[]
+  createdGroups       Group[]        @relation("GroupCreator")
+  memberships         GroupMember[]
+  paidExpenses        Expense[]      @relation("ExpensePayer")
+  expenseSplits       ExpenseSplit[]
+  sentSettlements     Settlement[]   @relation("SettlementSender")
+  receivedSettlements Settlement[]   @relation("SettlementReceiver")
 
   @@unique([email])
   @@map("user")
@@ -125,20 +125,20 @@ model GroupMember {
 }
 
 model Expense {
-  id            String        @id @default(cuid())
-  groupId       String
-  payerId       String
-  description   String
-  amountCents   Int
-  currency      String        @db.VarChar(3)
-  exchangeRate  Decimal       @db.Decimal(20, 10)
-  category      String
-  splitType     SplitType
-  date          DateTime
-  group         Group         @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  payer         User          @relation("ExpensePayer", fields: [payerId], references: [id], onDelete: Restrict)
-  splits        ExpenseSplit[]
-  receipt       Receipt?
+  id           String         @id @default(cuid())
+  groupId      String
+  payerId      String
+  description  String
+  amountCents  Int
+  currency     String         @db.VarChar(3)
+  exchangeRate Decimal        @db.Decimal(20, 10)
+  category     String
+  splitType    SplitType
+  date         DateTime
+  group        Group          @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  payer        User           @relation("ExpensePayer", fields: [payerId], references: [id], onDelete: Restrict)
+  splits       ExpenseSplit[]
+  receipt      Receipt?
 
   @@index([groupId])
   @@index([payerId])
@@ -146,12 +146,12 @@ model Expense {
 }
 
 model ExpenseSplit {
-  id         String  @id @default(cuid())
-  expenseId  String
-  userId     String
-  owedCents  Int
-  expense    Expense @relation(fields: [expenseId], references: [id], onDelete: Cascade)
-  user       User    @relation(fields: [userId], references: [id], onDelete: Restrict)
+  id        String  @id @default(cuid())
+  expenseId String
+  userId    String
+  owedCents Int
+  expense   Expense @relation(fields: [expenseId], references: [id], onDelete: Cascade)
+  user      User    @relation(fields: [userId], references: [id], onDelete: Restrict)
 
   @@unique([expenseId, userId])
   @@index([userId])
@@ -159,16 +159,16 @@ model ExpenseSplit {
 }
 
 model Settlement {
-  id         String   @id @default(cuid())
-  groupId    String
-  fromUserId String
-  toUserId   String
+  id          String   @id @default(cuid())
+  groupId     String
+  fromUserId  String
+  toUserId    String
   amountCents Int
-  date       DateTime
-  note       String?
-  group      Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  sender     User     @relation("SettlementSender", fields: [fromUserId], references: [id], onDelete: Restrict)
-  receiver   User     @relation("SettlementReceiver", fields: [toUserId], references: [id], onDelete: Restrict)
+  date        DateTime
+  note        String?
+  group       Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  sender      User     @relation("SettlementSender", fields: [fromUserId], references: [id], onDelete: Restrict)
+  receiver    User     @relation("SettlementReceiver", fields: [toUserId], references: [id], onDelete: Restrict)
 
   @@index([groupId])
   @@index([fromUserId])

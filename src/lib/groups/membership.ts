@@ -2,7 +2,10 @@ import "server-only";
 import { GroupRole } from "@/generated/prisma/enums";
 import type { Prisma, PrismaClient } from "@/generated/prisma/client";
 import { withSerializableTransaction } from "@/lib/business-transaction";
-import type { AddGroupMemberInput, SetGroupMemberActiveInput } from "@/types/group";
+import type {
+  AddGroupMemberInput,
+  SetGroupMemberActiveInput,
+} from "@/types/group";
 
 async function requireActiveOwner(
   transaction: Prisma.TransactionClient,
@@ -47,7 +50,9 @@ export async function setGroupMemberActive(
     await requireActiveOwner(transaction, input.groupId, input.actorUserId);
 
     const membership = await transaction.groupMember.findUnique({
-      where: { groupId_userId: { groupId: input.groupId, userId: input.userId } },
+      where: {
+        groupId_userId: { groupId: input.groupId, userId: input.userId },
+      },
     });
     if (!membership) {
       throw new Error("Group membership was not found");
@@ -66,7 +71,9 @@ export async function setGroupMemberActive(
     }
 
     return transaction.groupMember.update({
-      where: { groupId_userId: { groupId: input.groupId, userId: input.userId } },
+      where: {
+        groupId_userId: { groupId: input.groupId, userId: input.userId },
+      },
       data: { active: input.active },
     });
   }, client);

@@ -34,7 +34,9 @@ export type SplitCalculationInput =
 
 export type CalculatedSplit = { userId: string; owedCents: number };
 
-export interface SplitStrategy<T extends SplitCalculationInput = SplitCalculationInput> {
+export interface SplitStrategy<
+  T extends SplitCalculationInput = SplitCalculationInput,
+> {
   readonly splitType: T["splitType"];
   calculate(input: T): CalculatedSplit[];
 }

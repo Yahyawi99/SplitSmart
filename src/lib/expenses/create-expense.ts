@@ -13,7 +13,11 @@ export async function createExpense(
   const category = input.category.trim();
   const currency = input.currency.trim();
 
-  if (!input.groupId.trim() || !input.actorUserId.trim() || !input.payerId.trim()) {
+  if (
+    !input.groupId.trim() ||
+    !input.actorUserId.trim() ||
+    !input.payerId.trim()
+  ) {
     throw new Error("Group, actor, and payer are required");
   }
   if (!description || !category) {
@@ -40,8 +44,13 @@ export async function createExpense(
     if (!group) {
       throw new Error("Expense group was not found");
     }
-    if (currency === group.currency && !isUnitExchangeRate(input.exchangeRate)) {
-      throw new Error("Exchange rate must be 1 when expense currency matches group currency");
+    if (
+      currency === group.currency &&
+      !isUnitExchangeRate(input.exchangeRate)
+    ) {
+      throw new Error(
+        "Exchange rate must be 1 when expense currency matches group currency",
+      );
     }
 
     const requiredUserIds = new Set([
@@ -57,7 +66,9 @@ export async function createExpense(
       },
       select: { userId: true },
     });
-    const activeUserIds = new Set(activeMemberships.map(({ userId }) => userId));
+    const activeUserIds = new Set(
+      activeMemberships.map(({ userId }) => userId),
+    );
 
     if (!activeUserIds.has(input.actorUserId)) {
       throw new Error("Expense actor must be an active group member");

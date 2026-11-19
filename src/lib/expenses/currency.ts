@@ -5,7 +5,11 @@ export function convertToHomeCurrencyCents(
   amountCents: number,
   exchangeRate: string,
 ): number {
-  if (!Number.isSafeInteger(amountCents) || amountCents <= 0 || amountCents > MAX_CENTS) {
+  if (
+    !Number.isSafeInteger(amountCents) ||
+    amountCents <= 0 ||
+    amountCents > MAX_CENTS
+  ) {
     throw new Error("amountCents must be a positive 32-bit integer");
   }
 
@@ -22,7 +26,11 @@ export function convertToHomeCurrencyCents(
     quotient + (remainder * BigInt(2) >= denominator ? BigInt(1) : BigInt(0)),
   );
 
-  if (!Number.isSafeInteger(roundedCents) || roundedCents <= 0 || roundedCents > MAX_CENTS) {
+  if (
+    !Number.isSafeInteger(roundedCents) ||
+    roundedCents <= 0 ||
+    roundedCents > MAX_CENTS
+  ) {
     throw new Error("Converted total must be a positive 32-bit integer");
   }
   return roundedCents;
