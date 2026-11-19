@@ -14,10 +14,15 @@ export async function GET(request: Request) {
     return Response.json({ error: "Invalid page" }, { status: 400 });
   }
 
-  const result = await new GroupRepository(prisma.group).findForUser(
-    session.user.id,
-    page,
-  );
-
-  return Response.json(result);
+  try {
+    const result = await new GroupRepository(prisma.group).findForUser(
+      session.user.id,
+      page,
+    );
+    
+    return Response.json(result);
+  } catch (error) {
+    // throw new Error(error)
+    console.log(error);
+  }
 }

@@ -19,23 +19,21 @@ export default function Groups() {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    const controller = new AbortController();
-    fetchGroups(1, controller.signal)
-      .then(({ groups: fetchedGroups, hasMore: moreGroups }) => {
+    async function loadGroups() {
+      try {
+        const { groups: fetchedGroups, hasMore: moreGroups } =
+          await fetchGroups(1);
         setGroups(fetchedGroups);
         setHasMore(moreGroups);
-      })
-      .catch((fetchError: unknown) => {
-        if (!controller.signal.aborted) {
-          console.error("Failed to fetch groups:", fetchError);
-          setError(true);
-        }
-      })
-      .finally(() => {
-        if (!controller.signal.aborted) setLoading(false);
-      });
+      } catch (fetchError) {
+        console.error("Failed to fetch groups:", fetchError);
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    }
 
-    return () => controller.abort();
+    void loadGroups();
   }, []);
 
   async function loadMore() {
