@@ -18,6 +18,7 @@ export function useSocialSignIn(onStart?: () => void) {
       const { error: socialSignInError } = await signIn.social({
         provider: provider === "Google" ? "google" : "github",
         callbackURL: "/groups",
+        requestSignUp: true,
       });
 
       if (socialSignInError) {
