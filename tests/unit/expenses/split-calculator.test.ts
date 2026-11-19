@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { describe, it } from "node:test";
+import { describe, it } from "@jest/globals";
 import { SplitType } from "@/generated/prisma/enums";
 import { calculateSplits } from "@/lib/expenses/split-calculator";
 import { convertToHomeCurrencyCents } from "@/lib/expenses/currency";

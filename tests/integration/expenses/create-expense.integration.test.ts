@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
-import { test } from "node:test";
+import { describe, it } from "@jest/globals";
 import { PrismaClient } from "@/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { SplitType } from "@/generated/prisma/enums";
@@ -11,10 +11,12 @@ import { createExpense } from "@/lib/expenses/create-expense";
 
 const testDatabaseUrl = process.env.TEST_DATABASE_URL;
 
-test(
+const databaseTests = testDatabaseUrl ? describe : describe.skip;
+
+databaseTests(
   "expense creation validates group membership, preserves currency facts, and rolls back split failures",
-  { skip: !testDatabaseUrl },
-  async () => {
+  () => {
+    it("validates participants, preserves currency facts, and rolls back failed splits", async () => {
     const client = new PrismaClient({
       adapter: new PrismaPg({ connectionString: testDatabaseUrl! }),
     });
@@ -164,5 +166,6 @@ test(
       await client.user.deleteMany({ where: { id: { in: userIds } } });
       await client.$disconnect();
     }
+    });
   },
 );

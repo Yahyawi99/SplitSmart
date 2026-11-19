@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
-import { test } from "node:test";
+import { describe, it } from "@jest/globals";
 import { PrismaClient } from "@/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { createGroup } from "@/lib/groups/create-group";
@@ -8,10 +8,12 @@ import { addGroupMember, setGroupMemberActive } from "@/lib/groups/membership";
 
 const testDatabaseUrl = process.env.TEST_DATABASE_URL;
 
-test(
+const databaseTests = testDatabaseUrl ? describe : describe.skip;
+
+databaseTests(
   "group membership is unique, reusable across groups, and deactivated without deleting history",
-  { skip: !testDatabaseUrl },
-  async () => {
+  () => {
+    it("keeps memberships unique, multi-group, and historically associated", async () => {
     const client = new PrismaClient({
       adapter: new PrismaPg({ connectionString: testDatabaseUrl! }),
     });
@@ -91,5 +93,6 @@ test(
       await client.user.deleteMany({ where: { id: { in: userIds } } });
       await client.$disconnect();
     }
+    });
   },
 );

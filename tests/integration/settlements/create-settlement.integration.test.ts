@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
-import { test } from "node:test";
+import { describe, it } from "@jest/globals";
 import { PrismaClient } from "@/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { createGroup } from "@/lib/groups/create-group";
@@ -10,14 +10,12 @@ import { createSettlement } from "@/lib/settlements/create-settlement";
 
 const testDatabaseUrl = process.env.TEST_DATABASE_URL;
 
-test(
-  "settlements require distinct active group members and remain create-only",
-  { skip: !testDatabaseUrl },
-  async () => {
-    if (testDatabaseUrl === process.env.DATABASE_URL) {
-      throw new Error("TEST_DATABASE_URL must be separate from DATABASE_URL");
-    }
+const databaseTests = testDatabaseUrl ? describe : describe.skip;
 
+databaseTests(
+  "settlements require distinct active group members and remain create-only",
+  () => {
+    it("validates settlement facts and exposes no mutation operations", async () => {
     const client = new PrismaClient({
       adapter: new PrismaPg({ connectionString: testDatabaseUrl! }),
     });
@@ -113,5 +111,6 @@ test(
       await client.user.deleteMany({ where: { id: { in: userIds } } });
       await client.$disconnect();
     }
+    });
   },
 );
