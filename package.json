@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test": "node --conditions=react-server --import tsx --test src/lib/expenses/split-calculator.test.ts src/lib/groups/membership.integration.test.ts src/lib/expenses/create-expense.integration.test.ts",
     "postinstall": "prisma skills sync || exit 0",
     "contract:emit": "prisma contract emit"
   },
