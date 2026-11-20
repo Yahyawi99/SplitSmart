@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import prisma from "@/database/prisma";
 import { GroupRepository } from "@/repositories/group-repository";
+import { withSerializableTransaction } from "@/database/transaction";
 
 export async function GET(request: Request) {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -23,5 +24,36 @@ export async function GET(request: Request) {
   } catch (error) {
     console.error("Failed to fetch groups:", error);
     return Response.json({ error: "Failed to fetch groups" }, { status: 500 });
+  }
+}
+
+export async function POST(request: Request) {
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (!session?.user) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  try {
+    const body = await request.json();
+    const { name, description, currency } = body;
+
+    if (!name || typeof name !== "string") {
+      return Response.json({ error: "Name is required" }, { status: 400 });
+    }
+
+    const result = await withSerializableTransaction(async (tx) => {
+      const repo = new GroupRepository(tx.group);
+      return repo.createWithOwner({
+        creatorId: session.user.id,
+        name,
+        description: description ?? null,
+        currency: currency || "USD",
+      });
+    });
+
+    return Response.json(result, { status: 201 });
+  } catch (error) {
+    console.error("Failed to create group:", error);
+    return Response.json({ error: "Failed to create group" }, { status: 500 });
   }
 }

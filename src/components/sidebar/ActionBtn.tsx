@@ -2,17 +2,21 @@
 
 import { SidebarGroup, SidebarGroupContent } from "@/components/ui/sidebar";
 import { useSidebar } from "@/components/ui/sidebar";
-import { Button } from "@base-ui/react";
+import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 
-export default () => {
+interface ActionBtnProps {
+  onNewGroup?: () => void;
+}
+
+export default function ActionBtn({ onNewGroup }: ActionBtnProps) {
   const { open } = useSidebar();
 
   return (
     <SidebarGroup>
       <SidebarGroupContent className="-mt-4">
         <Button
-          // onClick={onNewGroup}
+          onClick={onNewGroup}
           className={`bg-(--accent-btn) hover:bg-(--accent-btn-hover)/75 text-(--text-primary) gap-2 h-10 rounded-lg text-sm font-semibold cursor-pointer w-full flex items-center justify-center ${
             open ? "px-5" : "px-0 py-0"
           }`}
@@ -25,4 +29,4 @@ export default () => {
       </SidebarGroupContent>
     </SidebarGroup>
   );
-};
+}

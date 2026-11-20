@@ -8,7 +8,8 @@ import {
 } from "@/components/ui/sidebar";
 import { fetchGroups } from "@/services/groups/fetch-groups";
 import type { GroupListItem } from "@/types/group";
-import { UserGroup } from "lucide-react";
+import { UserGroup, ArrowRight, Check } from "lucide-react";
+import { formatCurrency } from "@/lib/currency";
 
 export default function Groups() {
   const { open } = useSidebar();
@@ -85,13 +86,24 @@ export default function Groups() {
                 {group.name}
               </h2>
             </div>
-            <p
-              className={`text-(--text-dim) whitespace-nowrap overflow-hidden transition-all duration-300 ease-in-out ${
-                open ? "w-auto opacity-100" : "w-0 opacity-0"
-              }`}
-            >
-              {group.currency}
-            </p>
+            <div className="flex items-center gap-2 transition-all duration-300 ease-in-out">
+              {group.balanceCents === 0 ? (
+                <div className="flex h-6 items-center gap-1 px-2 py-0.5 rounded-full bg-(--text-muted)/20 text-xs font-semibold text-(--text-muted)">
+                  <Check className="h-3 w-3" />
+                  <span>Settled</span>
+                </div>
+              ) : group.balanceCents > 0 ? (
+                <div className="flex h-6 items-center gap-1 px-2 py-0.5 rounded-md bg-(--accent-btn)/20 border border-(--accent-btn)/30 text-(--accent-btn) text-xs font-semibold">
+                  <ArrowRight className="h-3 w-3" />
+                  <span>{formatCurrency(group.balanceCents, group.currency)}</span>
+                </div>
+              ) : (
+                <div className="flex h-6 items-center gap-1 px-2 py-0.5 rounded-md bg-(--accent-red)/20 border border-(--accent-red)/30 text-(--accent-red) text-xs font-semibold">
+                  <ArrowRight className="h-3 w-3" />
+                  <span>{formatCurrency(Math.abs(group.balanceCents), group.currency)}</span>
+                </div>
+              )}
+            </div>
           </div>
         ))}
         {open && loading && (

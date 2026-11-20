@@ -2,6 +2,7 @@ export type GroupListItem = {
   id: string;
   name: string;
   currency: string;
+  balanceCents: number;
 };
 
 export type GroupsResponse = {

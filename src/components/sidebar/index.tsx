@@ -1,3 +1,5 @@
+"use client"
+import { useState } from "react";
 import {
   Sidebar,
   SidebarContent,
@@ -8,8 +10,11 @@ import Header from "./Header";
 import Footer from "./Footer";
 import Groups from "./Groups";
 import ActionBtn from "./ActionBtn";
+import { CreateGroupDialog } from "./CreateGroupDialog";
 
 export function AppSidebar() {
+  const [createGroupOpen, setCreateGroupOpen] = useState(false);
+
   return (
     <Sidebar
       collapsible="icon"
@@ -20,11 +25,15 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent className="bg-(--bg-sidebar)">
         <Groups />
-        <ActionBtn />
+        <ActionBtn onNewGroup={() => setCreateGroupOpen(true)} />
       </SidebarContent>
       <SidebarFooter className="bg-(--bg-sidebar)">
         <Footer />
       </SidebarFooter>
+      <CreateGroupDialog
+        open={createGroupOpen}
+        onOpenChange={setCreateGroupOpen}
+      />
     </Sidebar>
   );
 }

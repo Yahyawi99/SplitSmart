@@ -8,13 +8,6 @@
       "image": "https://lh3.googleusercontent.com/a/ACg8ocLGOa1LuZzvPO2SVzJHpIgXEUuLToFfLmne2DZkbpFJMSl3vHJW=s96-c"
     },
     {
-      "id": "u_alice",
-      "name": "Alice Benali",
-      "email": "alice@test.dev",
-      "emailVerified": true,
-      "image": null
-    },
-    {
       "id": "u_bob",
       "name": "Bob Karim",
       "email": "bob@test.dev",
@@ -43,14 +36,14 @@
       "name": "Morocco Trip",
       "description": "Spring road trip",
       "currency": "MAD",
-      "createdById": "u_alice"
+      "createdById": "Ew9Obn6JvGXN1pENNy6zLXbVOyQcazS6"
     },
     {
       "id": "g_home",
       "name": "Apartment",
       "description": "Shared flat bills",
       "currency": "USD",
-      "createdById": "u_alice"
+      "createdById": "Ew9Obn6JvGXN1pENNy6zLXbVOyQcazS6"
     },
     {
       "id": "g_yassin_trip",
@@ -65,7 +58,7 @@
     {
       "id": "gm_1",
       "groupId": "g_trip",
-      "userId": "u_alice",
+      "userId": "Ew9Obn6JvGXN1pENNy6zLXbVOyQcazS6",
       "role": "OWNER",
       "active": true
     },
@@ -93,7 +86,7 @@
     {
       "id": "gm_5",
       "groupId": "g_home",
-      "userId": "u_alice",
+      "userId": "Ew9Obn6JvGXN1pENNy6zLXbVOyQcazS6",
       "role": "OWNER",
       "active": true
     },
@@ -138,7 +131,7 @@
     {
       "id": "e_riad",
       "groupId": "g_trip",
-      "payerId": "u_alice",
+      "payerId": "Ew9Obn6JvGXN1pENNy6zLXbVOyQcazS6",
       "description": "Riad booking",
       "amountCents": 90000,
       "currency": "MAD",
@@ -174,7 +167,7 @@
     {
       "id": "e_rent",
       "groupId": "g_home",
-      "payerId": "u_alice",
+      "payerId": "Ew9Obn6JvGXN1pENNy6zLXbVOyQcazS6",
       "description": "November rent",
       "amountCents": 150000,
       "currency": "USD",
@@ -249,7 +242,7 @@
     {
       "id": "es_1",
       "expenseId": "e_riad",
-      "userId": "u_alice",
+      "userId": "Ew9Obn6JvGXN1pENNy6zLXbVOyQcazS6",
       "owedCents": 30000
     },
     {
@@ -268,7 +261,7 @@
     {
       "id": "es_4",
       "expenseId": "e_dinner",
-      "userId": "u_alice",
+      "userId": "Ew9Obn6JvGXN1pENNy6zLXbVOyQcazS6",
       "owedCents": 15000
     },
     {
@@ -287,7 +280,7 @@
     {
       "id": "es_7",
       "expenseId": "e_taxi",
-      "userId": "u_alice",
+      "userId": "Ew9Obn6JvGXN1pENNy6zLXbVOyQcazS6",
       "owedCents": 6000
     },
     {
@@ -306,7 +299,7 @@
     {
       "id": "es_10",
       "expenseId": "e_rent",
-      "userId": "u_alice",
+      "userId": "Ew9Obn6JvGXN1pENNy6zLXbVOyQcazS6",
       "owedCents": 50000
     },
     {
@@ -325,7 +318,7 @@
     {
       "id": "es_13",
       "expenseId": "e_groc",
-      "userId": "u_alice",
+      "userId": "Ew9Obn6JvGXN1pENNy6zLXbVOyQcazS6",
       "owedCents": 2800
     },
     {
@@ -344,7 +337,7 @@
     {
       "id": "es_16",
       "expenseId": "e_wifi",
-      "userId": "u_alice",
+      "userId": "Ew9Obn6JvGXN1pENNy6zLXbVOyQcazS6",
       "owedCents": 2000
     },
     {
@@ -420,7 +413,7 @@
       "id": "s_1",
       "groupId": "g_trip",
       "fromUserId": "u_bob",
-      "toUserId": "u_alice",
+      "toUserId": "Ew9Obn6JvGXN1pENNy6zLXbVOyQcazS6",
       "amountCents": 30000,
       "date": "2026-11-05T09:00:00Z",
       "note": "Riad share"
@@ -429,7 +422,7 @@
       "id": "s_2",
       "groupId": "g_home",
       "fromUserId": "u_dave",
-      "toUserId": "u_alice",
+      "toUserId": "Ew9Obn6JvGXN1pENNy6zLXbVOyQcazS6",
       "amountCents": 20000,
       "date": "2026-11-14T09:00:00Z",
       "note": null
