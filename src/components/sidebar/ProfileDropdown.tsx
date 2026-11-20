@@ -4,6 +4,8 @@ import { LogOut, MoreVertical, Settings } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSidebar } from "@/components/ui/sidebar";
 import { signOut } from "@/lib/auth-client";
+import { useState } from "react";
+import { ConfirmDialog, SettingsDialog } from "@/components/dialogs";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -30,6 +32,8 @@ export default function ProfileDropdown({
 }: ProfileDropdownProps) {
   const { open } = useSidebar();
   const router = useRouter();
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [logoutOpen, setLogoutOpen] = useState(false);
 
   const handleLogout = async () => {
     const { error } = await signOut();
@@ -40,6 +44,7 @@ export default function ProfileDropdown({
     }
 
     onLogout?.();
+    setLogoutOpen(false);
     router.push("/auth/sign-in");
   };
 
@@ -80,20 +85,33 @@ export default function ProfileDropdown({
         <DropdownMenuContent className="ml-5 z-10 rounded-sm bg-(--bg-base) p-0 ring-(--text-dim)/50">
           <DropdownMenuItem
             className="cursor-pointer rounded-none hover:bg-(--accent-btn)/25"
-            onClick={onSettings}
+            onClick={() => {
+              onSettings?.();
+              setSettingsOpen(true);
+            }}
           >
             <Settings className="h-4 w-4" />
             Settings
           </DropdownMenuItem>
           <DropdownMenuItem
             className="cursor-pointer rounded-none text-red-500 hover:bg-red-500/10"
-            onClick={handleLogout}
+            onClick={() => setLogoutOpen(true)}
           >
             <LogOut className="h-4 w-4" />
             Log out
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+      <SettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen} />
+      <ConfirmDialog
+        open={logoutOpen}
+        onOpenChange={setLogoutOpen}
+        title="Log out?"
+        description="You will need to sign in again to access your groups."
+        confirmLabel="Log out"
+        onConfirm={handleLogout}
+        destructive
+      />
     </div>
   );
 }

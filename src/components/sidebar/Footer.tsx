@@ -12,25 +12,19 @@ interface UserProfile {
 
 interface SidebarFooterProps {
   user?: UserProfile;
-  onNewGroup?: () => void;
-  onThemeChange?: (theme: "system" | "dark" | "light") => void;
-  activeTheme?: "system" | "dark" | "light";
   onSettings?: () => void;
   onLogout?: () => void;
 }
 
-export default ({
+export default function SidebarFooter({
   user = {
     name: "John Doe",
     email: "john@example.com",
     avatarUrl: "",
   },
-  onNewGroup,
-  onThemeChange,
-  activeTheme = "system",
   onSettings,
   onLogout,
-}: Partial<SidebarFooterProps>) => {
+}: Partial<SidebarFooterProps>) {
   const { open } = useSidebar();
 
   return (
@@ -39,7 +33,7 @@ export default ({
         !open && "px-2 gap-0"
       }`}
     >
-      <ThemeDropdown activeTheme={activeTheme} onThemeChange={onThemeChange} />
+      <ThemeDropdown />
 
       {/* Divider */}
       <div className="h-px bg-(--text-dim) opacity-30 w-full" />
@@ -51,4 +45,4 @@ export default ({
       />
     </footer>
   );
-};
+}

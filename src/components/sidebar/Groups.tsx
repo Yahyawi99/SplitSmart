@@ -9,7 +9,7 @@ import {
 import { fetchGroups } from "@/services/groups/fetch-groups";
 import type { GroupListItem } from "@/types/group";
 import { UserGroup, ArrowRight, Check } from "lucide-react";
-import { formatCurrency } from "@/lib/currency";
+import { formatCurrency } from "@/utils/currency";
 
 export default function Groups() {
   const { open } = useSidebar();
@@ -95,12 +95,19 @@ export default function Groups() {
               ) : group.balanceCents > 0 ? (
                 <div className="flex h-6 items-center gap-1 px-2 py-0.5 rounded-md bg-(--accent-btn)/20 border border-(--accent-btn)/30 text-(--accent-btn) text-xs font-semibold">
                   <ArrowRight className="h-3 w-3" />
-                  <span>{formatCurrency(group.balanceCents, group.currency)}</span>
+                  <span>
+                    {formatCurrency(group.balanceCents, group.currency)}
+                  </span>
                 </div>
               ) : (
                 <div className="flex h-6 items-center gap-1 px-2 py-0.5 rounded-md bg-(--accent-red)/20 border border-(--accent-red)/30 text-(--accent-red) text-xs font-semibold">
                   <ArrowRight className="h-3 w-3" />
-                  <span>{formatCurrency(Math.abs(group.balanceCents), group.currency)}</span>
+                  <span>
+                    {formatCurrency(
+                      Math.abs(group.balanceCents),
+                      group.currency,
+                    )}
+                  </span>
                 </div>
               )}
             </div>

@@ -116,16 +116,16 @@ export function ActivityCard() {
               >
                 <div className="flex items-center gap-4 flex-1 min-w-0">
                   <div
-                    className={`flex items-center justify-center w-12 h-12 rounded-xl bg-[#1a1d21] border border-zinc-800/80 ${item.iconColor}`}
+                    className={`flex h-12 w-12 items-center justify-center rounded-xl border border-(--text-dim)/50 bg-(--bg-surface) ${item.iconColor}`}
                   >
                     <Icon className="h-6 w-6" strokeWidth={1.5} />
                   </div>
 
                   <div className="flex-1 min-w-0 space-y-1">
-                    <p className="text-base font-medium text-zinc-100 truncate">
+                    <p className="truncate text-base font-medium text-(--text-primary)">
                       {item.title}
                     </p>
-                    <div className="flex items-center gap-2.5 text-sm text-zinc-400">
+                    <div className="flex items-center gap-2.5 text-sm text-(--text-secondary)">
                       {item.user && (
                         <>
                           <Avatar className={`h-6 w-6 ${item.user.color}`}>
@@ -133,17 +133,17 @@ export function ActivityCard() {
                               {item.user.initials}
                             </AvatarFallback>
                           </Avatar>
-                          <span className="font-medium text-zinc-300">
+                          <span className="font-medium text-(--text-primary)">
                             {item.user.name}
                           </span>
-                          <span className="text-zinc-600">•</span>
+                          <span className="text-(--text-dim)">•</span>
                         </>
                       )}
 
                       {isSettlement && (
                         <Badge
                           variant="secondary"
-                          className="bg-emerald-950 text-emerald-300 border border-emerald-800/50 px-2 py-0.5 text-xs rounded-md font-medium"
+                          className="rounded-md border border-(--accent-green)/30 bg-(--accent-green)/10 px-2 py-0.5 text-xs font-medium text-(--accent-green)"
                         >
                           Settlement
                         </Badge>
@@ -152,27 +152,27 @@ export function ActivityCard() {
                       {item.badge && (
                         <Badge
                           variant="secondary"
-                          className="bg-zinc-800 text-zinc-300 border border-zinc-700 px-2 py-0.5 text-xs rounded-md font-medium"
+                          className="rounded-md border border-(--text-dim)/50 bg-(--bg-active) px-2 py-0.5 text-xs font-medium text-(--text-secondary)"
                         >
                           {item.badge}
                         </Badge>
                       )}
 
-                      <span className="text-zinc-500">{item.date}</span>
+                      <span className="text-(--text-muted)">{item.date}</span>
                     </div>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-3 shrink-0">
                   <span
-                    className={`text-xl font-semibold tracking-tight ${isSettlement ? "text-emerald-400" : "text-zinc-100"}`}
+                    className={`text-xl font-semibold tracking-tight ${isSettlement ? "text-(--accent-green)" : "text-(--text-primary)"}`}
                   >
                     {item.amount}
                   </span>
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-8 w-8 cursor-pointer text-zinc-600 hover:text-white hover:bg-transparent"
+                    className="h-8 w-8 cursor-pointer text-(--text-muted) hover:bg-transparent hover:text-(--text-primary)"
                   >
                     <ChevronRight className="h-5 w-5" />
                   </Button>

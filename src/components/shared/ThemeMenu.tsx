@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useTheme } from "next-themes";
 import { ChevronDown, Monitor, Moon, Sun } from "lucide-react";
 import {
   DropdownMenu,
@@ -9,8 +9,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-type Theme = "system" | "dark" | "light";
-
 const themeOptions = [
   { value: "system" as const, label: "System", Icon: Monitor },
   { value: "dark" as const, label: "Dark", Icon: Moon },
@@ -18,7 +16,7 @@ const themeOptions = [
 ];
 
 export function ThemeMenu() {
-  const [activeTheme, setActiveTheme] = useState<Theme>("system");
+  const { theme: activeTheme, setTheme } = useTheme();
   const ActiveThemeIcon =
     themeOptions.find(({ value }) => value === activeTheme)?.Icon ?? Monitor;
 
@@ -39,7 +37,7 @@ export function ThemeMenu() {
           <DropdownMenuItem
             key={value}
             className="cursor-pointer rounded-none hover:bg-(--accent-btn)/25"
-            onClick={() => setActiveTheme(value)}
+            onClick={() => setTheme(value)}
           >
             <Icon className="h-4 w-4" />
             {label}

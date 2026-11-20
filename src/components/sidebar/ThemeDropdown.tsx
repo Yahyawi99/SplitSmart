@@ -1,30 +1,13 @@
 "use client";
 
-import { ChevronDown, Monitor, Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
+import { Monitor, Moon, Sun } from "lucide-react";
 import { useSidebar } from "@/components/ui/sidebar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { ThemeMenu } from "../shared";
 
-type Theme = "system" | "dark" | "light";
-
-interface ThemeDropdownProps {
-  activeTheme: Theme;
-  onThemeChange?: (theme: Theme) => void;
-}
-
-export default function ThemeDropdown({
-  activeTheme,
-  onThemeChange,
-}: ThemeDropdownProps) {
+export default function ThemeDropdown() {
   const { open } = useSidebar();
-  const ActiveThemeIcon =
-    activeTheme === "dark" ? Moon : activeTheme === "light" ? Sun : Monitor;
-
+  const { theme: activeTheme, setTheme } = useTheme();
   const themeOptions = [
     { value: "system" as const, label: "System", Icon: Monitor },
     { value: "dark" as const, label: "Dark", Icon: Moon },
@@ -44,7 +27,10 @@ export default function ThemeDropdown({
         {themeOptions.map(({ value, label, Icon }) => (
           <button
             key={value}
-            onClick={() => onThemeChange?.(value)}
+            type="button"
+            onClick={() => setTheme(value)}
+            aria-label={`Use ${label.toLowerCase()} theme`}
+            aria-pressed={activeTheme === value}
             className={`flex h-8 w-8 cursor-pointer items-center justify-center rounded-md transition-colors ${
               activeTheme === value
                 ? "bg-(--accent-btn)/25 text-(--accent-btn)"

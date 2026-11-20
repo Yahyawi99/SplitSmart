@@ -33,11 +33,13 @@ export function GeneralInfo({
         <div className="flex items-start justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
-            <p className="mt-1 text-sm text-slate-400">{description}</p>
+            <p className="mt-1 text-sm text-(--text-secondary)">
+              {description}
+            </p>
           </div>
         </div>
         <div className="mt-4 flex items-center gap-6 text-sm">
-          <div className="flex items-center gap-1.5 text-slate-300">
+          <div className="flex items-center gap-1.5 text-(--text-secondary)">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -52,21 +54,23 @@ export function GeneralInfo({
               <path d="M3 10h18" />
               <path d="M7 15h.01" />
             </svg>
-            <span className="font-semibold text-white">
+            <span className="font-semibold text-(--text-primary)">
               ${totalSpent.toFixed(2)}
             </span>
             <span>total spent</span>
           </div>
 
-          <div className="text-slate-300">
-            <span className="font-semibold text-white">{expenseCount}</span>{" "}
+          <div className="text-(--text-secondary)">
+            <span className="font-semibold text-(--text-primary)">
+              {expenseCount}
+            </span>{" "}
             expenses
           </div>
 
           <div className="flex items-center">
             <div className="flex -space-x-2">
               {members.map((member, i) => (
-                <Avatar key={i} className="h-7 w-7 border-2 border-[#0a0d14]">
+                <Avatar key={i} className="h-7 w-7 border-2 border-(--bg-base)">
                   <AvatarFallback
                     className={`${member.color} text-[10px] font-semibold text-white`}
                   >
@@ -75,7 +79,7 @@ export function GeneralInfo({
                 </Avatar>
               ))}
             </div>
-            <span className="ml-3 text-slate-300">
+            <span className="ml-3 text-(--text-secondary)">
               {members.length} members
             </span>
           </div>

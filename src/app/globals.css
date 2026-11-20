@@ -5,39 +5,97 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  color-scheme: light;
   color: var(--text-primary);
+  --bg-base: #f5f7f6;
+  --bg-sidebar: #ffffff;
+  --bg-surface: #ffffff;
+  --bg-surface-alt: #e8f4ef;
+  --bg-active: #e1f3eb;
+  --text-primary: #17211d;
+  --text-secondary: #52605a;
+  --text-muted: #728078;
+  --text-dim: #cbd6d0;
+  --accent-btn: #07875d;
+  --accent-btn-hover: #00ae78;
+  --accent-blue: #3d70d9;
+  --accent-blue-hover: #2563eb;
+  --accent-green: #07875d;
+  --accent-red: #d61f49;
+  --accent-red-hover: #c31b40;
+  --avatar-indigo: #6366f1;
+  --avatar-amber: #fba419;
+  --avatar-pink: #ec4899;
+  --avatar-teal: #14b8a6;
+  --background: var(--bg-base);
+  --foreground: var(--text-primary);
+  --card: var(--bg-sidebar);
+  --card-foreground: var(--text-primary);
+  --popover: var(--bg-sidebar);
+  --popover-foreground: var(--text-primary);
+  --primary: var(--accent-btn);
+  --primary-foreground: #ffffff;
+  --secondary: var(--bg-active);
+  --secondary-foreground: var(--text-primary);
+  --muted: var(--bg-surface);
+  --muted-foreground: var(--text-secondary);
+  --accent: var(--bg-active);
+  --accent-foreground: var(--text-primary);
+  --destructive: var(--accent-red);
+  --border: var(--text-dim);
+  --input: var(--text-dim);
+  --ring: var(--accent-btn);
+}
+
+.dark {
+  color-scheme: dark;
+  --bg-base: #140c1d;
+  --bg-sidebar: #1e122b;
+  --bg-surface: #10141d;
+  --bg-surface-alt: #0f1d1e;
+  --bg-active: #15213b;
+  --text-primary: #f7f9ff;
+  --text-secondary: #9b9fa8;
+  --text-muted: #666a75;
+  --text-dim: #5b5e65;
+  --accent-btn: #059669;
+  --accent-btn-hover: #00e599;
+  --accent-blue: #3d70d9;
+  --accent-blue-hover: #2563eb;
+  --accent-green: #059669;
+  --accent-red: #d61f49;
+  --accent-red-hover: #ed829b;
+  --avatar-indigo: #6366f1;
+  --avatar-amber: #fba419;
+  --avatar-pink: #ec4899;
+  --avatar-teal: #14b8a6;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
 }
 
 a[href]:not([aria-disabled="true"]),
 button:not(:disabled):not([aria-disabled="true"]),
 [role="button"]:not(:disabled):not([aria-disabled="true"]) {
   cursor: pointer;
-}
-
-@theme inline {
-  --bg-base: #140C1D;
-  --bg-sidebar: #1E122B;
-  --bg-surface: #10141D;
-  --bg-surface-alt: #0F1D1E;
-  --bg-active: #15213B;
-
-  --text-primary: #F7F9FF;
-  --text-secondary: #9B9FA8;
-  --text-muted: #666A75;
-  --text-dim: #5B5E65;
-
-  --accent-btn: #059669;
-  --accent-btn-hover: #00E599;
-  --accent-blue: #3D70D9;
-  --accent-blue-hover: #2563eb;
-  --accent-green: #059669;
-  --accent-red: #D61F49;
-  --accent-red-hover: #ED829B;
-
-  --avatar-indigo: #6366F1;
-  --avatar-amber: #FBA419;
-  --avatar-pink: #EC4899;
-  --avatar-teal: #14B8A6;
 }
 
 /* @media (prefers-color-scheme: dark) {
