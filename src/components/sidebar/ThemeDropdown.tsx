@@ -1,18 +1,14 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import { Monitor, Moon, Sun } from "lucide-react";
+import { themeOptions } from "@/constants/ThemeOptions";
 import { useSidebar } from "@/components/ui/sidebar";
 import { ThemeMenu } from "../shared";
 
 export default function ThemeDropdown() {
   const { open } = useSidebar();
   const { theme: activeTheme, setTheme } = useTheme();
-  const themeOptions = [
-    { value: "system" as const, label: "System", Icon: Monitor },
-    { value: "dark" as const, label: "Dark", Icon: Moon },
-    { value: "light" as const, label: "Light", Icon: Sun },
-  ];
+
 
   if (!open) {
     return <ThemeMenu />;
@@ -30,7 +26,6 @@ export default function ThemeDropdown() {
             type="button"
             onClick={() => setTheme(value)}
             aria-label={`Use ${label.toLowerCase()} theme`}
-            aria-pressed={activeTheme === value}
             className={`flex h-8 w-8 cursor-pointer items-center justify-center rounded-md transition-colors ${
               activeTheme === value
                 ? "bg-(--accent-btn)/25 text-(--accent-btn)"
