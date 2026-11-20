@@ -19,10 +19,9 @@ export async function GET(request: Request) {
       session.user.id,
       page,
     );
-    
     return Response.json(result);
   } catch (error) {
-    // throw new Error(error)
-    console.log(error);
+    console.error("Failed to fetch groups:", error);
+    return Response.json({ error: "Failed to fetch groups" }, { status: 500 });
   }
 }
