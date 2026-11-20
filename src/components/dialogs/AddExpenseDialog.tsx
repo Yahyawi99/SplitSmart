@@ -145,7 +145,10 @@ export function AddExpenseDialog({
         </DialogHeader>
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="space-y-2">
-            <Label htmlFor="expense-group">Group</Label>
+            <Label htmlFor="expense-group" className="flex items-center gap-1">
+              Group
+              <span className="text-(--accent-red) font-bold">*</span>
+            </Label>
             <select
               id="expense-group"
               className={dialogFieldClass}
@@ -161,8 +164,11 @@ export function AddExpenseDialog({
             </select>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="expense-description">Description</Label>
-            <Input
+            <Label htmlFor="expense-description" className="flex items-center gap-1">
+              Description
+              <span className="text-(--accent-red) font-bold">*</span>
+            </Label>
+            <textarea
               id="expense-description"
               className={dialogFieldClass}
               value={description}
@@ -173,8 +179,9 @@ export function AddExpenseDialog({
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
-              <Label htmlFor="expense-amount">
+              <Label htmlFor="expense-amount" className="flex items-center gap-1">
                 Amount {groups.find(({ id }) => id === groupId)?.currency}
+                <span className="text-(--accent-red) font-bold">*</span>
               </Label>
               <Input
                 id="expense-amount"
@@ -188,7 +195,10 @@ export function AddExpenseDialog({
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="expense-category">Category</Label>
+              <Label htmlFor="expense-category" className="flex items-center gap-1">
+                Category
+                <span className="text-(--accent-red) font-bold">*</span>
+              </Label>
               <Input
                 id="expense-category"
                 className={dialogFieldClass}
@@ -201,7 +211,10 @@ export function AddExpenseDialog({
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
-              <Label htmlFor="expense-payer">Paid by</Label>
+              <Label htmlFor="expense-payer" className="flex items-center gap-1">
+                Paid by
+                <span className="text-(--accent-red) font-bold">*</span>
+              </Label>
               <select
                 id="expense-payer"
                 className={dialogFieldClass}
@@ -217,7 +230,10 @@ export function AddExpenseDialog({
               </select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="expense-date">Date</Label>
+              <Label htmlFor="expense-date" className="flex items-center gap-1">
+                Date
+                <span className="text-(--accent-red) font-bold">*</span>
+              </Label>
               <Input
                 id="expense-date"
                 className={dialogFieldClass}
@@ -229,7 +245,10 @@ export function AddExpenseDialog({
             </div>
           </div>
           <fieldset className="space-y-2">
-            <legend className="text-sm font-medium">Split between</legend>
+            <legend className="text-sm font-medium flex items-center gap-1">
+              Split between
+              <span className="text-(--accent-red) font-bold">*</span>
+            </legend>
             <div className="max-h-32 space-y-2 overflow-y-auto rounded-md border border-(--text-dim)/40 p-3">
               {members.map((member) => (
                 <Label

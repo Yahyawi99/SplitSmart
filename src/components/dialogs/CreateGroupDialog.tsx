@@ -81,7 +81,10 @@ export function CreateGroupDialog({
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="group-name">Group name</Label>
+            <Label htmlFor="group-name" className="flex items-center gap-1">
+              Group name
+              <span className="text-(--accent-red) font-bold">*</span>
+            </Label>
             <Input
               id="group-name"
               value={name}
@@ -102,7 +105,10 @@ export function CreateGroupDialog({
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="group-currency">Currency</Label>
+            <Label htmlFor="group-currency" className="flex items-center gap-1">
+              Currency
+              <span className="text-(--accent-red) font-bold">*</span>
+            </Label>
             <Select
               onValueChange={(value) => value && setCurrency(value)}
               value={currency}

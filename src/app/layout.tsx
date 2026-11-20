@@ -3,7 +3,7 @@ import { Roboto_Condensed, Roboto, Oxanium } from "next/font/google";
 
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { ThemeProvider } from "@/components/shared/ThemeProvider";
+import { ThemeProvider } from "@/context/ThemeProvider";
 
 const oxaniumHeading = Oxanium({
   subsets: ["latin"],

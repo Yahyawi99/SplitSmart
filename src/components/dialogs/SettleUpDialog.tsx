@@ -144,7 +144,10 @@ export function SettleUpDialog({
         </DialogHeader>
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="space-y-2">
-            <Label htmlFor="settlement-group">Group</Label>
+            <Label htmlFor="settlement-group" className="flex items-center gap-1">
+              Group
+              <span className="text-(--accent-red) font-bold">*</span>
+            </Label>
             <select
               id="settlement-group"
               className={dialogFieldClass}
@@ -161,7 +164,10 @@ export function SettleUpDialog({
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
-              <Label htmlFor="settlement-from">Paid by</Label>
+              <Label htmlFor="settlement-from" className="flex items-center gap-1">
+                Paid by
+                <span className="text-(--accent-red) font-bold">*</span>
+              </Label>
               <select
                 id="settlement-from"
                 className={dialogFieldClass}
@@ -177,7 +183,10 @@ export function SettleUpDialog({
               </select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="settlement-to">Paid to</Label>
+              <Label htmlFor="settlement-to" className="flex items-center gap-1">
+                Paid to
+                <span className="text-(--accent-red) font-bold">*</span>
+              </Label>
               <select
                 id="settlement-to"
                 className={dialogFieldClass}
@@ -197,7 +206,10 @@ export function SettleUpDialog({
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
-              <Label htmlFor="settlement-amount">Amount {currency}</Label>
+              <Label htmlFor="settlement-amount" className="flex items-center gap-1">
+                Amount {currency}
+                <span className="text-(--accent-red) font-bold">*</span>
+              </Label>
               <Input
                 id="settlement-amount"
                 className={dialogFieldClass}
@@ -210,7 +222,10 @@ export function SettleUpDialog({
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="settlement-date">Date</Label>
+              <Label htmlFor="settlement-date" className="flex items-center gap-1">
+                Date
+                <span className="text-(--accent-red) font-bold">*</span>
+              </Label>
               <Input
                 id="settlement-date"
                 className={dialogFieldClass}
