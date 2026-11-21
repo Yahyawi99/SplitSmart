@@ -3,10 +3,10 @@ import { randomUUID } from "node:crypto";
 import { describe, it } from "@jest/globals";
 import { PrismaClient } from "@/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { createGroup } from "@/lib/groups/create-group";
-import { addGroupMember } from "@/lib/groups/membership";
-import * as settlementService from "@/lib/settlements/create-settlement";
-import { createSettlement } from "@/lib/settlements/create-settlement";
+import { createGroup } from "@/features/groups/create-group";
+import { addGroupMember } from "@/features/groups/membership";
+import * as settlementService from "@/features/settlements/create-settlement";
+import { createSettlement } from "@/features/settlements/create-settlement";
 
 const testDatabaseUrl = process.env.TEST_DATABASE_URL;
 

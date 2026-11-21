@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "@jest/globals";
-import { calculateGroupBalances } from "@/lib/settlements/calculate-balances";
+import { calculateGroupBalances } from "@/features/settlements/calculate-balances";
 
 describe("calculateGroupBalances", () => {
   it("derives balances from converted expense facts, owed splits, and payments", () => {
