@@ -17,7 +17,7 @@ export function useSocialSignIn(onStart?: () => void) {
     try {
       const { error: socialSignInError } = await signIn.social({
         provider: provider === "Google" ? "google" : "github",
-        callbackURL: "/groups",
+        callbackURL: `${process.env.BETTER_AUTH_URL}/groups`,
         requestSignUp: true,
       });
 
