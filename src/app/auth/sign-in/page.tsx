@@ -19,20 +19,6 @@ export default function SignIn() {
     }
   }, [session, router]);
 
-  // useEffect(() => {
-  //   if (typeof window !== "undefined") {
-  //     const storedTheme = localStorage.getItem("theme");
-  //     if (storedTheme) {
-  //       setTheme(storedTheme);
-  //     } else {
-  //       if (getBrowserTheme() === "dark") {
-  //         setTheme("dark");
-  //       } else {
-  //         setTheme("light");
-  //       }
-  //     }
-  //   }
-  // }, []);
 
   return (
     <div
