@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
   SidebarGroup,
@@ -67,15 +68,19 @@ export default function Groups() {
       </SidebarGroupLabel>
       <SidebarGroupContent>
         {groups.map((group) => (
-          <div
+          <Link
             key={group.id}
-            className={`flex items-center rounded-md mb-1 bg-(--accent-btn)/25 p-3.5 transition-all duration-300 ease-in-out ${
-              open
-                ? "justify-between"
-                : "mt-10 p-0! w-[95%] h-10 justify-center"
-            }`}
-            title={group.name}
+            href={`/groups/${group.id}`}
+            className="block"
           >
+            <div
+              className={`flex items-center rounded-md mb-1 bg-(--accent-btn)/25 p-3.5 transition-all duration-300 ease-in-out ${
+                open
+                  ? "justify-between"
+                  : "mt-10 p-0! w-[95%] h-10 justify-center"
+              }`}
+              title={group.name}
+            >
             <div className="flex gap-2 items-center min-w-0">
               <UserGroup className="w-4 h-4 shrink-0" />
               <h2
@@ -112,6 +117,7 @@ export default function Groups() {
               )}
             </div>
           </div>
+          </Link>
         ))}
         {open && loading && (
           <p className="px-3 py-2 text-sm">Loading groups...</p>
