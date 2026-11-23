@@ -61,62 +61,58 @@ export default function Groups() {
     <SidebarGroup>
       <SidebarGroupLabel
         className={`overflow-hidden transition-all duration-300 ease-in-out ${
-          open ? "h-auto opacity-100 mb-2" : " h-0 opacity-0"
+          open ? "h-auto opacity-100 mb-2" : "first:mt-0 h-0 opacity-0"
         }`}
       >
         GROUPS
       </SidebarGroupLabel>
+      
       <SidebarGroupContent>
         {groups.map((group) => (
-          <Link
-            key={group.id}
-            href={`/groups/${group.id}`}
-            className="block"
-          >
+          <Link key={group.id} href={`/groups/${group.id}`}>
             <div
               className={`flex items-center rounded-md mb-1 bg-(--accent-btn)/25 p-3.5 transition-all duration-300 ease-in-out ${
-                open
-                  ? "justify-between"
-                  : "mt-10 p-0! w-[95%] h-10 justify-center"
+                open ? "justify-between" : " p-0! mb-2 w-[95%] h-10 justify-center"
               }`}
               title={group.name}
             >
-            <div className="flex gap-2 items-center min-w-0">
-              <UserGroup className="w-4 h-4 shrink-0" />
-              <h2
-                className={`whitespace-nowrap overflow-hidden text-ellipsis transition-all duration-300 ease-in-out ${
-                  !open && "hidden"
-                }`}
-              >
-                {group.name}
-              </h2>
+              <div className="flex gap-2 items-center min-w-0">
+                <UserGroup className="w-4 h-4 shrink-0" />
+                <h2
+                  className={`whitespace-nowrap overflow-hidden text-ellipsis transition-all duration-300 ease-in-out ${
+                    !open && "hidden"
+                  }`}
+                >
+                  {group.name}
+                </h2>
+              </div>
+              <div className="flex items-center gap-2 transition-all duration-300 ease-in-out">
+                {open &&
+                  (group.balanceCents === 0 ? (
+                    <div className="flex h-6 items-center gap-1 px-2 py-0.5 rounded-full bg-(--text-muted)/20 text-xs font-semibold text-(--text-muted)">
+                      <Check className="h-3 w-3" />
+                      <span>Settled</span>
+                    </div>
+                  ) : group.balanceCents > 0 ? (
+                    <div className="flex h-6 items-center gap-1 px-2 py-0.5 rounded-md bg-(--accent-btn)/20 border border-(--accent-btn)/30 text-(--accent-btn) text-xs font-semibold">
+                      <ArrowRight className="h-3 w-3" />
+                      <span>
+                        {formatCurrency(group.balanceCents, group.currency)}
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="flex h-6 items-center gap-1 px-2 py-0.5 rounded-md bg-(--accent-red)/20 border border-(--accent-red)/30 text-(--accent-red) text-xs font-semibold">
+                      <ArrowRight className="h-3 w-3" />
+                      <span>
+                        {formatCurrency(
+                          Math.abs(group.balanceCents),
+                          group.currency,
+                        )}
+                      </span>
+                    </div>
+                  ))}
+              </div>
             </div>
-            <div className="flex items-center gap-2 transition-all duration-300 ease-in-out">
-              {group.balanceCents === 0 ? (
-                <div className="flex h-6 items-center gap-1 px-2 py-0.5 rounded-full bg-(--text-muted)/20 text-xs font-semibold text-(--text-muted)">
-                  <Check className="h-3 w-3" />
-                  <span>Settled</span>
-                </div>
-              ) : group.balanceCents > 0 ? (
-                <div className="flex h-6 items-center gap-1 px-2 py-0.5 rounded-md bg-(--accent-btn)/20 border border-(--accent-btn)/30 text-(--accent-btn) text-xs font-semibold">
-                  <ArrowRight className="h-3 w-3" />
-                  <span>
-                    {formatCurrency(group.balanceCents, group.currency)}
-                  </span>
-                </div>
-              ) : (
-                <div className="flex h-6 items-center gap-1 px-2 py-0.5 rounded-md bg-(--accent-red)/20 border border-(--accent-red)/30 text-(--accent-red) text-xs font-semibold">
-                  <ArrowRight className="h-3 w-3" />
-                  <span>
-                    {formatCurrency(
-                      Math.abs(group.balanceCents),
-                      group.currency,
-                    )}
-                  </span>
-                </div>
-              )}
-            </div>
-          </div>
           </Link>
         ))}
         {open && loading && (
