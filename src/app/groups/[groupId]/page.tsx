@@ -1,6 +1,6 @@
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
-import { redirect } from "next/navigation";
+import { redirect, notFound } from "next/navigation";
 import prisma from "@/database/prisma";
 import {
   Header,
@@ -15,16 +15,7 @@ import {
 } from "@/components/main";
 import { getInitials } from "@/utils/initials";
 import { mapGroupToActivityItems, calculateUserBalance } from "@/utils/group-mapping";
-import type { ActivityItem } from "@/types/activity";
 import type { GroupMemberInfo } from "@/types/group";
-
-function formatDate(date: Date): string {
-  return new Date(date).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-}
 
 export default async function GroupPage({
   params,
@@ -45,7 +36,7 @@ export default async function GroupPage({
     select: { active: true },
   });
   if (!membership?.active) {
-    redirect("/groups");
+    notFound();
   }
 
   const group = await prisma.group.findUnique({
@@ -73,7 +64,7 @@ export default async function GroupPage({
   });
 
   if (!group) {
-    redirect("/groups");
+    notFound();
   }
 
   const totalSpentCents = group.expenses.reduce(
@@ -90,10 +81,21 @@ export default async function GroupPage({
     active: m.active,
   }));
 
-  const allItems = mapGroupToActivityItems(group.expenses, group.settlements, group.currency);
-  const settlementCount = group.settlements.length;
+  const settlements = group.settlements.map((s) => ({
+    id: s.id,
+    amountCents: s.amountCents,
+    date: s.date,
+    fromUserId: s.fromUserId,
+    fromUserName: s.sender.name,
+    toUserId: s.toUserId,
+    toUserName: s.receiver.name,
+    note: s.note,
+  }));
 
-  const balance = calculateUserBalance(group.expenses, group.settlements, session.user.id);
+  const allItems = mapGroupToActivityItems(group.expenses, settlements, group.currency);
+  const settlementCount = settlements.length;
+
+  const balance = calculateUserBalance(group.expenses, settlements, session.user.id);
 
   return (
     <div className="w-full relative">
