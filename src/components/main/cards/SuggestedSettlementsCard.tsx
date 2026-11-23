@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowDownLeft, ShieldCheck } from "lucide-react";
 
 interface SuggestedSettlement {
@@ -15,6 +16,7 @@ interface SuggestedSettlement {
   personInitials: string;
   amount: string;
   onRecord?: () => void;
+  loading?: boolean;
 }
 
 export function SuggestedSettlementsCard({
@@ -22,7 +24,36 @@ export function SuggestedSettlementsCard({
   personInitials = "JP",
   amount = "$216.47",
   onRecord,
+  loading = false,
 }: Partial<SuggestedSettlement>) {
+  if (loading) {
+    return (
+      <Card className="w-full border border-(--text-dim)/50 bg-(--bg-sidebar) text-primary ring-0 rounded-xl">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-xl font-semibold text-primary">
+            <Skeleton className="h-4 w-1/3" />
+          </CardTitle>
+          <CardDescription className="text-xs text-(--text-secondary)">
+            <Skeleton className="h-3 w-1/2" />
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center justify-between rounded-lg bg-(--bg-active) p-3">
+            <div className="flex items-center gap-3">
+              <Skeleton className="h-8 w-8 rounded-full" />
+              <div className="flex flex-col gap-1">
+                <Skeleton className="h-3 w-24" />
+                <Skeleton className="h-2 w-16 mt-1" />
+                <Skeleton className="h-3 w-32 mt-1" />
+              </div>
+            </div>
+            <Skeleton className="h-8 w-24" />
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <Card className="w-full border border-(--text-dim)/50 bg-(--bg-sidebar) text-primary ring-0 rounded-xl">
       <CardHeader className="pb-3">

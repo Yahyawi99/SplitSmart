@@ -86,12 +86,8 @@ If you'd rather run SplitSmart on your own computer, you'll need [Node.js](https
 
 ## About the images
 
-The two screenshots in this README live in `public/screenshots/`:
-
 - `homepage.png` — the SplitSmart landing page
 - `dashboard.png` — a sample group trip view
-
-If you're contributing to the project, place your screenshot files in that folder using those filenames.
 
 ---
 

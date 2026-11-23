@@ -1,6 +1,6 @@
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
-import { redirect, notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 import prisma from "@/database/prisma";
 import {
   Header,
@@ -35,9 +35,6 @@ export default async function GroupPage({
     where: { groupId_userId: { groupId, userId: session.user.id } },
     select: { active: true },
   });
-  if (!membership?.active) {
-    notFound();
-  }
 
   const group = await prisma.group.findUnique({
     where: { id: groupId },
@@ -63,25 +60,21 @@ export default async function GroupPage({
     },
   });
 
-  if (!group) {
-    notFound();
-  }
-
-  const totalSpentCents = group.expenses.reduce(
+  const totalSpentCents = group?.expenses.reduce(
     (sum, e) => sum + e.amountCents,
     0
-  );
-  const expenseCount = group.expenses.length;
+  ) ?? 0;
+  const expenseCount = group?.expenses.length ?? 0;
 
-  const members: GroupMemberInfo[] = group.members.map((m) => ({
+  const members: GroupMemberInfo[] = group?.members.map((m) => ({
     id: m.userId,
     name: m.user.name,
     initials: getInitials(m.user.name),
     role: m.role,
     active: m.active,
-  }));
+  })) ?? [];
 
-  const settlements = group.settlements.map((s) => ({
+  const settlements = group?.settlements.map((s) => ({
     id: s.id,
     amountCents: s.amountCents,
     date: s.date,
@@ -90,51 +83,70 @@ export default async function GroupPage({
     toUserId: s.toUserId,
     toUserName: s.receiver.name,
     note: s.note,
-  }));
+  })) ?? [];
 
-  const allItems = mapGroupToActivityItems(group.expenses, settlements, group.currency);
+  const allItems = mapGroupToActivityItems(
+    group?.expenses ?? [],
+    settlements,
+    group?.currency ?? "USD"
+  );
   const settlementCount = settlements.length;
 
-  const balance = calculateUserBalance(group.expenses, settlements, session.user.id);
+  const balance = calculateUserBalance(
+    group?.expenses ?? [],
+    settlements,
+    session.user.id
+  );
 
   return (
     <div className="w-full relative">
       <Header groupId={groupId} />
-      <GeneralInfo
-        title={group.name}
-        description={group.description}
-        totalSpentCents={totalSpentCents}
-        expenseCount={expenseCount}
-        currency={group.currency}
-        members={members}
-      />
-
-      <div className="w-full grid grid-cols-1 xl:grid-cols-3 gap-3 p-3 flex-wrap-reverse">
-        <div className="grid grid-cols-1 gap-3 xl:col-span-2">
-          <ActivityCard
-            items={allItems}
+      {!group || !membership?.active ? (
+        <div className="p-8 text-center">
+          <p className="text-(--text-secondary)">
+            Group not found or you don't have access to this group.
+          </p>
+        </div>
+      ) : (
+        <>
+          <GeneralInfo
+            title={group.name}
+            description={group.description}
+            totalSpentCents={totalSpentCents}
             expenseCount={expenseCount}
-            settlementCount={settlementCount}
-          />
-          <GroupSettlementsCard />
-        </div>
-
-        <div className="h-fit grid grid-cols-1 gap-3 xl:col-span-1">
-          <BalanceCard
-            balanceCents={balance.balanceCents}
-            amountPaidCents={balance.amountPaidCents}
-            shareCents={balance.shareCents}
             currency={group.currency}
+            members={members}
+            loading={!group || !membership?.active}
           />
-          <SuggestedSettlementsCard />
-        </div>
-      </div>
 
-      <div className=" grid grid-cols-1 gap-3 xl:grid-cols-[repeat(auto-fit,minmax(400px,1fr))] p-3">
-        <SpendingOverTimeChart />
-        <SpendingByCategoryCharts />
-        <MemberContributionChart />
-      </div>
+          <div className="w-full grid grid-cols-1 xl:grid-cols-3 gap-3 p-3 flex-wrap-reverse">
+            <div className="grid grid-cols-1 gap-3 xl:col-span-2">
+              <ActivityCard
+                items={allItems}
+                expenseCount={expenseCount}
+                settlementCount={settlementCount}
+              />
+              <GroupSettlementsCard />
+            </div>
+
+            <div className="h-fit grid grid-cols-1 gap-3 xl:col-span-1">
+              <BalanceCard
+                balanceCents={balance.balanceCents}
+                amountPaidCents={balance.amountPaidCents}
+                shareCents={balance.shareCents}
+                currency={group.currency}
+              />
+              <SuggestedSettlementsCard />
+            </div>
+          </div>
+
+          <div className=" grid grid-cols-1 gap-3 xl:grid-cols-[repeat(auto-fit,minmax(400px,1fr))] p-3">
+            <SpendingOverTimeChart />
+            <SpendingByCategoryCharts />
+            <MemberContributionChart />
+          </div>
+        </>
+      )}
     </div>
   );
 }

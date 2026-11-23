@@ -1,7 +1,14 @@
+"use client";
+
+import { useState } from "react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { HandCoins, Plus } from "lucide-react";
 import { formatCurrency } from "@/utils/currency";
 import { getInitials } from "@/utils/initials";
 import { getAvatarColor } from "@/utils/avatar-color";
+import { AddExpenseDialog, SettleUpDialog } from "@/components/dialogs";
+import { Skeleton } from "@/components/ui/skeleton";
 import type { GroupMemberInfo } from "@/types/group";
 
 interface GeneralInfoProps {
@@ -11,6 +18,7 @@ interface GeneralInfoProps {
   expenseCount: number;
   currency: string;
   members: GroupMemberInfo[];
+  loading?: boolean;
 }
 
 export function GeneralInfo({
@@ -20,7 +28,41 @@ export function GeneralInfo({
   expenseCount = 0,
   currency = "USD",
   members = [],
+  loading = false,
 }: Partial<GeneralInfoProps>) {
+  if (loading) {
+    return (
+      <div className="w-full bg-(--bg-base) text-(--text-primary) ">
+        <div className="pl-4 mb-5">
+          <div className="flex items-start justify-between gap-4">
+            <div className="flex flex-col gap-2">
+              <Skeleton className="h-6 w-3/4" />
+              <Skeleton className="h-4 w-1/2" />
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <Skeleton className="h-9 w-20" />
+              <Skeleton className="h-9 w-20" />
+            </div>
+          </div>
+          <div className="mt-4 flex items-center gap-6 text-sm">
+            <Skeleton className="h-8 w-48" />
+            <Skeleton className="h-8 w-24" />
+            <div className="flex items-center">
+              <div className="flex -space-x-2">
+                {[1, 2, 3, 4].map((i) => (
+                  <Skeleton key={i} className="h-7 w-7 rounded-full" />
+                ))}
+              </div>
+              <Skeleton className="ml-3 h-4 w-24" />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  const [expenseOpen, setExpenseOpen] = useState(false);
+  const [settlementOpen, setSettlementOpen] = useState(false);
+
   return (
     <div className="w-full bg-(--bg-base) text-(--text-primary) ">
       <div className="pl-4 mb-5">
@@ -32,6 +74,23 @@ export function GeneralInfo({
                 {description}
               </p>
             )}
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <Button
+              variant="outline"
+              onClick={() => setSettlementOpen(true)}
+              className="cursor-pointer border-(--text-dim)/50 bg-transparent text-(--text-primary) hover:bg-(--bg-active) hover:text-(--text-primary)"
+            >
+              <HandCoins className="h-4 w-4" />
+              Settle up
+            </Button>
+            <Button
+              onClick={() => setExpenseOpen(true)}
+              className="cursor-pointer bg-(--accent-btn) hover:bg-(--accent-btn-hover)/75"
+            >
+              <Plus className="h-4 w-4" />
+              Add expense
+            </Button>
           </div>
         </div>
         <div className="mt-4 flex items-center gap-6 text-sm">
@@ -84,6 +143,8 @@ export function GeneralInfo({
           </div>
         </div>
       </div>
+      <AddExpenseDialog open={expenseOpen} onOpenChange={setExpenseOpen} />
+      <SettleUpDialog open={settlementOpen} onOpenChange={setSettlementOpen} />
     </div>
   );
 }

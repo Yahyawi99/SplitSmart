@@ -2,29 +2,16 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { HandCoins, Plus, Settings } from "lucide-react";
+import { Settings } from "lucide-react";
 import { SidebarTrigger } from "../ui/sidebar";
-import {
-  AddExpenseDialog,
-  SettleUpDialog,
-  SettingsDialog,
-} from "@/components/dialogs";
+import { SettingsDialog } from "@/components/dialogs";
 
 interface HeaderProps {
   groupId?: string;
-  onSettleUp?: () => void;
-  onAddExpense?: () => void;
   onSettings?: () => void;
 }
 
-export function Header({
-  groupId,
-  onSettleUp,
-  onAddExpense,
-  onSettings,
-}: Partial<HeaderProps>) {
-  const [expenseOpen, setExpenseOpen] = useState(false);
-  const [settlementOpen, setSettlementOpen] = useState(false);
+export function Header({ groupId, onSettings }: Partial<HeaderProps>) {
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   return (
@@ -34,27 +21,6 @@ export function Header({
           <SidebarTrigger />
 
           <div className="flex shrink-0 items-center gap-2">
-            <Button
-              variant="outline"
-              onClick={() => {
-                onSettleUp?.();
-                setSettlementOpen(true);
-              }}
-              className="cursor-pointer border-(--text-dim)/50 bg-transparent text-(--text-primary) hover:bg-(--bg-active) hover:text-(--text-primary)"
-            >
-              <HandCoins className="h-4 w-4" />
-              Settle up
-            </Button>
-            <Button
-              onClick={() => {
-                onAddExpense?.();
-                setExpenseOpen(true);
-              }}
-              className="cursor-pointer bg-(--accent-btn) hover:bg-(--accent-btn-hover)/75"
-            >
-              <Plus className="h-4 w-4" />
-              Add expense
-            </Button>
             <Button
               variant="outline"
               size="icon"
@@ -69,8 +35,6 @@ export function Header({
           </div>
         </div>
       </header>
-      <AddExpenseDialog open={expenseOpen} onOpenChange={setExpenseOpen} />
-      <SettleUpDialog open={settlementOpen} onOpenChange={setSettlementOpen} />
       <SettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen} />
     </>
   );
