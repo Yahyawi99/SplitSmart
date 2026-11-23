@@ -11,12 +11,14 @@ import {
 } from "@/components/dialogs";
 
 interface HeaderProps {
+  groupId?: string;
   onSettleUp?: () => void;
   onAddExpense?: () => void;
   onSettings?: () => void;
 }
 
 export function Header({
+  groupId,
   onSettleUp,
   onAddExpense,
   onSettings,

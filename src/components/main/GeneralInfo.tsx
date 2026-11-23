@@ -1,31 +1,25 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-
-interface Member {
-  initials: string;
-  color: string; // tailwind bg class
-}
+import { formatCurrency } from "@/utils/currency";
+import { getInitials } from "@/utils/initials";
+import { getAvatarColor } from "@/utils/avatar-color";
+import type { GroupMemberInfo } from "@/types/group";
 
 interface GeneralInfoProps {
   title: string;
-  description: string;
-  totalSpent: number;
+  description: string | null;
+  totalSpentCents: number;
   expenseCount: number;
-  members: Member[];
+  currency: string;
+  members: GroupMemberInfo[];
 }
 
-const defaultMembers: Member[] = [
-  { initials: "AC", color: "bg-indigo-500" },
-  { initials: "JP", color: "bg-fuchsia-500" },
-  { initials: "SR", color: "bg-rose-500" },
-  { initials: "TK", color: "bg-teal-500" },
-];
-
 export function GeneralInfo({
-  title = "Trip to Japan",
-  description = "Two weeks in Tokyo, Kyoto, and Osaka. Cherry blossom season 2024.",
-  totalSpent = 2751.24,
-  expenseCount = 13,
-  members = defaultMembers,
+  title = "Untitled Group",
+  description = null,
+  totalSpentCents = 0,
+  expenseCount = 0,
+  currency = "USD",
+  members = [],
 }: Partial<GeneralInfoProps>) {
   return (
     <div className="w-full bg-(--bg-base) text-(--text-primary) ">
@@ -33,9 +27,11 @@ export function GeneralInfo({
         <div className="flex items-start justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
-            <p className="mt-1 text-sm text-(--text-secondary)">
-              {description}
-            </p>
+            {description && (
+              <p className="mt-1 text-sm text-(--text-secondary)">
+                {description}
+              </p>
+            )}
           </div>
         </div>
         <div className="mt-4 flex items-center gap-6 text-sm">
@@ -55,7 +51,7 @@ export function GeneralInfo({
               <path d="M7 15h.01" />
             </svg>
             <span className="font-semibold text-(--text-primary)">
-              ${totalSpent.toFixed(2)}
+              {formatCurrency(totalSpentCents, currency)}
             </span>
             <span>total spent</span>
           </div>
@@ -69,12 +65,15 @@ export function GeneralInfo({
 
           <div className="flex items-center">
             <div className="flex -space-x-2">
-              {members.map((member, i) => (
-                <Avatar key={i} className="h-7 w-7 border-2 border-(--bg-base)">
+              {members.map((member) => (
+                <Avatar
+                  key={member.id}
+                  className="h-7 w-7 border-2 border-(--bg-base)"
+                >
                   <AvatarFallback
-                    className={`${member.color} text-[10px] font-semibold text-white`}
+                    className={`${getAvatarColor(member.id)} text-[10px] font-semibold text-white`}
                   >
-                    {member.initials}
+                    {getInitials(member.name)}
                   </AvatarFallback>
                 </Avatar>
               ))}

@@ -11,66 +11,40 @@ import {
   Handshake,
   ChevronRight,
 } from "lucide-react";
+import { formatCurrency } from "@/utils/currency";
+import { getInitials } from "@/utils/initials";
+import { getAvatarColor } from "@/utils/avatar-color";
+import type { ActivityItem } from "@/types/activity";
 
-const activityItems = [
-  {
-    icon: ShoppingCart,
-    iconColor: "text-purple-400",
-    title: "Convenience store runs (accumulated)",
-    user: { initials: "SR", name: "Sam Rivera", color: "bg-pink-500" },
-    date: "Mar 27, 2024",
-    amount: "¥8,340",
-    type: "expense",
-  },
-  {
-    icon: Handshake,
-    iconColor: "text-emerald-400",
-    title: "Sam Rivera paid Taylor Kim",
-    user: { initials: "SR", name: "Sam Rivera", color: "bg-pink-500" },
-    date: "Mar 26, 2024",
-    amount: "¥8,500",
-    type: "settlement",
-  },
-  {
-    icon: Landmark,
-    iconColor: "text-amber-400",
-    title: "Osaka Castle entry",
-    user: { initials: "JP", name: "Jordan Park", color: "bg-amber-500" },
-    date: "Mar 26, 2024",
-    amount: "¥2,400",
-    type: "expense",
-  },
-  {
-    icon: Utensils,
-    iconColor: "text-orange-400",
-    title: "Izakaya dinner in Dotonbori",
-    user: { initials: "AC", name: "Alex Chen", color: "bg-indigo-500" },
-    date: "Mar 25, 2024",
-    amount: "¥42,600",
-    type: "expense",
-    badge: "Shares",
-  },
-  {
-    icon: Utensils,
-    iconColor: "text-orange-400",
-    title: "Osaka street food tour",
-    user: { initials: "TK", name: "Taylor Kim", color: "bg-teal-500" },
-    date: "Mar 25, 2024",
-    amount: "¥28,000",
-    type: "expense",
-  },
-  {
-    icon: Handshake,
-    iconColor: "text-emerald-400",
-    title: "Jordan Park paid Alex Chen",
-    user: null, // Note: In the image, user details are not shown for the last settlement
-    date: "Mar 24, 2024",
-    amount: "$150.00",
-    type: "settlement",
-  },
-];
+const ACTIVITY_ICONS: Record<string, React.ElementType> = {
+  "Convenience store runs (accumulated)": ShoppingCart,
+  paid: Handshake,
+  entry: Landmark,
+  dinner: Utensils,
+  "food tour": Utensils,
+  default: ShoppingCart,
+};
 
-export function ActivityCard() {
+function resolveIcon(title: string): React.ElementType {
+  for (const [keyword, Icon] of Object.entries(ACTIVITY_ICONS)) {
+    if (title.toLowerCase().includes(keyword.toLowerCase())) {
+      return Icon;
+    }
+  }
+  return ACTIVITY_ICONS.default;
+}
+
+interface ActivityCardProps {
+  items: ActivityItem[];
+  expenseCount: number;
+  settlementCount: number;
+}
+
+export function ActivityCard({
+  items = [],
+  expenseCount = 0,
+  settlementCount = 0,
+}: Partial<ActivityCardProps>) {
   return (
     <Card className="w-full bg-(--bg-sidebar) border border-(--text-dim)/50 text-primary ring-0 rounded-xl ">
       <CardHeader className="border-b border-(--text-dim)/25 pb-4">
@@ -89,7 +63,7 @@ export function ActivityCard() {
                 Activity
               </CardTitle>
               <p className="text-sm text-(--text-dim) mt-0.5">
-                13 expenses <span className="mx-1.5">•</span> 2 settlements
+                {expenseCount} expenses <span className="mx-1.5">•</span> {settlementCount} settlements
               </p>
             </div>
           </div>
@@ -105,18 +79,21 @@ export function ActivityCard() {
 
       <CardContent className="p-0">
         <div className="divide-y divide-(--bg-active)">
-          {activityItems.map((item, index) => {
-            const Icon = item.icon;
+          {items.map((item) => {
+            const Icon = resolveIcon(item.title);
             const isSettlement = item.type === "settlement";
+            const user = item.user;
 
             return (
               <div
-                key={index}
+                key={item.id}
                 className="flex items-center justify-between p-5 gap-4 hover:bg-(--accent-btn)/15 cursor-pointer transition-colors"
               >
                 <div className="flex items-center gap-4 flex-1 min-w-0">
                   <div
-                    className={`flex h-12 w-12 items-center justify-center rounded-xl border border-(--text-dim)/50 bg-(--bg-surface) ${item.iconColor}`}
+                    className={`flex h-12 w-12 items-center justify-center rounded-xl border border-(--text-dim)/50 bg-(--bg-surface) ${
+                      isSettlement ? "text-emerald-400" : "text-amber-400"
+                    }`}
                   >
                     <Icon className="h-6 w-6" strokeWidth={1.5} />
                   </div>
@@ -126,15 +103,15 @@ export function ActivityCard() {
                       {item.title}
                     </p>
                     <div className="flex items-center gap-2.5 text-sm text-(--text-secondary)">
-                      {item.user && (
+                      {user && (
                         <>
-                          <Avatar className={`h-6 w-6 ${item.user.color}`}>
+                          <Avatar className={`h-6 w-6 ${getAvatarColor(user.id)}`}>
                             <AvatarFallback className="text-[11px] font-bold text-white">
-                              {item.user.initials}
+                              {user.initials || getInitials(user.name)}
                             </AvatarFallback>
                           </Avatar>
                           <span className="font-medium text-(--text-primary)">
-                            {item.user.name}
+                            {user.name}
                           </span>
                           <span className="text-(--text-dim)">•</span>
                         </>
@@ -149,7 +126,7 @@ export function ActivityCard() {
                         </Badge>
                       )}
 
-                      {item.badge && (
+                      {item.type === "expense" && item.badge && (
                         <Badge
                           variant="secondary"
                           className="rounded-md border border-(--text-dim)/50 bg-(--bg-active) px-2 py-0.5 text-xs font-medium text-(--text-secondary)"
@@ -167,7 +144,7 @@ export function ActivityCard() {
                   <span
                     className={`text-xl font-semibold tracking-tight ${isSettlement ? "text-(--accent-green)" : "text-(--text-primary)"}`}
                   >
-                    {item.amount}
+                    {formatCurrency(item.amountCents, item.currency)}
                   </span>
                   <Button
                     variant="ghost"
