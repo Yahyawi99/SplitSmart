@@ -1,6 +1,6 @@
 "use client";
 
-import { useTheme } from "next-themes";
+import { useTheme } from "@wrksz/themes/client";
 import { themeOptions } from "@/constants/ThemeOptions";
 import { useSidebar } from "@/components/ui/sidebar";
 import { ThemeMenu } from "../shared";

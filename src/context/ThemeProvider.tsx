@@ -1,6 +1,6 @@
 "use client";
 
-import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { ThemeProvider as NextThemesProvider } from "@wrksz/themes/next";
 import type { ComponentProps } from "react";
 
 export function ThemeProvider({

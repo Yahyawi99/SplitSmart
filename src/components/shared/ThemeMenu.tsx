@@ -1,6 +1,6 @@
 "use client";
 
-import { useTheme } from "next-themes";
+import { useTheme } from "@wrksz/themes/client";
 import { ChevronDown, Monitor, Moon, Sun } from "lucide-react";
 import {
   DropdownMenu,
