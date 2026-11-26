@@ -1,4 +1,3 @@
-export * from "./Header";
 export * from "./GeneralInfo";
 export * from "./cards/BalanceCard";
 export * from "./cards/GroupeSettlementsCard";

@@ -112,7 +112,6 @@ export default function ProfileDropdown({
         title="Log out?"
         description="You will need to sign in again to access your groups."
         confirmLabel="Log out"
-        loading={logoutLoading}
         onConfirm={handleLogout}
         destructive
       />

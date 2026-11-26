@@ -3,7 +3,6 @@ import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import prisma from "@/database/prisma";
 import {
-  Header,
   GeneralInfo,
   ActivityCard,
   BalanceCard,
@@ -13,6 +12,7 @@ import {
   SpendingByCategoryCharts,
   SpendingOverTimeChart,
 } from "@/components/main";
+import { Header } from "@/components/shared";
 import { getInitials } from "@/utils/initials";
 import { mapGroupToActivityItems, calculateUserBalance } from "@/utils/group-mapping";
 import type { GroupMemberInfo } from "@/types/group";

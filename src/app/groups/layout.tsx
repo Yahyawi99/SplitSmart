@@ -3,12 +3,15 @@ import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/sidebar";
-
+import { Header } from "@/components/shared"
 
 import "@/app/globals.css";
 
-
-export default async function Layout({ children }: { children: React.ReactNode }) {
+export default async function Layout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -16,12 +19,14 @@ export default async function Layout({ children }: { children: React.ReactNode }
   if (!session?.user) {
     redirect("/auth/sign-in");
   }
-  
+
   return (
     <SidebarProvider>
-          <AppSidebar />
+      <AppSidebar />
 
-          <SidebarInset >{children}</SidebarInset>
+      <SidebarInset>
+        {children}
+      </SidebarInset>
     </SidebarProvider>
   );
 }
