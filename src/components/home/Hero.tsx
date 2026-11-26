@@ -7,8 +7,11 @@ import { ArrowRightLeft, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useState } from "react";
+import { useAuth } from "@/context/AuthProvider";
 
-export async function Hero({ isSignedIn }: { isSignedIn: boolean }) {
+export function Hero() {
+  const { session } = useAuth();
+  const isSignedIn = !!session?.user;
   const [loading, setLoading] = useState(false);
 
   const anonymousSignIn = async () => {

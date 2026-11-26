@@ -4,6 +4,7 @@ import { Roboto_Condensed, Roboto, Oxanium } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/context/ThemeProvider";
+import { AuthProvider } from "@/context/AuthProvider";
 
 const oxaniumHeading = Oxanium({
   subsets: ["latin"],
@@ -42,7 +43,9 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body className="bg-(--bg-base) text-(--text-primary)">
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

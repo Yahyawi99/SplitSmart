@@ -3,13 +3,13 @@
 import { useEffect, useState } from "react";
 import SignInForm from "@/components/forms/sign-in/Sign-in-form";
 import { Logo } from "@/components/shared";
-import { useSession } from "@/lib/auth-client";
+import { useAuth } from "@/context/AuthProvider";
 import { useRouter } from "next/navigation";
 // import { getBrowserTheme } from "@/utils/getBrowserTheme";
 
 export default function SignIn() {
   const [theme, setTheme] = useState("light");
-  const { data: session } = useSession();
+  const { session } = useAuth();
   const router = useRouter();
 
   useEffect(() => {

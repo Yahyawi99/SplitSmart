@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/context/AuthProvider";
 
-export function FinalCta({ isSignedIn }: { isSignedIn: boolean }) {
+export function FinalCta() {
+  const { session } = useAuth();
+  const isSignedIn = !!session?.user;
   if (isSignedIn) return null;
   return (
     <section className="border-t border-(--text-dim)/30 bg-(--bg-sidebar)/35">

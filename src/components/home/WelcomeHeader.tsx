@@ -2,8 +2,11 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ThemeMenu } from "../shared";
 import { Logo } from "../shared";
+import { useAuth } from "@/context/AuthProvider";
 
-export function WelcomeHeader({ isSignedIn }: { isSignedIn: boolean }) {
+export function WelcomeHeader() {
+  const { session } = useAuth();
+  const isSignedIn = !!session?.user;
   return (
     <header className="sticky top-0 z-20 border-b border-(--text-dim)/40 bg-(--bg-sidebar)/95 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">

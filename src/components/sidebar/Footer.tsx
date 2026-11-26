@@ -3,29 +3,26 @@
 import { useSidebar } from "@/components/ui/sidebar";
 import ProfileDropdown from "./ProfileDropdown";
 import ThemeDropdown from "./ThemeDropdown";
-
-interface UserProfile {
-  name: string;
-  email: string;
-  avatarUrl?: string;
-}
+import { useAuth } from "@/context/AuthProvider";
 
 interface SidebarFooterProps {
-  user?: UserProfile;
   onSettings?: () => void;
   onLogout?: () => void;
 }
 
 export default function SidebarFooter({
-  user = {
-    name: "John Doe",
-    email: "john@example.com",
-    avatarUrl: "",
-  },
   onSettings,
   onLogout,
-}: Partial<SidebarFooterProps>) {
+}: SidebarFooterProps) {
   const { open } = useSidebar();
+  const { session } = useAuth();
+  const user = session?.user
+    ? {
+        name: session.user.name ?? "",
+        email: session.user.email ?? "",
+        avatarUrl: session.user.image ?? undefined,
+      }
+    : undefined;
 
   return (
     <footer
@@ -38,11 +35,13 @@ export default function SidebarFooter({
       {/* Divider */}
       <div className="h-px bg-(--text-dim) opacity-30 w-full" />
 
-      <ProfileDropdown
-        user={user}
-        onSettings={onSettings}
-        onLogout={onLogout}
-      />
+      {user && (
+        <ProfileDropdown
+        user= {user}
+          onSettings={onSettings}
+          onLogout={onLogout}
+        />
+      )}
     </footer>
   );
 }

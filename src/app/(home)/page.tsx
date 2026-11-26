@@ -7,18 +7,14 @@ import {
   WelcomeHeader,
 } from "@/components/home";
 
-interface WelcomePageProps {
-  isSignedIn?: boolean;
-}
-
-export default function Page({ isSignedIn = false }: WelcomePageProps) {
+export default function Page() {
   return (
     <div className="min-h-screen bg-(--bg-base) text-(--text-primary)">
-      <WelcomeHeader isSignedIn={isSignedIn} />
-      <Hero isSignedIn={isSignedIn} />
+      <WelcomeHeader />
+      <Hero />
       <HowItWorks />
       <Features />
-      <FinalCta isSignedIn={isSignedIn} />
+      <FinalCta />
       <WelcomeFooter />
     </div>
   );
