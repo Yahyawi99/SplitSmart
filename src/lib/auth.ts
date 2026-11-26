@@ -1,5 +1,5 @@
 import { betterAuth } from "better-auth";
-import { emailOTP } from "better-auth/plugins";
+import { emailOTP, anonymous } from "better-auth/plugins";
 import { authDatabaseAdapter } from "@/database/auth-adapter";
 import { emailService } from "@/lib/email";
 import { userRepository } from "@/repositories/user-repository";
@@ -39,6 +39,7 @@ export const auth = betterAuth({
       otpLength: 6,
       expiresIn: 60 * 10,
     }),
+    anonymous(),
   ],
 
   database: authDatabaseAdapter,

@@ -8,6 +8,7 @@
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint",
+    "prisma:generate": "pnpm approve-builds && pnpm prisma generate",
     "db:migrate": "pnpm approve-builds && pnpm prisma migrate dev",
     "db:seed": "tsx --env-file=.env src/database/run-seed.ts",
     "db:reset": "pnpm prisma migrate reset --force && pnpm db:seed",

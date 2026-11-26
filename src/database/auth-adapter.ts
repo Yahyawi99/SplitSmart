@@ -1,4 +1,4 @@
-import "server-only";
+// import "server-only";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import prisma from "./prisma";
 

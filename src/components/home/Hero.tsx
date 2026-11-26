@@ -1,9 +1,18 @@
+"use client"
+
+import { signIn } from "@/lib/auth-client";
+import { redirect } from "next/navigation";
 import Link from "next/link";
 import { ArrowRightLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
-export function Hero({ isSignedIn }: { isSignedIn: boolean }) {
+export async function Hero({ isSignedIn }: { isSignedIn: boolean }) {
+  const anonymousSignIn = async () => {
+    await signIn.anonymous();
+    redirect("/groups");
+  };
+
   return (
     <section className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] md:items-center md:py-20">
       <div className="max-w-xl">
@@ -32,11 +41,12 @@ export function Hero({ isSignedIn }: { isSignedIn: boolean }) {
           ) : (
             <>
               <Button
+                onClick={anonymousSignIn}
                 size="lg"
                 variant="outline"
                 className="border-(--text-dim)/50 bg-transparent text-(--text-primary) hover:opacity-75 cursor-pointer"
               >
-                <Link href="/app?guest=1">Continue as guest</Link>
+                Continue as guest
               </Button>
 
               <Button

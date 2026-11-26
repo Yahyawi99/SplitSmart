@@ -41,6 +41,8 @@ model User {
   sentSettlements     Settlement[]   @relation("SettlementSender")
   receivedSettlements Settlement[]   @relation("SettlementReceiver")
 
+  isAnonymous Boolean? @default(false)
+
   @@unique([email])
   @@map("user")
 }
