@@ -34,12 +34,15 @@ export default function ProfileDropdown({
   const router = useRouter();
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [logoutOpen, setLogoutOpen] = useState(false);
+  const [logoutLoading, setLogoutLoading] = useState(false);
 
   const handleLogout = async () => {
+    setLogoutLoading(true);
     const { error } = await signOut();
 
     if (error) {
       console.error("Failed to log out:", error);
+      setLogoutLoading(false);
       return;
     }
 
@@ -109,6 +112,7 @@ export default function ProfileDropdown({
         title="Log out?"
         description="You will need to sign in again to access your groups."
         confirmLabel="Log out"
+        loading={logoutLoading}
         onConfirm={handleLogout}
         destructive
       />

@@ -10,6 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { dialogContentClass } from "./dialog-styles";
+import { Loader2 } from "lucide-react";
 
 interface ConfirmDialogProps {
   open: boolean;
@@ -19,6 +20,7 @@ interface ConfirmDialogProps {
   confirmLabel: string;
   onConfirm: () => void | Promise<void>;
   destructive?: boolean;
+  loading?: boolean;
 }
 
 export function ConfirmDialog({
@@ -29,6 +31,7 @@ export function ConfirmDialog({
   confirmLabel,
   onConfirm,
   destructive = false,
+  loading = false,
 }: ConfirmDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -49,8 +52,16 @@ export function ConfirmDialog({
             type="button"
             variant={destructive ? "destructive" : "default"}
             onClick={() => void onConfirm()}
+            disabled={loading}
           >
-            {confirmLabel}
+            {loading ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                {confirmLabel}
+              </>
+            ) : (
+              confirmLabel
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>

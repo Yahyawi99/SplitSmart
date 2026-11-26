@@ -23,6 +23,7 @@ import {
   fetchGroupMembers,
   type GroupMemberOption,
 } from "./dialog-styles";
+import { Loader2 } from "lucide-react";
 
 interface SettleUpDialogProps {
   open: boolean;
@@ -263,7 +264,14 @@ export function SettleUpDialog({
               fromUserId === toUserId
             }
           >
-            {loading ? "Saving..." : "Record settlement"}
+            {loading ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                Saving...
+              </>
+            ) : (
+              "Record settlement"
+            )}
           </Button>
         </form>
       </DialogContent>
@@ -273,6 +281,7 @@ export function SettleUpDialog({
         title="Confirm settlement"
         description={`${members.find(({ id }) => id === fromUserId)?.name ?? "The payer"} will pay ${members.find(({ id }) => id === toUserId)?.name ?? "the recipient"} ${amount || "0"} ${currency ?? ""}.`}
         confirmLabel={loading ? "Recording..." : "Confirm payment"}
+        loading={loading}
         onConfirm={confirmSettlement}
       />
     </Dialog>

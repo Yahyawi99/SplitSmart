@@ -20,7 +20,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { createGroup } from "@/services/groups/create-group";
-import { Plus } from "lucide-react";
+import { Plus, Loader2 } from "lucide-react";
 import { CURRENCIES } from "@/constants/currency";
 
 interface CreateGroupDialogProps {
@@ -145,7 +145,14 @@ export function CreateGroupDialog({
             disabled={loading || !name || !currency}
             className="h-10 w-full cursor-pointer rounded-lg border border-transparent bg-(--accent-btn) px-5 text-sm font-semibold text-(--text-primary) transition-colors hover:bg-(--accent-btn-hover)/75 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? "Creating..." : "Create Group"}
+            {loading ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                Creating...
+              </>
+            ) : (
+              "Create Group"
+            )}
           </Button>
         </form>
       </DialogContent>

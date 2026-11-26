@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
-import { Camera, Check, Plus } from "lucide-react";
+import { Camera, Check, Plus, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -732,9 +732,16 @@ export function AddExpenseDialog({
             <Button
               type="submit"
               disabled={!canSubmit}
-              className="h-9 rounded-lg bg-[#fb923c] px-4 text-sm font-semibold text-[#1a1208] hover:bg-[#fdab68] disabled:opacity-50"
+              className="h-9 rounded-lg bg-[#fb923c] px-4 text-sm font-semibold text-[#1a1208] hover:bg-[#fdab68] disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? "Saving..." : "Add expense"}
+              {loading ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                  Saving...
+                </>
+              ) : (
+                "Add expense"
+              )}
             </Button>
           </div>
         </form>

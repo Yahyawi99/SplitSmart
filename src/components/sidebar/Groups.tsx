@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/sidebar";
 import { fetchGroups } from "@/services/groups/fetch-groups";
 import type { GroupListItem } from "@/types/group";
-import { UserGroup, ArrowRight, Check } from "lucide-react";
+import { UserGroup, ArrowRight, Check, Inbox } from "lucide-react";
 import { formatCurrency } from "@/utils/currency";
 
 export default function Groups() {
@@ -66,7 +66,7 @@ export default function Groups() {
       >
         GROUPS
       </SidebarGroupLabel>
-      
+
       <SidebarGroupContent>
         {groups.map((group) => (
           <Link key={group.id} href={`/groups/${group.id}`}>
@@ -116,13 +116,19 @@ export default function Groups() {
           </Link>
         ))}
         {open && loading && (
-          <p className="px-3 py-2 text-sm">Loading groups...</p>
+          <p className="px-3 py-2 text-sm text-(--text-muted)">Loading groups...</p>
         )}
         {open && error && (
-          <p className="px-3 py-2 text-sm">Could not load groups.</p>
+          <p className="px-3 py-2 text-sm text-(--accent-red)">Could not load groups.</p>
         )}
         {open && !loading && !error && groups.length === 0 && (
-          <p className="px-3 py-2 text-sm">No groups yet.</p>
+          <div className="flex flex-col items-center justify-center py-6 px-3 text-center">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-(--text-muted)/10 text-(--text-muted) mb-2">
+              <Inbox className="h-5 w-5" />
+            </div>
+            <p className="text-sm font-medium text-(--text-secondary)">No groups yet.</p>
+            <p className="text-xs text-(--text-muted)">Create your first group to start splitting expenses.</p>
+          </div>
         )}
         {open && hasMore && (
           <button

@@ -3,14 +3,23 @@
 import { signIn } from "@/lib/auth-client";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { ArrowRightLeft } from "lucide-react";
+import { ArrowRightLeft, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { useState } from "react";
 
 export async function Hero({ isSignedIn }: { isSignedIn: boolean }) {
+  const [loading, setLoading] = useState(false);
+
   const anonymousSignIn = async () => {
-    await signIn.anonymous();
-    redirect("/groups");
+    setLoading(true);
+    try {
+      await signIn.anonymous();
+      redirect("/groups");
+    } catch (error) {
+      console.error("Anonymous sign-in failed:", error);
+      setLoading(false);
+    }
   };
 
   return (
@@ -44,9 +53,17 @@ export async function Hero({ isSignedIn }: { isSignedIn: boolean }) {
                 onClick={anonymousSignIn}
                 size="lg"
                 variant="outline"
-                className="border-(--text-dim)/50 bg-transparent text-(--text-primary) hover:opacity-75 cursor-pointer"
+                disabled={loading}
+                className="border-(--text-dim)/50 bg-transparent text-(--text-primary) hover:opacity-75 cursor-pointer disabled:cursor-not-allowed disabled:opacity-60"
               >
-                Continue as guest
+                {loading ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                    Signing in...
+                  </>
+                ) : (
+                  "Continue as guest"
+                )}
               </Button>
 
               <Button
