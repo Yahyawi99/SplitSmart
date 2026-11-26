@@ -9,6 +9,7 @@ export const {
   emailOtp,
   requestPasswordReset,
   resetPassword,
+  updateUser,
 } = createAuthClient({
   plugins: [emailOTPClient(), anonymousClient()],
 });

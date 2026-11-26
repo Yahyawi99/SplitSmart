@@ -21,6 +21,7 @@ export default function SidebarFooter({
         name: session.user.name ?? "",
         email: session.user.email ?? "",
         avatarUrl: session.user.image ?? undefined,
+        isGuest: !session.user || Boolean(session.user.isAnonymous),
       }
     : undefined;
 

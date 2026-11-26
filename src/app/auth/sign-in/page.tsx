@@ -5,7 +5,6 @@ import SignInForm from "@/components/forms/sign-in/Sign-in-form";
 import { Logo } from "@/components/shared";
 import { useAuth } from "@/context/AuthProvider";
 import { useRouter } from "next/navigation";
-// import { getBrowserTheme } from "@/utils/getBrowserTheme";
 
 export default function SignIn() {
   const [theme, setTheme] = useState("light");
